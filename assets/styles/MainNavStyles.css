@@ -1,0 +1,62 @@
+.mainNav{
+    width: 100%;
+    height: 40vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.mainNav h1{
+    font-size: 50px;
+    font-family: 'AR One Sans', sans-serif;
+    color: rgba(0, 0, 0, 0.7);
+    font-weight: 600;
+}
+.mainNav h2{
+    font-size: 20px;
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.6);
+    letter-spacing: 2px;
+    margin: 10px;
+}
+.mainNav h3{
+    font-size: 16px;
+    font-family: 'AR One Sans', sans-serif;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.6);
+}
+.mainNav .mainNavBar{
+    width: 100%;
+    height: 75px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+.mainNav .mainNavBar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mainNav .mainNavBar ul{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    margin: 0;
+}
+.mainNav .mainNavBar ul li{
+    padding-top: 25px;
+    height: 100%;
+    list-style: none;
+    margin: 0 20px;
+    font-family: 'AR One Sans', sans-serif;
+    color: rgba(0, 0, 0, 0.6);
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+.mainNav .mainNavBar ul li:hover{
+    color: red;
+    border-bottom: 2px solid red;
+}

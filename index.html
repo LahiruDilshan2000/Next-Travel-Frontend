@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Next Travel</title>
+    <link rel="stylesheet" href="assets/styles/LoginStyles.css">
+    <link rel="stylesheet" href="assets/styles/IntroStyle.css">
+    <link rel="stylesheet" href="assets/styles/HeaderNavBarStyles.css">
+    <link rel="stylesheet" href="assets/styles/MainNavStyles.css">
+    <link rel="stylesheet" href="assets/styles/VehicleStyles.css">
+    <link rel="stylesheet" href="assets/styles/PackageStyle.css">
+    <link rel="stylesheet" href="assets/styles/HotelStyle.css">
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Varela+Round&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=AR+One+Sans:wght@500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
+</head>
+<body>
+<main>
+    <!--<section class="log">
+        <form class="signUp" id="signUp">
+            <h2>Log in your account</h2>
+            <img src="assets/images/google.png" class="img" id="imgSignIn">
+            <span class="line">
+                <div></div>
+                <p>Or</p>
+                <div></div>
+            </span>
+            <h3>Sign up with email</h3>
+            <p>Already have an account ? <span id="spanSingIn">Sign in</span></p>
+            <div>
+                <label>Email address</label>
+                <input type="email" id="email">
+            </div>
+            <div>
+                <label>Password</label>
+                <input type="password" id="password">
+            </div>
+            <button type="button" id="logIn">Continue</button>
+
+        </form>
+        <form class="signIn" enctype="multipart/form-data">
+            <h2>Creat an account</h2>
+            <div>
+                <label>User name</label>
+                <input type="text" id="userName">
+            </div>
+            <div>
+                <label>Email address</label>
+                <input type="email" id="createEmail">
+            </div>
+            <div class="sigIn-div">
+                <div>
+                    <label>password</label>
+                    <input type="email" id="creatPassword">
+                </div>
+                <div>
+                    <label>Nic</label>
+                    <input type="text" id="nic">
+                </div>
+            </div>
+            <div>
+                <label>Address</label>
+                <input type="text" id="address">
+            </div>
+            <input type="file" name="imageFile" id="imageFile">
+            <button type="button" id="create">Create</button>
+            <span class="line">
+                <div></div>
+                <p>Or</p>
+                <div></div>
+            </span>
+            <p>Already have an account ? <span id="spanSignUp">Sign up</span></p>
+        </form>
+    </section>-->
+
+<!---------------------------------------------------------------------------------->
+    <section class="intro">
+        <img src="assets/images/login.jpg" class="mainImage">
+        <div class="dark-filter"></div>
+        <div class="intro-div1">
+            <h1 class="h1-01">01</h1>
+            <div class="mainText">
+                <p class="p1">Welcome,</p>
+                <p>Next Travel Online
+                <p>Booking System</p>
+            </div>
+        </div>
+    </section>
+    <!---------------------------------------------------------------------------------->
+    <header>
+        <nav>
+            <div class="toggle"></div>
+            <img src="assets/images/google.png" alt="">
+        </nav>
+    </header>
+    <!---------------------------------------------------------------------------------->
+    <section class="mainNav">
+        <h1>Next travel</h1>
+        <h2>Find your best travel locations .</h2>
+        <h3>Open in 24 hours </h3>
+        <nav class="mainNavBar">
+            <ul>
+                <li id="packageNavBtn">Packages</li>
+                <li id="hotelNavBtn">Hotels</li>
+                <li id="vehicleNavBtn">Vehicles</li>
+            </ul>
+        </nav>
+    </section>
+    <!---------------------------------------------------------------------------------->
+    <section class="package" id="packageContainer">
+        <div class="package-list">
+            <ul id="packageUl">
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
+    </section>
+    <!---------------------------------------------------------------------------------->
+    <section class="vehicle" id="vehicleContainer">
+        <div class="vehicle-list">
+            <ul id="vehicleUl">
+                <li><h3>1</h3></li>
+                <li><h3>2</h3></li>
+                <li><h3>3</h3></li>
+                <li><h3>4</h3></li>
+            </ul>
+        </div>
+    </section>
+    <!---------------------------------------------------------------------------------->
+    <section class="hotel" id="hotelContainer">
+        <div class="hotel-list">
+            <ul id="hotelUl">
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
+    </section>
+    <!---------------------------------------------------------------------------------->
+    <section class="vehicleView" id="vehicleEdit">
+        <div class="vehicle-con">
+            <img src="" alt="" class="vehicleImg">
+            <div class="vehicle-con2">
+                <div>
+                    <label>Vehicle Brand</label>
+                    <input type="text" class="vehicleBrand">
+                </div>
+                <div>
+                    <label>Vehicle Category</label>
+                    <select id="vehicleCategoryCmb" class="form-select">
+                        <option selected>Economy</option>
+                        <option selected>Mid-Range</option>
+                        <option selected>Luxury</option>
+                        <option selected>Super Luxury</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Fuel type</label>
+                    <select id="fuelTypeCmb" class="form-select">
+                        <option selected>Diesel</option>
+                        <option selected>Petrol</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Version type</label>
+                    <select id="versionCmb" class="form-select">
+                        <option selected>Hybrid</option>
+                        <option selected>Non-Hybrid</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Fuel usage</label>
+                    <input type="text" id="fuelUsage">
+                </div>
+                <div>
+                    <label>Seat capacity</label>
+                    <input type="text" id="seatCapacity">
+                </div>
+                <div>
+                    <label>Vehicle type</label>
+                    <select id="vehicleTypeCmb" class="form-select">
+                        <option selected>Car</option>
+                        <option selected>Van</option>
+                        <option selected>Suv</option>
+                        <option selected>Bus</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Transmission type</label>
+                    <select id="transmissionTypeCmb" class="form-select">
+                        <option selected>Auto</option>
+                        <option selected>Manual</option>
+                    </select>
+                </div>
+            </div>
+            <div class="vehicle-button-div">
+                <button type="button" id="vehicleUpdate">Update</button>
+                <button type="button" id="vehicleDelete">Delete</button>
+            </div>
+        </div>
+    </section>
+    <!---------------------------------------------------------------------------------->
+    <section class="vehicleView" id="vehicleView">
+        <div class="vehicle-con">
+            <img src="" alt="" class="vehicleImg">
+            <div class="vehicle-con2">
+                <div>
+                    <label>Vehicle Brand</label>
+                    <label id="vehicleBrandTxt">Null</label>
+                </div>
+                <div>
+                    <label>Vehicle Category</label>
+                    <label id="vehicleCategoryTxt">Null</label>
+                </div>
+                <div>
+                    <label>Fuel type</label>
+                    <label id="fuelTypeTxt">Null</label>
+                </div>
+                <div>
+                    <label>Version type</label>
+                    <label id="versionTypeTxt">Null</label>
+                </div>
+                <div>
+                    <label>Fuel usage</label>
+                    <label id="fuelUsageTxt">Null</label>
+                </div>
+                <div>
+                    <label>Seat capacity</label>
+                    <label id="seatCapacityTxt">Null</label>
+                </div>
+                <div>
+                    <label>Vehicle type</label>
+                    <label id="vehicleTypeTxt">Null</label>
+                </div>
+                <div>
+                    <label>Transmission type</label>
+                    <label id="transmissionTxt">Null</label>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<script src="assets/lib/jquery-3.6.4.min.js"></script>
+<script src="controller/UserController.js" type="module"></script>
+<script src="controller/MainNavController.js" type="module"></script>
+</body>
+</html>
