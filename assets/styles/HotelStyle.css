@@ -22,3 +22,112 @@
     margin: 30px;
     border-radius: 20px;
 }
+.hotel-add{
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(1px);
+    padding: 50px 10px;
+}
+
+.hotel-add .hotel-add-container{
+    width: 100%;
+    height: 100%;
+    background: white;
+    border-radius: 20px;
+}
+.hotel-div1{
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+.hotel-div1 div{
+    width: 40%;
+    height: 250px;
+    padding: 20px;
+}
+.hotel-div1 div img{
+    width: 80%;
+    height: 170px;
+    border-radius: 10px;
+    overflow: hidden;
+    background-size: cover;
+    border: none;
+}
+.hotel-div1 div textarea{
+    height: 80%;
+    margin: 10px 0;
+}
+.hotel-div1 div input[type="file"]{
+    font-size: 13px;
+}
+.hotel-div2{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+.hotel-div2 div{
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    margin: 20px;
+}
+.hotel-div2 div label, .hotel-div1 label{
+    margin-bottom: 10px;
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 15px;
+}
+.star-selector{
+    align-items: center;
+}
+.star-selector div{
+    margin: 0;
+    flex-direction: row;
+    justify-content: center;
+}
+.star-selector div i{
+    margin: 10px 10px;
+    font-size: 18px;
+    color: rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+.hotel-div2 div input{
+    border: none;
+    outline: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+.hotel-div2 div select, .hotel-div2 div input[type="checkbox"]{
+    cursor: pointer;
+}
+.hotel-div2 div:nth-child(8){
+    text-align: center;
+    align-items: center;
+}
+.hotel-div2 div:nth-child(8) input[type="checkbox"]{
+    width: 20px;
+    height: 20px;
+}
+.hotel-btn-div{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px;
+}
+#saveHotelBtn{
+    width: 120px;
+    height: 50px;
+    border: none;
+    background: lightseagreen;
+    color: white;
+    border-radius: 6px;
+    letter-spacing: 1px;
+    font-size: 18px;
+}
+.star-selector div i.active{
+    color: red;
+}

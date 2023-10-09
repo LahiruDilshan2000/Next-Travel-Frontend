@@ -91,7 +91,7 @@
         </form>
     </section>-->
 
-<!---------------------------------------------------------------------------------->
+    <!---------------------------------------------------------------------------------->
     <section class="intro">
         <img src="assets/images/login.jpg" class="mainImage">
         <div class="dark-filter"></div>
@@ -389,10 +389,80 @@
             </div>
         </div>
     </section>
+    <!---------------------------------------------------------------------------------->
+    <section class="hotel-add">
+        <div class="hotel-add-container">
+            <div class="hotel-div1">
+                <div>
+                    <img src="#" alt="" id="hotel-img">
+                    <input type="file" name="imageFile" id="hotelImage">
+                </div>
+                <div>
+                    <textarea class="form-control" id="hotelRemakesTxt" rows="3"></textarea>
+                    <label for="remakesTxt">Remakes</label>
+                </div>
+            </div>
+            <div class="hotel-div2">
+                <div>
+                    <label>Hotel name</label>
+                    <input type="text" id="hotelNameTxt">
+                </div>
+                <div class="star-selector">
+                    <label>Hotel Category</label>
+                    <div class="stars">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                </div>
+                <div>
+                    <label>Hotel location</label>
+                    <input type="text" id="hotelLocationTxt">
+                </div>
+                <div>
+                    <label>Hotel google location</label>
+                    <input type="text" id="hotelUrlTxt">
+                </div>
+                <div>
+                    <label>Hotel email</label>
+                    <input type="email" id="hotelEmailTxt">
+                </div>
+                <div>
+                    <label>Hotel contact 1</label>
+                    <input type="tel" id="hotelContactTxt1">
+                </div>
+                <div>
+                    <label>Hotel contact 2</label>
+                    <input type="tel" id="hotelContactTxt2">
+                </div>
+                <div>
+                    <label>Is pet allow</label>
+                    <input type="checkbox" id="hotelPetAllowCheck">
+                </div>
+                <div>
+                    <label>Hotel free</label>
+                    <input type="text" id="hotelFreeTxt">
+                </div>
+                <div>
+                    <label>Cancellation criteria</label>
+                    <select id="hotelCriteriaCmb" class="form-select">
+                        <option selected>Free</option>
+                        <option selected>Non-free</option>
+                    </select>
+                </div>
+            </div>
+            <div class="hotel-btn-div">
+                <button type="button" id="saveHotelBtn">Save</button>
+            </div>
+        </div>
+    </section>
 </main>
 <script src="assets/lib/jquery-3.6.4.min.js"></script>
 <script src="controller/UserController.js" type="module"></script>
 <script src="controller/MainNavController.js" type="module"></script>
 <script src="controller/UsersController.js" type="module"></script>
+<script src="controller/HotelController.js" type="module"></script>
 </body>
 </html>
