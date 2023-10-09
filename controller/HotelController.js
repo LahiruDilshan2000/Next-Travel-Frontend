@@ -157,19 +157,15 @@ export class HotelController {
     }
 
     handleLoadItem(data) {
-        // $('#hotelUl li').remove();
-
-        var img = "<img src='#'>"
-        var li = "<li><img src='#'></li>";
-
-        /*const imgElement = $("#wwwww");
-        imgElement.attr("src", "assets/images/login.jpg");*/
+        $('#hotelUl li').remove();
 
         data.map(value => {
-            console.log(value)
-            $('#wwwww').attr('src', `data:image/png;base64,${value.hotelImageLocation}`);
+
+            let li = "<li><img src='#'></li>";
 
             $('#hotelUl').append(li);
+            $('#hotelUl li:last-child img').attr('src', `data:image/png;base64,${value.hotelImageLocation}`);
+
         });
     }
 }
