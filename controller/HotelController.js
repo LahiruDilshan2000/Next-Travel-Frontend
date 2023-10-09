@@ -10,8 +10,15 @@ export class HotelController {
         $("#saveHotelBtn").on('click', () => {
             this.handleValidation();
         });
-
+        $("#addHotelBtn").on('click', () => {
+            this.handleAddHotelContainer();
+        });
+        $(".hotel-add").on('click', (event) => {
+            this.handleHotelAddContainerClickEvent(event);
+        });
         this.handleHotelCategoryClickEvent();
+        this.handleLoadAllData();
+
     }
 
     handleHotelCategoryClickEvent() {
@@ -102,7 +109,7 @@ export class HotelController {
             data: formHotelData,
             success: (resp) => {
                 console.log(resp)
-                if (resp.code == 200) {
+                if (resp.code === 200) {
                     alert(resp.message);
                 }
             },
@@ -110,6 +117,59 @@ export class HotelController {
                 console.log(ob)
                 alert(ob.responseJSON.message);
             },
+        });
+    }
+
+    handleAddHotelContainer() {
+        $(".hotel-add").css({
+            "display": "block"
+        });
+    }
+
+    handleHotelAddContainerClickEvent(event) {
+        if (event.target.className === 'hotel-add') {
+            $(".hotel-add").css({
+                "display": "none"
+            });
+        }
+    }
+
+    handleLoadAllData() {
+
+        $.ajax({
+            url: "http://localhost:8081/nexttravel/api/v1/hotel/getAll",
+            method: "GET",
+            processData: false, // Prevent jQuery from processing the data
+            contentType: false,
+            async: true,
+            success: (resp) => {
+                console.log(resp)
+                if (resp.code === 200) {
+                    this.handleLoadItem(resp.data);
+                    alert(resp.message);
+                }
+            },
+            error: (ob) => {
+                console.log(ob)
+                alert(ob.responseJSON.message);
+            },
+        });
+    }
+
+    handleLoadItem(data) {
+        // $('#hotelUl li').remove();
+
+        var img = "<img src='#'>"
+        var li = "<li><img src='#'></li>";
+
+        /*const imgElement = $("#wwwww");
+        imgElement.attr("src", "assets/images/login.jpg");*/
+
+        data.map(value => {
+            console.log(value)
+            $('#wwwww').attr('src', `data:image/png;base64,${value.hotelImageLocation}`);
+
+            $('#hotelUl').append(li);
         });
     }
 }

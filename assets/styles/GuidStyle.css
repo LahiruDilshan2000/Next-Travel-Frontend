@@ -52,9 +52,13 @@
 .guid .guid-list ul li button{
     width: 80px;
     height: 100%;
-    background: red;
+    background: rgba(255, 0, 0, 0.6);
     color: white;
     border: none;
+    transition: all 0.5s ease-in-out;
+}
+.guid .guid-list ul li button:hover{
+    background: rgba(255, 0, 0, 1);
 }
 .guid-list-header h3{
     font-size: 15px;
