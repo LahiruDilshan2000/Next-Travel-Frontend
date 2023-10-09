@@ -1,34 +1,53 @@
-export class MainNavController{
+export class MainNavController {
     constructor() {
         $('#hotelNavBtn').on('click', () => {
-            this.handleNavContainer("#hotelContainer");
+            this.handleNavContainer("#hotelContainer", "#hotelNavBtn");
         });
         $('#vehicleNavBtn').on('click', () => {
-            this.handleNavContainer("#vehicleContainer");
+            this.handleNavContainer("#vehicleContainer", "#vehicleNavBtn");
         });
         $('#packageNavBtn').on('click', () => {
-            this.handleNavContainer("#packageContainer");
+            this.handleNavContainer("#packageContainer", "#packageNavBtn");
         });
-        this.handleNavContainer("#packageContainer");
+        $('#guideNavBtn').on('click', () => {
+            this.handleNavContainer("#guidContainer", "#guideNavBtn");
+        });
+        $('#driverNavBtn').on('click', () => {
+            this.handleNavContainer("#driverContainer", "#driverNavBtn");
+        });
+        $('#userNavBtn').on('click', () => {
+            this.handleNavContainer("#usersContainer", "#userNavBtn");
+        });
+        $('#financialNavBtn').on('click', () => {
+            this.handleNavContainer("#financialContainer", "#financialNavBtn");
+        });
+        this.handleNavContainer("#packageContainer", "#packageNavBtn");
         this.handleVehicleContainerClickEvent();
     }
 
-    handleNavContainer(id) {
+    handleNavContainer(id, btn) {
         this.handleHideAllContainer();
         $(id).css({
             "display": "block"
         });
+        this.handleSetNavBtnSelectedStyle(btn);
 
     }
+
     handleHideAllContainer() {
-        $('#vehicleContainer').css({
-            "display": "none"
-        });
-        $('#hotelContainer').css({
-            "display": "none"
-        });
-        $('#packageContainer').css({
-            "display": "none"
+        const arr = ['#vehicleContainer',
+            '#hotelContainer',
+            '#packageContainer',
+            '#guidContainer',
+            '#guidContainer',
+            '#driverContainer',
+            '#usersContainer',
+            '#financialContainer'];
+
+        arr.map(id => {
+            $(id).css({
+                "display": "none"
+            });
         });
     }
 
@@ -37,5 +56,21 @@ export class MainNavController{
             console.log($(event.target).find('h3').text());
         });
     }
+
+    handleSetNavBtnSelectedStyle(id) {
+        this.handleRestAllNavBtnStyles();
+        $(id).css({
+            "color": "rgb(255, 0, 0)",
+            "borderBottom": "2px solid rgb(255, 0, 0)"
+        });
+    }
+
+    handleRestAllNavBtnStyles() {
+        $('.mainNav .mainNavBar ul li').css({
+            "color": "rgba(0, 0, 0, 0.6)",
+            "borderBottom": "none"
+        });
+    }
 }
+
 new MainNavController();

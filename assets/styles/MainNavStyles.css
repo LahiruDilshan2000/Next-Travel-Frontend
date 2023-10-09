@@ -57,6 +57,6 @@
 }
 
 .mainNav .mainNavBar ul li:hover{
-    color: red;
-    border-bottom: 2px solid red;
+    color: red!important;
+    /*border-bottom: 2px solid red;*/
 }

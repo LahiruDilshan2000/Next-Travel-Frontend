@@ -1,0 +1,8 @@
+.financial{
+    height: 100vh;
+    padding: 20px 150px;
+}
+.financial .financial-list{
+    width: 100%;
+    position: relative;
+}

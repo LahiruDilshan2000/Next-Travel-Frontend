@@ -10,7 +10,12 @@
     <link rel="stylesheet" href="assets/styles/VehicleStyles.css">
     <link rel="stylesheet" href="assets/styles/PackageStyle.css">
     <link rel="stylesheet" href="assets/styles/HotelStyle.css">
+    <link rel="stylesheet" href="assets/styles/GuidStyle.css">
+    <link rel="stylesheet" href="assets/styles/DriverStyles.css">
+    <link rel="stylesheet" href="assets/styles/UsersStyles.css">
+    <link rel="stylesheet" href="assets/styles/FinancialStyles.css">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fontsAwesome/css/all.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
@@ -116,6 +121,10 @@
                 <li id="packageNavBtn">Packages</li>
                 <li id="hotelNavBtn">Hotels</li>
                 <li id="vehicleNavBtn">Vehicles</li>
+                <li id="guideNavBtn">Guide</li>
+                <li id="driverNavBtn">Driver</li>
+                <li id="userNavBtn">User</li>
+                <li id="financialNavBtn">Financial</li>
             </ul>
         </nav>
     </section>
@@ -139,6 +148,131 @@
                 <li><h3>3</h3></li>
                 <li><h3>4</h3></li>
             </ul>
+        </div>
+    </section>
+    <!---------------------------------------------------------------------------------->
+    <section class="guid" id="guidContainer">
+        <div class="guid-list">
+            <i class="fa-solid fa-plus" id="addGuidBtn"></i>
+            <div class="guid-list-header">
+                <h3>Pic</h3>
+                <h3>ID</h3>
+                <h3>Name</h3>
+                <h3>Address</h3>
+                <h3>Age</h3>
+                <h3>Gender</h3>
+                <h3>Contact</h3>
+                <h3>Option</h3>
+            </div>
+            <ul id="guidUl">
+                <li>
+                    <img src="" alt="">
+                    <h3 class="guidIdTxt">null</h3>
+                    <h3>null</h3>
+                    <h3>null</h3>
+                    <h3>null</h3>
+                    <h3>null</h3>
+                    <h3>null</h3>
+                    <h3>null</h3>
+                    <button type="button">Edit</button>
+                </li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
+    </section>
+    <!---------------------------------------------------------------------------------->
+    <section class="driver" id="driverContainer">
+        <div class="driver-list">
+            <i class="fa-solid fa-plus" id="addDriverBtn"></i>
+            <div class="driver-list-header">
+                <h3>ID</h3>
+                <h3>Name</h3>
+                <h3>Contact</h3>
+                <h3>Age</h3>
+                <h3>Gender</h3>
+                <h3>Option</h3>
+            </div>
+            <ul id="driverUl">
+                <li>
+                    <h3 class="driverIdTxt">null</h3>
+                    <h3>null</h3>
+                    <h3>null</h3>
+                    <h3>null</h3>
+                    <h3>null</h3>
+                    <button type="button">Edit</button>
+                </li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
+    </section>
+    <!---------------------------------------------------------------------------------->
+    <section class="users" id="usersContainer">
+        <nav class="usersNav">
+            <ul>
+                <li id="usersNavBtn">Users</li>
+                <li id="adminsNavBtn">Admins</li>
+            </ul>
+        </nav>
+        <div class="user-list">
+            <i class="fa-solid fa-plus" id="addUserBtn"></i>
+            <div class="user-list-header">
+                <h3>ID</h3>
+                <h3>Name</h3>
+                <h3>Contact</h3>
+                <h3>Age</h3>
+                <h3>Gender</h3>
+                <h3>Role</h3>
+                <h3>Option</h3>
+            </div>
+            <ul id="userUl">
+                <li>
+                    <h3 class="driverIdTxt">null</h3>
+                    <h3>null</h3>
+                    <h3>null</h3>
+                    <h3>null</h3>
+                    <h3>null</h3>
+                    <h3>null</h3>
+                    <button type="button">Edit</button>
+                </li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
+        <div class="admins-list">
+            <i class="fa-solid fa-plus" id="addAdminsBtn"></i>
+            <div class="admins-list-header">
+                <h3>ID</h3>
+                <h3>Name</h3>
+                <h3>Contact</h3>
+                <h3>Age</h3>
+                <h3>Gender</h3>
+                <h3>Role</h3>
+                <h3>Option</h3>
+            </div>
+            <ul id="adminUl">
+                <li>
+                    <h3 class="driverIdTxt">null</h3>
+                    <h3>null</h3>
+                    <h3>null</h3>
+                    <h3>null</h3>
+                    <h3>null</h3>
+                    <h3>null</h3>
+                    <button type="button">Edit</button>
+                </li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
+    </section>
+    <!---------------------------------------------------------------------------------->
+    <section class="financial" id="financialContainer">
+        <div class="financial-list">
         </div>
     </section>
     <!---------------------------------------------------------------------------------->
@@ -259,5 +393,6 @@
 <script src="assets/lib/jquery-3.6.4.min.js"></script>
 <script src="controller/UserController.js" type="module"></script>
 <script src="controller/MainNavController.js" type="module"></script>
+<script src="controller/UsersController.js" type="module"></script>
 </body>
 </html>
