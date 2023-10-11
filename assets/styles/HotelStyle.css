@@ -17,12 +17,53 @@
 }
 .hotel .hotel-list ul li{
     list-style: none;
-    width: 300px;
-    height: 350px;
-    background: blue;
+    width: 280px;
+    height: 340px;
+    background: rgba(0, 0, 0, 0.01);
     margin: 30px;
     border-radius: 20px;
     overflow: hidden;
+    transition: all 0.5s;
+    box-shadow: -2px 0 20px rgba(0, 0, 0, 0.15);
+}
+.hotel .hotel-list ul li:hover{
+    transform: translateY(-8px);
+}
+.hotel .hotel-list ul li h3{
+    font-family: 'AR One Sans', sans-serif;
+    font-size: 17px;
+    padding: 0 20px;
+    font-weight: 300;
+    color: rgba(0, 0, 0, 0.6);
+}
+.hotel .hotel-list ul li h3:nth-child(4){
+    font-size: 14px;
+}
+#hotelUl li{
+    position: relative;
+}
+#hotelUl li i{
+    width: 37px;
+    aspect-ratio: 1/1;
+    border-radius: 90%;
+    background: rgba(250, 69, 0, 0.3);
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    padding-top: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: absolute;
+    right: 20px;
+}
+#hotelUl li i:hover{
+    background: rgba(250, 69, 0, 1);
+}
+.hotel .hotel-list ul li img{
+    margin-bottom: 20px;
+}
+.hotel .hotel-list ul li h2{
+    display: none;
 }
 .hotel-add{
     width: 100%;
@@ -58,6 +99,7 @@
     overflow: hidden;
     background-size: cover;
     border: none;
+
 }
 .hotel-div1 div textarea{
     height: 80%;
@@ -156,4 +198,169 @@
 }
 #addHotelBtn:hover{
     color: orangered;
+}
+#hotelViewFilter{
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(0.5px);
+    align-items: center;
+    justify-content: center;
+    display: none;
+}
+.hotelView-div{
+    width: 700px;
+    height: 650px;
+    background: white;
+    border-radius: 20px;
+}
+.hotelView-div .hotelViewImgDiv{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.hotelView-div img{
+    width: 380px;
+    height: 300px;
+    border-radius: 20px;
+}
+.hotelViewDetailsDiv{
+    width: 100%;
+    display: flex;
+    padding: 20px 50px;
+}
+.hotel-view-div-1{
+    width: 50%;
+}
+.hotel-view-div-2{
+    width: 50%;
+}
+.hotel-view-div-1 div:nth-child(2), .hotel-view-div-1 div:nth-child(5){
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+.hotel-view-div-1 h2{
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 30px;
+    color: rgba(0, 0, 0, 0.7);
+    font-weight: 550;
+    margin: 10px 0;
+    letter-spacing: 1px;
+}
+.hotel-view-div-1 i{
+    font-size: 20px;
+    color: rgba(0, 0, 0, 0.5);
+    padding-left: 20px;
+    padding-bottom: 10px;
+    color: cornflowerblue;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+.hotel-view-div-1 .stars{
+    margin: 13px 0;
+}
+.hotel-view-div-1 .stars i{
+    padding: 0 8px 0 0;
+    color: rgba(0, 0, 0, 0.2);
+    font-size: 18px;
+    cursor: default;
+
+}
+.fa-solid.fa-location-dot:hover{
+    transform: scale(1.1);
+    color: rgba(0, 0, 255, 0.6);
+}
+.hotel-view-div-1 h3{
+    font-family: 'AR One Sans', sans-serif;
+    font-size: 18px;
+    color: rgba(0, 0, 0, 0.8);
+}
+.hotel-div-free{
+    width: 100%;
+    display: flex;
+}
+.hotel-div-free div{
+    width: 30%;
+    text-align: start;
+}
+.hotel-div-free div:last-child{
+    width: 70%;
+}
+.hotel-div-free div h2{
+    font-size: 18px;
+    color: rgba(0, 0, 0, 0.7);
+}
+#hotelViewPriceTxt{
+    font-size: 15px;
+    font-family: 'Ubuntu', sans-serif;
+    color: rgba(0, 0, 0, 0.6);
+}
+#hotelViewFilter > div > div.hotelViewDetailsDiv > div.hotel-view-div-1 > div.hotel-div-free > div:nth-child(2){
+    display: block;
+    text-align: start;
+}
+#hotelViewFilter > div > div.hotelViewDetailsDiv > div.hotel-view-div-1 > div.hotel-div-free > div:nth-child(2) p{
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.6);
+    margin: 10px 0;
+    font-weight: 500;
+}
+#hotelViewFilter > div > div.hotelViewDetailsDiv > div.hotel-view-div-1 > div.hotel-div-free > div:nth-child(2) h3{
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+#hotelViewFilter > div > div.hotelViewDetailsDiv > div.hotel-view-div-1 > div:nth-child(4){
+    display: flex;
+    margin-bottom: 10px;
+}
+#hotelViewFilter > div > div.hotelViewDetailsDiv > div.hotel-view-div-1 > div:nth-child(5) p{
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.6);
+    font-family: 'Ubuntu', sans-serif;
+}
+.fa-solid.fa-dog{
+    padding-left: 20px;
+    color: rgba(0, 0, 0, 0.4);
+    padding-bottom: 10px;
+    cursor: default;
+}
+.hotel-view-div-2{
+    padding-top: 20px;
+    padding-left: 50px;
+}
+.hotel-view-div-2 h2{
+    font-family: 'AR One Sans', sans-serif;
+    font-size: 20px;
+    color: rgba(0, 0, 0, 0.6);
+    padding-bottom: 10px;
+}
+.hotel-view-div-2 h3{
+    font-family: 'AR One Sans', sans-serif;
+    font-size: 14px;
+    color: rgba(30, 144, 255, 0.8);
+    padding-left: 10px;
+
+}
+.hotel-view-div-2 p{
+    padding-top: 10px;
+    font-family: 'AR One Sans', sans-serif;
+    font-size: 15px;
+    color: rgba(0, 0, 0, 0.6);
+}
+.hotel-view-div-2 h4{
+    font-size: 15px;
+    color: rgba(0, 0, 0, 0.6);
+}
+#reviewLbl{
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.6);
+    padding: 0;
+}
+#hotelViewCriteriaTxt{
 }

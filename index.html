@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="assets/styles/UsersStyles.css">
     <link rel="stylesheet" href="assets/styles/FinancialStyles.css">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="assets/fontsAwesome/css/all.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,6 +29,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=AR+One+Sans:wght@500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
@@ -108,7 +112,7 @@
     <header>
         <nav>
             <div class="toggle"></div>
-            <img src="assets/images/google.png" alt="">
+            <img src="assets/images/defaultUser.jpg" alt="">
         </nav>
     </header>
     <!---------------------------------------------------------------------------------->
@@ -142,8 +146,15 @@
     <!---------------------------------------------------------------------------------->
     <section class="vehicle" id="vehicleContainer">
         <div class="vehicle-list">
+            <i class="fa-solid fa-plus" id="vehicleAddBtn"></i>
             <ul id="vehicleUl">
-                <li><h3>1</h3></li>
+                <li>
+                    <img src="assets/images/login.jpg" id="wwww">
+                    <h2>10</h2>
+                    <h3>Hotel Galdari</h3>
+                    <h3>Pandura</h3>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </li>
                 <li><h3>2</h3></li>
                 <li><h3>3</h3></li>
                 <li><h3>4</h3></li>
@@ -282,6 +293,10 @@
             <ul id="hotelUl">
                 <li>
                     <img src="assets/images/login.jpg" id="wwwww">
+                    <h2>10</h2>
+                    <h3>Hotel Galdari</h3>
+                    <h3>Pandura</h3>
+                    <i class="fa-solid fa-arrow-right"></i>
                 </li>
                 <li></li>
                 <li></li>
@@ -290,70 +305,117 @@
         </div>
     </section>
     <!---------------------------------------------------------------------------------->
-    <section class="vehicleView" id="vehicleEdit">
-        <div class="vehicle-con">
-            <img src="" alt="" class="vehicleImg">
-            <div class="vehicle-con2">
-                <div>
-                    <label>Vehicle Brand</label>
-                    <input type="text" class="vehicleBrand">
-                </div>
-                <div>
-                    <label>Vehicle Category</label>
-                    <select id="vehicleCategoryCmb" class="form-select">
-                        <option selected>Economy</option>
-                        <option selected>Mid-Range</option>
-                        <option selected>Luxury</option>
-                        <option selected>Super Luxury</option>
-                    </select>
-                </div>
-                <div>
-                    <label>Fuel type</label>
-                    <select id="fuelTypeCmb" class="form-select">
-                        <option selected>Diesel</option>
-                        <option selected>Petrol</option>
-                    </select>
-                </div>
-                <div>
-                    <label>Version type</label>
-                    <select id="versionCmb" class="form-select">
-                        <option selected>Hybrid</option>
-                        <option selected>Non-Hybrid</option>
-                    </select>
-                </div>
-                <div>
-                    <label>Fuel usage</label>
-                    <input type="text" id="fuelUsage">
-                </div>
-                <div>
-                    <label>Seat capacity</label>
-                    <input type="text" id="seatCapacity">
-                </div>
-                <div>
-                    <label>Vehicle type</label>
-                    <select id="vehicleTypeCmb" class="form-select">
-                        <option selected>Car</option>
-                        <option selected>Van</option>
-                        <option selected>Suv</option>
-                        <option selected>Bus</option>
-                    </select>
-                </div>
-                <div>
-                    <label>Transmission type</label>
-                    <select id="transmissionTypeCmb" class="form-select">
-                        <option selected>Auto</option>
-                        <option selected>Manual</option>
-                    </select>
-                </div>
+    <section class="hotelView" id="hotelViewFilter">
+        <div class="hotelView-div">
+            <div class="hotelViewImgDiv">
+                <img src="" alt="" id="hotelViewImg">
             </div>
-            <div class="vehicle-button-div">
-                <button type="button" id="vehicleUpdate">Update</button>
-                <button type="button" id="vehicleDelete">Delete</button>
+            <div class="hotelViewDetailsDiv">
+                <div class="hotel-view-div-1">
+                    <h2 id="hotelViewName">Blue Ocesn</h2>
+                    <div>
+                        <h3 id="hotelViewLocation">Pandura</h3>
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <div class="stars">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <div class="hotel-div-free">
+                        <div>
+                            <h2>Price</h2>
+                            <h3 id="hotelViewPriceTxt">8000</h3>
+                        </div>
+                        <div>
+                            <p>Cancellation Criteria</p>
+                            <h3 id="hotelViewCriteriaTxt">Free</h3>
+                        </div>
+                    </div>
+                    <div>
+                        <p id="petAllowTxt">Not-allow</p>
+                        <i class="fa-solid fa-dog"></i>
+                    </div>
+                </div>
+                <div class="hotel-view-div-2">
+                    <h2>Contact</h2>
+                    <h3 id="hotelViewContact1Txt">0774105588</h3>
+                    <h3 id="hotelViewContact2Txt">0774105588</h3>
+                    <p id="hotelViewEmailTxt">Email@gmail.com</p>
+                    <h4>Reviews</h4>
+                    <p id="reviewLbl">Hello there</p>
+                </div>
             </div>
         </div>
     </section>
     <!---------------------------------------------------------------------------------->
-    <section class="vehicleView" id="vehicleView">
+    <section class="vehicleAdd" id="vehicleAdd">
+        <div class="vehicleAdd-con">
+                <div class="vehicleAdd-img-div">
+                    <img src="assets/images/defaultimage.jpg" alt="" class="vehicleAddImg">
+                    <input type="file" name="imageFile" id="vehicleAddImgFile">
+                </div>
+            <form class="vehicleAdd-form">
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label>Vehicle Brand</label>
+                        <input type="text" class="form-control" id="vehicleAddBrandTxt" placeholder="Nissan">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Vehicle Category</label>
+                        <select id="vehicleCategoryCmb" class="form-select">
+                            <option selected>Economy</option>
+                            <option>Mid-Range</option>
+                            <option>Luxury</option>
+                            <option>Super Luxury</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Fuel & transmission</label>
+                        <select id="fuelAndTransmissionTypeCmb" class="form-select">
+                            <option selected>D/M</option>
+                            <option>D/A</option>
+                            <option>P/M</option>
+                            <option>P/A</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Vehicle type</label>
+                        <select id="vehicleTypeCmb" class="form-select">
+                            <option selected>Car</option>
+                            <option>Van</option>
+                            <option>Suv</option>
+                            <option>Bus</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Version type</label>
+                        <select id="versionCmb" class="form-select">
+                            <option>Hybrid</option>
+                            <option selected>Non-Hybrid</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Fuel usage</label>
+                        <input class="form-control" type="text" id="fuelUsageTxt" placeholder="10">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Seat capacity</label>
+                        <input type="text" class="form-control" id="seatCapacityTxt" placeholder="4">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Qty</label>
+                        <input type="text" class="form-control" id="vehicleQtyTxt" placeholder="5">
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary" id="SaveVehicleBtn">Save</button>
+            </form>
+        </div>
+    </section>
+    <!---------------------------------------------------------------------------------->
+    <!--<section class="vehicleView" id="vehicleView">
         <div class="vehicle-con">
             <img src="" alt="" class="vehicleImg">
             <div class="vehicle-con2">
@@ -391,13 +453,13 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section>-->
     <!---------------------------------------------------------------------------------->
     <section class="hotel-add">
         <div class="hotel-add-container">
             <div class="hotel-div1">
                 <div>
-                    <img src="#" alt="" id="hotel-img">
+                    <img src="assets/images/defaultimage.jpg" alt="" id="hotel-img">
                     <input type="file" name="imageFile" id="hotelImage">
                 </div>
                 <div>
@@ -467,5 +529,6 @@
 <script src="controller/MainNavController.js" type="module"></script>
 <script src="controller/UsersController.js" type="module"></script>
 <script src="controller/HotelController.js" type="module"></script>
+<script src="controller/VehicleController.js" type="module"></script>
 </body>
 </html>

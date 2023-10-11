@@ -16,8 +16,65 @@ export class HotelController {
         $(".hotel-add").on('click', (event) => {
             this.handleHotelAddContainerClickEvent(event);
         });
+        $("#hotelViewFilter").on('click', (event) => {
+            this.hotelViewFilterClickEvent(event);
+        });
         this.handleHotelCategoryClickEvent();
-        this.handleLoadAllData();
+       // this.handleLoadAllData();
+        this.handleHotelContainerClickEvent();
+
+
+    }
+
+    hotelViewFilterClickEvent(event) {
+        if (event.target.className === 'hotelView') {
+            $("#hotelViewFilter").css({
+                "display": "none"
+            });
+        }
+    }
+
+    handleHotelContainerClickEvent() {
+
+        $('#hotelUl').on('click', 'i', (event) => {
+            const hotelId = parseInt($(event.target).closest('li').find('h2').text());
+
+            $.ajax({
+                url: "http://localhost:8081/nexttravel/api/v1/hotel/get?hotelId=" + hotelId,
+                method: "GET",
+                processData: false, // Prevent jQuery from processing the data
+                contentType: false,
+                async: true,
+                success: (resp) => {
+                    if (resp.code === 200) {
+                        this.handleViewDetails(resp.data);
+                        console.log(resp.message);
+                    }
+                },
+                error: (ob) => {
+                    console.log(ob)
+                    alert(ob.responseJSON.message);
+                },
+            });
+        });
+    }
+
+    handleViewDetails(data) {
+
+        $("#hotelViewImg").attr('src', `data:image/png;base64,${data.hotelImageLocation}`);
+        $("#hotelViewName").text(data.hotelName);
+        $("#hotelViewLocation").text(data.hotelLocation);
+        $("#hotelViewPriceTxt").text(data.price);
+        $("#hotelViewCriteriaTxt").text(data.cancellationCriteria);
+        $("#petAllowTxt").text(data.isPetAllow);
+        $("#hotelViewContact1Txt").text(data.contactList[0].contact);
+        $("#hotelViewContact2Txt").text(data.contactList[1].contact);
+        $("#hotelViewEmailTxt").text(data.hotelEmail);
+        $("#reviewLbl").text(data.remarks);
+
+        $('#hotelViewFilter').css({
+            "display": "flex"
+        })
 
     }
 
@@ -37,7 +94,7 @@ export class HotelController {
 
     handleImageLoadEvent() {
 
-        const file = $('#hotelImage')[0].files[0];
+        const file = $('#vehicleAddImgfile')[0].files[0];
         const selectedImage = $('#hotel-img');
         if (file) {
             const reader = new FileReader();
@@ -75,11 +132,12 @@ export class HotelController {
             contact: $('#hotelContactTxt2').val()
         }
 
-        const isPetAllow = $('#hotelPetAllowCheck').is(':checked') ? "Yes" : "No";
+        const isPetAllow = $('#hotelPetAllowCheck').is(':checked') ? "Is-Allow" : "Is-Not-Allow";
 
         const contactList = [contact1, contact2];
 
-        const hotel = JSON.stringify(new Hotel(null,
+        const hotel = JSON.stringify(new Hotel(
+            null,
             $('#hotelNameTxt').val(),
             hotelCategory,
             $('#hotelLocationTxt').val(),
@@ -90,7 +148,8 @@ export class HotelController {
             parseInt($('#hotelFreeTxt').val()),
             $('#hotelCriteriaCmb').val(),
             $('#hotelRemakesTxt').val(),
-            null));
+            null
+        ));
 
         console.log(hotel);
 
@@ -143,7 +202,6 @@ export class HotelController {
             contentType: false,
             async: true,
             success: (resp) => {
-                console.log(resp)
                 if (resp.code === 200) {
                     this.handleLoadItem(resp.data);
                     alert(resp.message);
@@ -160,12 +218,19 @@ export class HotelController {
         $('#hotelUl li').remove();
 
         data.map(value => {
-
-            let li = "<li><img src='#'></li>";
+            let li = "<li>\n" +
+                "                    <img src=\"assets/images/login.jpg\">\n" +
+                "                    <h2>10</h2>\n" +
+                "                    <h3>Hotel Galdari</h3>\n" +
+                "                    <h3>Pandura</h3>\n" +
+                "                    <i class=\"fa-solid fa-arrow-right\"></i>\n" +
+                "                </li>";
 
             $('#hotelUl').append(li);
             $('#hotelUl li:last-child img').attr('src', `data:image/png;base64,${value.hotelImageLocation}`);
-
+            $('#hotelUl li:last-child h2').text(value.hotelId);
+            $('#hotelUl li:last-child h3:nth-child(3)').text(value.hotelName);
+            $('#hotelUl li:last-child h3:last-child').text(value.hotelLocation);
         });
     }
 }

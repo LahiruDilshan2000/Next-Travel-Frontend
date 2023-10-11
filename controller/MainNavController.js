@@ -22,7 +22,6 @@ export class MainNavController {
             this.handleNavContainer("#financialContainer", "#financialNavBtn");
         });
         this.handleNavContainer("#packageContainer", "#packageNavBtn");
-        this.handleVehicleContainerClickEvent();
     }
 
     handleNavContainer(id, btn) {
@@ -48,12 +47,6 @@ export class MainNavController {
             $(id).css({
                 "display": "none"
             });
-        });
-    }
-
-    handleVehicleContainerClickEvent() {
-        $('#vehicleUl').on('click', 'li', (event) => {
-            console.log($(event.target).find('h3').text());
         });
     }
 
