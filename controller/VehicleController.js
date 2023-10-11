@@ -1,5 +1,7 @@
 import {Vehicle} from "../model/Vehicle.js";
 
+var vehicleId = undefined;
+
 export class VehicleController {
     constructor() {
         $('#vehicleAddBtn').on('click', () => {
@@ -12,10 +14,31 @@ export class VehicleController {
             this.handleImageLoadEvent();
         });
         $('#SaveVehicleBtn').on('click', () => {
-            this.handleValidation();
+            this.handleValidation("save");
+        });
+        $('#btnVehicleEdit').on('click', () => {
+            this.handleVehicleEditDetails();
+        });
+        $('#updateVehicleBtn').on('click', () => {
+            this.handleValidation("update");
+        });
+        $('#btnVehicleDelete').on('click', () => {
+            this.handleVehicleDelete(vehicleId);
+        });
+
+        $("#vehicleView").on('click', (event) => {
+            this.handleVehicleViewFilterClickEvent(event);
         });
         this.handleLoadAllData();
         this.handleVehicleViewEvent();
+    }
+
+    handleVehicleViewFilterClickEvent(event) {
+        if (event.target.className === 'vehicleView') {
+            $("#vehicleView").css({
+                "display": "none"
+            });
+        }
     }
 
     handleVehicleAddContainerShowEvent() {
@@ -47,13 +70,14 @@ export class VehicleController {
         }
     }
 
-    handleValidation() {
+    handleValidation(fun) {
         !/^[A-Za-z0-9 ]+$/.test($('#vehicleAddBrandTxt').val()) ? alert("Vehicle brand invalid or empty !") :
             !/^[0-9]+$/.test($('#fuelUsageTxt').val()) ? alert("Fuel usage invalid or empty !") :
                 !/^[0-9]+$/.test($('#seatCapacityTxt').val()) ? alert("Seat capacity invalid or empty !") :
-                !/^[0-9]+$/.test($('#vehicleQtyTxt').val()) ? alert("Qty invalid or empty !") :
-                    !$('#vehicleAddImgFile')[0].files[0] ? alert("Please select the image !") :
-                            this.handleSaveVehicle();
+                    !/^[0-9]+$/.test($('#vehicleQtyTxt').val()) ? alert("Qty invalid or empty !") :
+                        fun === "update" ? this.handleUpdateVehicle() :
+                            !$('#vehicleAddImgFile')[0].files[0] ? alert("Please select the image !") :
+                                this.handleSaveVehicle();
     }
 
     handleSaveVehicle() {
@@ -142,9 +166,161 @@ export class VehicleController {
 
     handleVehicleViewEvent() {
         $('#vehicleUl').on('click', 'i', (event) => {
-            const vehicleId = parseInt($(event.target).closest('li').find('h2').text());
-            console.log(vehicleId)
+            vehicleId = parseInt($(event.target).closest('li').find('h2').text());
+
+            console.log(vehicleId);
+
+            $.ajax({
+                url: "http://localhost:8081/nexttravel/api/v1/vehicle/get?vehicleId=" + vehicleId,
+                method: "GET",
+                processData: false, // Prevent jQuery from processing the data
+                contentType: false,
+                async: true,
+                success: (resp) => {
+                    if (resp.code === 200) {
+                        this.handleViewDetails(resp.data);
+                        console.log(resp.message);
+                    }
+                },
+                error: (ob) => {
+                    console.log(ob)
+                    alert(ob.responseJSON.message);
+                },
+            });
         });
+    }
+
+    handleViewDetails(data) {
+
+        $(".vehicleViewImg").attr('src', `data:image/png;base64,${data.imageLocation}`);
+        $("#vehicleBrandLbl").text(data.vehicleBrand);
+        $("#vehicleCategoryLbl").text(data.vehicleCategory);
+        $("#vehicleFuelAndTransmissionLbl").text(data.fuelAndTransmissionType);
+        $("#vehicleTypeLbl").text(data.vehicleType);
+        $("#vehicleVersionTypeLbl").text(data.versionType);
+        $("#vehicleFuelUsageLbl").text(data.fuelUsage);
+        $("#vehicleSeatCapacityLbl").text(data.seatCapacity);
+        $("#vehicleQtyLbl").text(data.qty);
+
+
+        $('#vehicleView').css({
+            "display": "flex"
+        });
+    }
+
+    handleVehicleEditDetails() {
+
+        $(".vehicleAddImg").attr('src', `${$(".vehicleViewImg").attr('src')}`);
+        $('#vehicleAddBrandTxt').val($("#vehicleBrandLbl").text());
+        $('#vehicleCategoryCmb').val($("#vehicleCategoryLbl").text());
+        $('#fuelAndTransmissionTypeCmb').val($("#vehicleFuelAndTransmissionLbl").text());
+        $('#versionCmb').val($("#vehicleVersionTypeLbl").text());
+        $('#fuelUsageTxt').val($("#vehicleFuelUsageLbl").text());
+        $('#seatCapacityTxt').val($("#vehicleSeatCapacityLbl").text());
+        $('#vehicleTypeCmb').val($("#vehicleTypeLbl").text());
+        $('#vehicleQtyTxt').val($("#vehicleQtyLbl").text());
+
+        $('#vehicleView').css({
+            "display": "none"
+        });
+
+        $("#vehicleAdd").css({
+            "display": "flex"
+        });
+    }
+
+    handleUpdateVehicle() {
+
+        const vehicle = JSON.stringify(new Vehicle(
+            vehicleId,
+            $('#vehicleAddBrandTxt').val(),
+            $('#vehicleCategoryCmb').val(),
+            $('#fuelAndTransmissionTypeCmb').val(),
+            $('#versionCmb').val(),
+            $('#fuelUsageTxt').val(),
+            $('#seatCapacityTxt').val(),
+            $('#vehicleTypeCmb').val(),
+            $('#vehicleQtyTxt').val(),
+            null
+        ));
+
+        if ($('#vehicleAddImgFile')[0].files[0]){
+            this.handleVehicleUpdateWithImg(vehicle);
+        }else {
+            this.handleVehicleUpdateWithoutImg(vehicle);
+        }
+    }
+
+    handleVehicleUpdateWithImg(vehicle) {
+
+        const formVehicleData = new FormData();
+        const fileInput = $('#vehicleAddImgFile')[0].files[0];
+
+        formVehicleData.append('file', fileInput);
+        formVehicleData.append('vehicle', vehicle);
+
+        $.ajax({
+            url: "http://localhost:8081/nexttravel/api/v1/vehicle",
+            method: "PUT",
+            processData: false, // Prevent jQuery from processing the data
+            contentType: false,
+            async: true,
+            data: formVehicleData,
+            success: (resp) => {
+                console.log(resp)
+                if (resp.code === 200) {
+                    alert(resp.message);
+                }
+            },
+            error: (ob) => {
+                console.log(ob)
+                alert(ob.responseJSON.message);
+            },
+        });
+    }
+
+    handleVehicleUpdateWithoutImg(vehicle) {
+
+        $.ajax({
+            url: "http://localhost:8081/nexttravel/api/v1/vehicle/without",
+            method: "PUT",
+            dataType: "json",
+            contentType: "application/json",
+            async: true,
+            data: vehicle,
+            success: (resp) => {
+                console.log(resp)
+                if (resp.code === 200) {
+                    alert(resp.message);
+                }
+            },
+            error: (ob) => {
+                console.log(ob)
+                alert(ob.responseJSON.message);
+            },
+        });
+    }
+
+    handleVehicleDelete(vehicleId) {
+
+        if (vehicleId){
+            $.ajax({
+                url: "http://localhost:8081/nexttravel/api/v1/vehicle?vehicleId=" + vehicleId,
+                method: "DELETE",
+                dataType: "json",
+                async: true,
+                success: (resp) => {
+                    console.log(resp)
+                    if (resp.code === 200) {
+                        alert(resp.message);
+                    }
+                },
+                error: (ob) => {
+                    console.log(ob)
+                    alert(ob.responseJSON.message);
+                },
+            });
+        }
     }
 }
 

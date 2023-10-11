@@ -17,7 +17,7 @@ export class HotelController {
             this.handleHotelAddContainerClickEvent(event);
         });
         $("#hotelViewFilter").on('click', (event) => {
-            this.hotelViewFilterClickEvent(event);
+            this.handleHotelViewFilterClickEvent(event);
         });
         this.handleHotelCategoryClickEvent();
        // this.handleLoadAllData();
@@ -26,7 +26,7 @@ export class HotelController {
 
     }
 
-    hotelViewFilterClickEvent(event) {
+    handleHotelViewFilterClickEvent(event) {
         if (event.target.className === 'hotelView') {
             $("#hotelViewFilter").css({
                 "display": "none"
@@ -74,7 +74,7 @@ export class HotelController {
 
         $('#hotelViewFilter').css({
             "display": "flex"
-        })
+        });
 
     }
 

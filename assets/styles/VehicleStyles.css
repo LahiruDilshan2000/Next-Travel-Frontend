@@ -92,7 +92,7 @@
     width: 100%;
     height: 200px;
 }
-.vehicleAdd{
+.vehicleAdd, .vehicleView{
     width: 100%;
     height: 100vh;
     background: rgba(0, 0, 0, 0.5);
@@ -103,14 +103,14 @@
     justify-content: center;
     display: none;
 }
-.vehicleAdd-con{
+.vehicleAdd-con, .vehicleView-con{
     background: white;
     width: 900px;
     height: 550px;
     border-radius: 10px;
     display: inline-flex;
 }
-.vehicleAdd-img-div{
+.vehicleAdd-img-div, .vehicleView-img-div{
     width: 400px;
     height: 100%;
     padding: 20px;
@@ -119,19 +119,27 @@
     justify-content: center;
     flex-direction: column;
 }
-.vehicleAdd-form{
+.vehicleAdd-form, .vehicleView-form{
     width: 600px;
     height: 100%;
     padding: 80px 30px;
 }
-.vehicleAdd-form label{
+.vehicleAdd-form label, .vehicleView-form label{
     font-size: 14px;
     color: rgba(0, 0, 0, 0.6);
+    display: block;
+}
+.vehicleView-form label:last-child{
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    height: 35px;
+    padding: 5px 10px;
+    color: rgba(0, 0, 0, 0.8);
 }
 #SaveVehicleBtn{
     width: 100px;
 }
-.vehicleAdd-img-div img{
+.vehicleAdd-img-div img, .vehicleView-img-div img{
     width: 300px;
 }
 #vehicleAddImgFile{
@@ -142,4 +150,51 @@
 select:hover{
     background: rgba(0, 0, 0, 0.06);
     cursor: pointer ;
+}
+/*tttttttttttttttt*/
+.vehicleView{
+    display: flex;
+}
+#vehicleView > div > form > div > div.form-group.col-md-2{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#vehicleView > div > form > div > div.form-group.col-md-2 i{
+    padding-top: 9px;
+    text-align: center;
+    width: 38px;
+    aspect-ratio: 1/1;
+    font-size: 20px;
+    border-radius: 90%;
+    background: rgba(0, 0, 0, 0.2);
+    color: white;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+#vehicleView > div > form > div > div.form-group.col-md-2 i:hover{
+    background:rgba(10, 83, 190, 0.5);
+}
+#vehicleView > div > form > div > div:nth-child(10){
+    background: white;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    height: fit-content;
+    padding: 0;
+}
+.myBtn{
+    border: none;
+    outline: none;
+    width: 100%;
+    height: 40px;
+    background: white;
+    color: rgba(0, 0, 0, 0.5);
+    text-align: start;
+    transition: all 0.5s;
+}
+.myBtn:hover{
+    background: rgba(0, 0, 0, 0.1);
+}
+.myBtn i{
+    padding: 0 20px;
 }
