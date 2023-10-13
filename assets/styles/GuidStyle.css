@@ -17,10 +17,6 @@
 }
 .guide .guide-list ul{
     padding: 0;
-    /*display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;*/
 }
 .guide .guide-list ul li{
     width: 100%;
@@ -153,8 +149,8 @@
     background-size: cover;
     border-radius: 5px;
 }
-#guidAddFilter > div > form > div > div:nth-child(7), #guidAddFilter > div > form > div > div:nth-child(9){
-    margin-bottom: 0px!important;
+#guideAddFilter > div > form > div > div:nth-child(7), #guideAddFilter > div > form > div > div:nth-child(9){
+    margin: 0;
 }
 .guideAdd-form label{
     font-size: 14px;

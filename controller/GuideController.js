@@ -4,6 +4,7 @@ const nicImgIdsArray = ["#guideAddNicImg1", "#guideAddNicImg2"];
 const guidIdImgIdsArray = ["#guideAddIdImg1", "#guideAddIdImg2"];
 const nicArray = new Array(2);
 const idArray = new Array(2);
+let guideImgFile = undefined;
 let guideId = undefined;
 
 export class GuideController {
@@ -24,7 +25,13 @@ export class GuideController {
             this.handleGuideAddContainerShowEvent();
         });
         $("#saveGuideBtn").on('click', () => {
-            this.handleValidation();
+            this.handleValidation('save');
+        });
+        $("#updateGuideBtn").on('click', () => {
+            this.handleValidation('update');
+        });
+        $("#deleteGuideBtn").on('click', () => {
+            this.handleDeleteGuide(guideId);
         });
         this.handleLoadAllGuideData();
         this.handleGuideEditeEvent();
@@ -34,6 +41,7 @@ export class GuideController {
 
         const file = $('#guideAddImgFile')[0].files[0];
         const selectedImage = $('#guideAddImg');
+        guideImgFile = file;
         if (file) {
             const reader = new FileReader();
             reader.onload = function (event) {
@@ -75,19 +83,17 @@ export class GuideController {
     handleGuideEditeEvent() {
 
         $('#guideUl').on('click', 'button', (event) => {
-             guideId = parseInt($(event.target).closest('li').find('h3:nth-child(2)').text());
+            guideId = parseInt($(event.target).closest('li').find('h3:nth-child(2)').text());
 
-            console.log(guideId);
-
-            /*$.ajax({
-                url: "http://localhost:8081/nexttravel/api/v1/vehicle/get?vehicleId=" + vehicleId,
+            $.ajax({
+                url: "http://localhost:8081/nexttravel/api/v1/guide/get?guideId=" + guideId,
                 method: "GET",
                 processData: false, // Prevent jQuery from processing the data
                 contentType: false,
                 async: true,
                 success: (resp) => {
                     if (resp.code === 200) {
-                        this.handleViewDetails(resp.data);
+                        this.handleEditDetails(resp.data);
                         console.log(resp.message);
                     }
                 },
@@ -95,7 +101,7 @@ export class GuideController {
                     console.log(ob)
                     alert(ob.responseJSON.message);
                 },
-            });*/
+            });
         });
     }
 
@@ -112,12 +118,13 @@ export class GuideController {
                 !/^[0-9]+$/.test($('#guideAgeTxt').val()) ? alert("Guide age invalid or empty !") :
                     !/^(075|077|071|074|078|076|070|072)([0-9]{7})$/.test($('#guideContactTxt').val()) ? alert("Invalid contact !") :
                         !/^[0-9]+$/.test($('#guideManDayValueTxt').val()) ? alert("Man day value invalid or empty !") :
-                            !$('#guideAddImgFile')[0].files[0] ? alert("Please select the guide image !") :
-                                !nicArray[0] ? alert("Please select the Nic image !") :
-                                    !nicArray[1] ? alert("Please select the Nic image !") :
-                                        !idArray[0] ? alert("Please select the guid ID image !") :
-                                            !idArray[1] ? alert("Please select guide ID image !") :
-                                                this.handleSaveGuide();
+                            fun === 'update' ? this.handleUpdateGuide(guideId) :
+                                !$('#guideAddImgFile')[0].files[0] ? alert("Please select the guide image !") :
+                                    !nicArray[0] ? alert("Please select the Nic image !") :
+                                        !nicArray[1] ? alert("Please select the Nic image !") :
+                                            !idArray[0] ? alert("Please select the guid ID image !") :
+                                                !idArray[1] ? alert("Please select guide ID image !") :
+                                                    this.handleSaveGuide();
     }
 
     handleSaveGuide() {
@@ -138,7 +145,7 @@ export class GuideController {
 
         const formGuideData = new FormData();
 
-        const  imageList = [$('#guideAddImgFile')[0].files[0], nicArray[0], nicArray[1], idArray[0], idArray[1]];
+        const imageList = [$('#guideAddImgFile')[0].files[0], nicArray[0], nicArray[1], idArray[0], idArray[1]];
 
         console.log(imageList[0]);
 
@@ -214,6 +221,108 @@ export class GuideController {
             $('#guideUl li:last-child h3:nth-child(5)').text(value.age);
             $('#guideUl li:last-child h3:nth-child(6)').text(value.gender);
             $('#guideUl li:last-child h3:nth-child(7)').text(value.contact);
+        });
+    }
+
+    handleEditDetails(data) {
+
+        $("#guideAddImg").attr('src', `data:image/png;base64,${data.guideImage}`);
+        $("#guideAddNicImg1").attr('src', `data:image/png;base64,${data.nicImageList[0]}`);
+        $("#guideAddNicImg2").attr('src', `data:image/png;base64,${data.nicImageList[1]}`);
+        $("#guideAddIdImg1").attr('src', `data:image/png;base64,${data.guideIdImageList[0]}`);
+        $("#guideAddIdImg2").attr('src', `data:image/png;base64,${data.guideIdImageList[1]}`);
+        $("#guideNameTxt").val(data.name);
+        $("#guideAddressTxt").val(data.address);
+        $("#guideAgeTxt").val(data.age);
+        $("#guideGenderCmb").val(data.gender);
+        $("#guideContactTxt").val(data.contact);
+        $("#guideManDayValueTxt").val(data.manDayValue);
+
+        guideImgFile = this.handleGetNewImgFile(data.guideImage, 'guideImage');
+        nicArray[0] = this.handleGetNewImgFile(data.nicImageList[0], 'nicImage_1');
+        nicArray[1] = this.handleGetNewImgFile(data.nicImageList[1], 'nicImage_2');
+        idArray[0] = this.handleGetNewImgFile(data.guideIdImageList[0], 'guideIdImage_1');
+        idArray[1] = this.handleGetNewImgFile(data.guideIdImageList[1], 'guideIdImage_2');
+
+        this.handleGuideAddContainerShowEvent();
+    }
+
+    handleGetNewImgFile(base64Array, imageName) {
+
+        const byteString = atob(base64Array);
+        const blob = new Uint8Array(byteString.length);
+
+        for (let i = 0; i < byteString.length; i++) {
+            blob[i] = byteString.charCodeAt(i);
+        }
+
+        return new File([blob], imageName + ".jpg", {type: "image/jpeg"});
+    }
+
+    handleUpdateGuide(guideId) {
+
+        const guide = JSON.stringify(new Guide(
+            guideId,
+            $('#guideNameTxt').val(),
+            $('#guideAddressTxt').val(),
+            $('#guideAgeTxt').val(),
+            $('#guideGenderCmb').val(),
+            $('#guideContactTxt').val(),
+            $('#guideManDayValueTxt').val(),
+            null,
+            null,
+            null
+        ));
+
+        const formGuideData = new FormData();
+
+        const imageList = [guideImgFile, nicArray[0], nicArray[1], idArray[0], idArray[1]];
+
+        console.log(imageList[0]);
+
+        imageList.map(value => {
+            formGuideData.append('imageList', value);
+        });
+
+        formGuideData.append('guide', guide);
+
+        $.ajax({
+            url: "http://localhost:8081/nexttravel/api/v1/guide",
+            method: "PUT",
+            processData: false, // Prevent jQuery from processing the data
+            contentType: false,
+            async: true,
+            data: formGuideData,
+            success: (resp) => {
+                console.log(resp)
+                if (resp.code === 200) {
+                    alert(resp.message);
+                }
+            },
+            error: (ob) => {
+                console.log(ob)
+                alert(ob.responseJSON.message);
+            },
+        });
+    }
+
+    handleDeleteGuide(guideId) {
+
+        $.ajax({
+            url: "http://localhost:8081/nexttravel/api/v1/guide?guideId=" + guideId,
+            method: "DELETE",
+            processData: false, // Prevent jQuery from processing the data
+            contentType: false,
+            async: true,
+            success: (resp) => {
+                if (resp.code === 200) {
+                    console.log(resp.message);
+                }
+            },
+            error: (ob) => {
+                console.log(ob)
+                alert(ob.responseJSON.message);
+            },
         });
     }
 }

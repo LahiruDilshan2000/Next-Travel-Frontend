@@ -222,10 +222,7 @@ export class VehicleController {
         $('#vehicleView').css({
             "display": "none"
         });
-
-        $("#vehicleAdd").css({
-            "display": "flex"
-        });
+        this.handleVehicleAddContainerShowEvent();
     }
 
     handleUpdateVehicle() {
