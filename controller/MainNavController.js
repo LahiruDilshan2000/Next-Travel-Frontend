@@ -10,7 +10,7 @@ export class MainNavController {
             this.handleNavContainer("#packageContainer", "#packageNavBtn");
         });
         $('#guideNavBtn').on('click', () => {
-            this.handleNavContainer("#guidContainer", "#guideNavBtn");
+            this.handleNavContainer("#guideContainer", "#guideNavBtn");
         });
         $('#driverNavBtn').on('click', () => {
             this.handleNavContainer("#driverContainer", "#driverNavBtn");
@@ -37,8 +37,7 @@ export class MainNavController {
         const arr = ['#vehicleContainer',
             '#hotelContainer',
             '#packageContainer',
-            '#guidContainer',
-            '#guidContainer',
+            '#guideContainer',
             '#driverContainer',
             '#usersContainer',
             '#financialContainer'];

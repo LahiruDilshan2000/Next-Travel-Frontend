@@ -151,10 +151,7 @@ select:hover{
     background: rgba(0, 0, 0, 0.06);
     cursor: pointer ;
 }
-/*tttttttttttttttt*/
-.vehicleView{
-    display: flex;
-}
+
 #vehicleView > div > form > div > div.form-group.col-md-2{
     display: flex;
     align-items: center;

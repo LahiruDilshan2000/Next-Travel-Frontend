@@ -15,7 +15,8 @@
     <link rel="stylesheet" href="assets/styles/UsersStyles.css">
     <link rel="stylesheet" href="assets/styles/FinancialStyles.css">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="assets/fontsAwesome/css/all.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -162,10 +163,10 @@
         </div>
     </section>
     <!---------------------------------------------------------------------------------->
-    <section class="guid" id="guidContainer">
-        <div class="guid-list">
-            <i class="fa-solid fa-plus" id="addGuidBtn"></i>
-            <div class="guid-list-header">
+    <section class="guide" id="guideContainer">
+        <div class="guide-list">
+            <i class="fa-solid fa-plus" id="addGuideBtn"></i>
+            <div class="guide-list-header">
                 <h3>Pic</h3>
                 <h3>ID</h3>
                 <h3>Name</h3>
@@ -175,10 +176,10 @@
                 <h3>Contact</h3>
                 <h3>Option</h3>
             </div>
-            <ul id="guidUl">
+            <ul id="guideUl">
                 <li>
-                    <img src="" alt="">
-                    <h3 class="guidIdTxt">null</h3>
+                    <img src="assets/images/google.png" alt="">
+                    <h3 class="guideIdTxt">null</h3>
                     <h3>null</h3>
                     <h3>null</h3>
                     <h3>null</h3>
@@ -191,6 +192,66 @@
                 <li></li>
                 <li></li>
             </ul>
+        </div>
+    </section>
+    <!---------------------------------------------------------------------------------->
+    <section class="guideAdd" id="guideAddFilter">
+        <div class="guideAdd-container">
+            <div class="guideAdd-img-div">
+                <div class="guide-img-container">
+                    <img src="assets/images/defaultimage.jpg" alt=""  id="guideAddImg">
+                    <input type="file" name="imageFile" id="guideAddImgFile">
+                </div>
+            </div>
+            <form class="guideAdd-form">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Name</label>
+                        <input type="text" class="form-control" id="guideNameTxt" placeholder="Mac">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Address</label>
+                        <input type="text" class="form-control" id="guideAddressTxt" placeholder="Panadura">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label>Age</label>
+                        <input type="text" class="form-control" id="guideAgeTxt" placeholder="25">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>Gender</label>
+                        <select id="guideGenderCmb" class="form-select">
+                            <option selected>Male</option>
+                            <option>Female</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Contact</label>
+                        <input type="text" class="form-control" id="guideContactTxt" placeholder="07xxxxxxxx">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>Man day value</label>
+                        <input class="form-control" type="text" id="guideManDayValueTxt" placeholder="2500">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Nic Front and Rear view</label>
+                    </div>
+                    <div class="form-group col-md-12 guide-nic-img-container">
+                            <img src="assets/images/defaultimage.jpg" alt="" id="guideAddNicImg1">
+                            <img src="assets/images/defaultimage.jpg" alt="" id="guideAddNicImg2">
+                            <input type="file" name="imageFile" id="guideAddNicImgFile">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Guide Id Front and Rear view</label>
+                    </div>
+                    <div class="form-group col-md-12 guide-id-img-container">
+                        <img src="assets/images/defaultimage.jpg" alt="" id="guideAddIdImg1">
+                        <img src="assets/images/defaultimage.jpg" alt="" id="guideAddIdImg2">
+                        <input type="file" name="imageFile" id="guideAddIdImgFile">
+                    </div>
+                </div>
+                <button type="button" class="btn-primary" id="saveGuideBtn">Save</button>
+                <button type="button" class="btn-primary" id="updateGuideBtn">Update</button>
+            </form>
         </div>
     </section>
     <!---------------------------------------------------------------------------------->
@@ -353,10 +414,10 @@
     <!---------------------------------------------------------------------------------->
     <section class="vehicleAdd" id="vehicleAdd">
         <div class="vehicleAdd-con">
-                <div class="vehicleAdd-img-div">
-                    <img src="assets/images/defaultimage.jpg" alt="" class="vehicleAddImg">
-                    <input type="file" name="imageFile" id="vehicleAddImgFile">
-                </div>
+            <div class="vehicleAdd-img-div">
+                <img src="assets/images/defaultimage.jpg" alt="" class="vehicleAddImg">
+                <input type="file" name="imageFile" id="vehicleAddImgFile">
+            </div>
             <form class="vehicleAdd-form">
                 <div class="form-row">
                     <div class="form-group col-md-12">
@@ -465,8 +526,12 @@
                         <i class="fa-solid fa-plus"></i>
                     </div>
                     <div class="form-group col-md-4">
-                        <button type="button" class="myBtn col-md-12" id="btnVehicleEdit"><i class="fa-solid fa-pen"></i>Edit</button>
-                        <button type="button" class="myBtn col-md-12" id="btnVehicleDelete"><i class="fa-solid fa-delete-left"></i>Delete</button>
+                        <button type="button" class="myBtn col-md-12" id="btnVehicleEdit"><i
+                                class="fa-solid fa-pen"></i>Edit
+                        </button>
+                        <button type="button" class="myBtn col-md-12" id="btnVehicleDelete"><i
+                                class="fa-solid fa-delete-left"></i>Delete
+                        </button>
                     </div>
                 </div>
             </form>
@@ -548,5 +613,6 @@
 <script src="controller/UsersController.js" type="module"></script>
 <script src="controller/HotelController.js" type="module"></script>
 <script src="controller/VehicleController.js" type="module"></script>
+<script src="controller/GuideController.js" type="module"></script>
 </body>
 </html>

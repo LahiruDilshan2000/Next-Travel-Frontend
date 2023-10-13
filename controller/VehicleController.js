@@ -1,6 +1,6 @@
 import {Vehicle} from "../model/Vehicle.js";
 
-var vehicleId = undefined;
+let vehicleId = undefined;
 
 export class VehicleController {
     constructor() {
@@ -25,7 +25,6 @@ export class VehicleController {
         $('#btnVehicleDelete').on('click', () => {
             this.handleVehicleDelete(vehicleId);
         });
-
         $("#vehicleView").on('click', (event) => {
             this.handleVehicleViewFilterClickEvent(event);
         });
