@@ -77,6 +77,7 @@ export class GuideController {
             $("#guideAddFilter").css({
                 "display": "none"
             });
+            this.handleReset();
         }
     }
 
@@ -88,7 +89,7 @@ export class GuideController {
             $.ajax({
                 url: "http://localhost:8081/nexttravel/api/v1/guide/get?guideId=" + guideId,
                 method: "GET",
-                processData: false, // Prevent jQuery from processing the data
+                processData: false,
                 contentType: false,
                 async: true,
                 success: (resp) => {
@@ -116,6 +117,7 @@ export class GuideController {
         !/^[A-Za-z ]+$/.test($('#guideNameTxt').val()) ? alert("Guide name or empty !") :
             !/^[A-Za-z ]+$/.test($('#guideAddressTxt').val()) ? alert("Guide address or empty !") :
                 !/^[0-9]+$/.test($('#guideAgeTxt').val()) ? alert("Guide age invalid or empty !") :
+                    $('#guideGenderCmb').val() === 'default' ? alert("Guide gender invalid or empty !") :
                     !/^(075|077|071|074|078|076|070|072)([0-9]{7})$/.test($('#guideContactTxt').val()) ? alert("Invalid contact !") :
                         !/^[0-9]+$/.test($('#guideManDayValueTxt').val()) ? alert("Man day value invalid or empty !") :
                             fun === 'update' ? this.handleUpdateGuide(guideId) :
@@ -141,13 +143,10 @@ export class GuideController {
             null,
             null
         ));
-        console.log(guide)
 
         const formGuideData = new FormData();
 
         const imageList = [$('#guideAddImgFile')[0].files[0], nicArray[0], nicArray[1], idArray[0], idArray[1]];
-
-        console.log(imageList[0]);
 
         imageList.map(value => {
             formGuideData.append('imageList', value);
@@ -158,14 +157,15 @@ export class GuideController {
         $.ajax({
             url: "http://localhost:8081/nexttravel/api/v1/guide",
             method: "POST",
-            processData: false, // Prevent jQuery from processing the data
+            processData: false,
             contentType: false,
             async: true,
             data: formGuideData,
             success: (resp) => {
-                console.log(resp)
                 if (resp.code === 200) {
-                    alert(resp.message);
+                    console.log(resp.message);
+                    this.handleLoadAllGuideData();
+                    this.handleReset();
                 }
             },
             error: (ob) => {
@@ -180,13 +180,13 @@ export class GuideController {
         $.ajax({
             url: "http://localhost:8081/nexttravel/api/v1/guide/getAll",
             method: "GET",
-            processData: false, // Prevent jQuery from processing the data
+            processData: false,
             contentType: false,
             async: true,
             success: (resp) => {
                 if (resp.code === 200) {
                     this.handleLoadGuide(resp.data);
-                    alert(resp.message);
+                    console.log(resp.message);
                 }
             },
             error: (ob) => {
@@ -278,8 +278,6 @@ export class GuideController {
 
         const imageList = [guideImgFile, nicArray[0], nicArray[1], idArray[0], idArray[1]];
 
-        console.log(imageList[0]);
-
         imageList.map(value => {
             formGuideData.append('imageList', value);
         });
@@ -289,14 +287,15 @@ export class GuideController {
         $.ajax({
             url: "http://localhost:8081/nexttravel/api/v1/guide",
             method: "PUT",
-            processData: false, // Prevent jQuery from processing the data
+            processData: false,
             contentType: false,
             async: true,
             data: formGuideData,
             success: (resp) => {
-                console.log(resp)
                 if (resp.code === 200) {
-                    alert(resp.message);
+                    console.log(resp.message);
+                    this.handleLoadAllGuideData();
+                    this.handleReset();
                 }
             },
             error: (ob) => {
@@ -317,12 +316,38 @@ export class GuideController {
             success: (resp) => {
                 if (resp.code === 200) {
                     console.log(resp.message);
+                    this.handleLoadAllGuideData();
+                    this.handleReset();
                 }
             },
             error: (ob) => {
                 console.log(ob)
                 alert(ob.responseJSON.message);
             },
+        });
+    }
+
+    handleReset() {
+
+        $('#guideAddImg').attr('src', `assets/images/defaultimage.jpg`);
+        $('#guideAddNicImg1').attr('src', `assets/images/defaultimage.jpg`);
+        $('#guideAddNicImg2').attr('src', `assets/images/defaultimage.jpg`);
+        $('#guideAddIdImg1').attr('src', `assets/images/defaultimage.jpg`);
+        $('#guideAddIdImg2').attr('src', `assets/images/defaultimage.jpg`);
+        $('#guideNameTxt').val("");
+        $('#guideAddressTxt').val("");
+        $('#guideAgeTxt').val("");
+        $('#guideGenderCmb').val("default");
+        $('#guideContactTxt').val("");
+        $('#guideManDayValueTxt').val("");
+        guideId = undefined;
+        guideImgFile = undefined;
+        nicArray[0] = undefined;
+        nicArray[1] = undefined;
+        idArray[0] = undefined;
+        idArray[1] = undefined;
+        $("#guideAddFilter").css({
+            "display": "none"
         });
     }
 }

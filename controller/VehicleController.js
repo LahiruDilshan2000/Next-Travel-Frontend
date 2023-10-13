@@ -37,6 +37,7 @@ export class VehicleController {
             $("#vehicleView").css({
                 "display": "none"
             });
+            this.handleReset();
         }
     }
 
@@ -51,6 +52,7 @@ export class VehicleController {
             $("#vehicleAdd").css({
                 "display": "none"
             });
+            this.handleReset();
         }
     }
 
@@ -71,12 +73,16 @@ export class VehicleController {
 
     handleValidation(fun) {
         !/^[A-Za-z0-9 ]+$/.test($('#vehicleAddBrandTxt').val()) ? alert("Vehicle brand invalid or empty !") :
-            !/^[0-9]+$/.test($('#fuelUsageTxt').val()) ? alert("Fuel usage invalid or empty !") :
-                !/^[0-9]+$/.test($('#seatCapacityTxt').val()) ? alert("Seat capacity invalid or empty !") :
-                    !/^[0-9]+$/.test($('#vehicleQtyTxt').val()) ? alert("Qty invalid or empty !") :
-                        fun === "update" ? this.handleUpdateVehicle() :
-                            !$('#vehicleAddImgFile')[0].files[0] ? alert("Please select the image !") :
-                                this.handleSaveVehicle();
+            $('#vehicleCategoryCmb').val() === 'default' ? alert("Vehicle category is empty !") :
+                $('#fuelAndTransmissionTypeCmb').val() === 'default' ? alert("Vehicle fuel and transmission is empty !") :
+                    $('#vehicleTypeCmb').val() === 'default' ? alert("Vehicle type is empty !") :
+                        $('#versionCmb').val() === 'default' ? alert("Vehicle version type is empty !") :
+                            !/^[0-9]+$/.test($('#fuelUsageTxt').val()) ? alert("Fuel usage invalid or empty !") :
+                                !/^[0-9]+$/.test($('#seatCapacityTxt').val()) ? alert("Seat capacity invalid or empty !") :
+                                    !/^[0-9]+$/.test($('#vehicleQtyTxt').val()) ? alert("Qty invalid or empty !") :
+                                        fun === "update" ? this.handleUpdateVehicle() :
+                                            !$('#vehicleAddImgFile')[0].files[0] ? alert("Please select the image !") :
+                                                this.handleSaveVehicle();
     }
 
     handleSaveVehicle() {
@@ -111,7 +117,9 @@ export class VehicleController {
             success: (resp) => {
                 console.log(resp)
                 if (resp.code === 200) {
-                    alert(resp.message);
+                    console.log(resp.message);
+                    this.handleLoadAllData();
+                    this.handleReset();
                 }
             },
             error: (ob) => {
@@ -131,8 +139,8 @@ export class VehicleController {
             async: true,
             success: (resp) => {
                 if (resp.code === 200) {
+                    console.log(resp.message);
                     this.handleLoadItem(resp.data);
-                    alert(resp.message);
                 }
             },
             error: (ob) => {
@@ -240,9 +248,9 @@ export class VehicleController {
             null
         ));
 
-        if ($('#vehicleAddImgFile')[0].files[0]){
+        if ($('#vehicleAddImgFile')[0].files[0]) {
             this.handleVehicleUpdateWithImg(vehicle);
-        }else {
+        } else {
             this.handleVehicleUpdateWithoutImg(vehicle);
         }
     }
@@ -265,7 +273,9 @@ export class VehicleController {
             success: (resp) => {
                 console.log(resp)
                 if (resp.code === 200) {
-                    alert(resp.message);
+                    console.log(resp.message);
+                    this.handleLoadAllData();
+                    this.handleReset();
                 }
             },
             error: (ob) => {
@@ -287,7 +297,9 @@ export class VehicleController {
             success: (resp) => {
                 console.log(resp)
                 if (resp.code === 200) {
-                    alert(resp.message);
+                    console.log(resp.message);
+                    this.handleLoadAllData();
+                    this.handleReset();
                 }
             },
             error: (ob) => {
@@ -299,7 +311,7 @@ export class VehicleController {
 
     handleVehicleDelete(vehicleId) {
 
-        if (vehicleId){
+        if (vehicleId) {
             $.ajax({
                 url: "http://localhost:8081/nexttravel/api/v1/vehicle?vehicleId=" + vehicleId,
                 method: "DELETE",
@@ -308,7 +320,9 @@ export class VehicleController {
                 success: (resp) => {
                     console.log(resp)
                     if (resp.code === 200) {
-                        alert(resp.message);
+                        console.log(resp.message);
+                        this.handleLoadAllData();
+                        this.handleReset();
                     }
                 },
                 error: (ob) => {
@@ -317,6 +331,26 @@ export class VehicleController {
                 },
             });
         }
+    }
+
+    handleReset() {
+
+        $('.vehicleAddImg').attr('src', `assets/images/defaultimage.jpg`);
+        $('#vehicleAddBrandTxt').val("");
+        $('#vehicleCategoryCmb').val("default");
+        $('#fuelAndTransmissionTypeCmb').val("default");
+        $('#vehicleTypeCmb').val("default");
+        $('#versionCmb').val("default");
+        $('#fuelUsageTxt').val("");
+        $('#seatCapacityTxt').val("");
+        $('#vehicleQtyTxt').val("");
+        vehicleId = undefined;
+        $("#vehicleView").css({
+            "display": "none"
+        });
+        $("#vehicleAdd").css({
+            "display": "none"
+        });
     }
 }
 
