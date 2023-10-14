@@ -91,6 +91,7 @@
 #vehicleUl li img {
     width: 100%;
     height: 200px;
+    object-fit: cover;
 }
 .vehicleAdd, .vehicleView{
     width: 100%;
@@ -103,6 +104,7 @@
     justify-content: center;
     display: none;
 }
+
 .vehicleAdd-con, .vehicleView-con{
     background: white;
     width: 900px;
@@ -122,7 +124,7 @@
 .vehicleAdd-form, .vehicleView-form{
     width: 600px;
     height: 100%;
-    padding: 80px 30px;
+    padding: 30px 30px;
 }
 .vehicleAdd-form label, .vehicleView-form label{
     font-size: 14px;
@@ -139,13 +141,50 @@
 #SaveVehicleBtn{
     width: 100px;
 }
-.vehicleAdd-img-div img, .vehicleView-img-div img{
+.vehicleAdd-img-div > div .img-container img, .vehicleView-img-div img{
+    width: 130px;
+    object-fit: cover;
+    border-radius: 10px;
+    max-height: 100px;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+.img-container{
+    margin: 10px;
+    width: 130px;
+    max-height: 100px;
+    overflow: hidden;
+    border-radius: 10px;
+}
+.driver-img-container{
+    width: 120px;
+    border-radius: 5px;
+    overflow: hidden;
+    margin: 0 10px;
+}
+#vehicleAdd > div > div > div > div:nth-child(1){
     width: 300px;
+    max-height: 200px;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+#vehicleAdd > div > div > div{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+#vehicleAddImg1{
+    width: 300px;
+    max-height: 200px;
+    transition: all 0.5s;
+}
+.vehicleAdd-img-div > div .img-container img:hover{
+    scale: 1.1;
 }
 #vehicleAddImgFile{
-    font-size: 11px;
-    padding-left: 30px;
-    color: rgba(0, 0, 0, 0.6);
+    display: none;
 }
 select:hover{
     background: rgba(0, 0, 0, 0.06);
@@ -194,4 +233,23 @@ select:hover{
 }
 .myBtn i{
     padding: 0 20px;
+}
+#vehicleAdd > div > form > div > div.form-group.col-md-12{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#vehicleAdd > div > form > div > div.form-group.col-md-12 input[type="file"]{
+    font-size: 10px;
+    width: 100px;
+
+}
+#vehicleAdd > div > form > div > div.form-group.col-md-12 img{
+    width: 120px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+#vehicleAdd > div > form > div > div.form-group.col-md-12 img:hover{
+    scale: 1.1;
 }

@@ -1,6 +1,9 @@
 import {Vehicle} from "../model/Vehicle.js";
 
-let vehicleId = undefined;
+let vehicleId = null;
+let imgId = undefined;
+let arrayIndex = undefined;
+const imageFileList = new Array(7);
 
 export class VehicleController {
     constructor() {
@@ -10,8 +13,29 @@ export class VehicleController {
         $('#vehicleAdd').on('click', (event) => {
             this.handleVehicleAddContainerHideEvent(event);
         });
+        $('#vehicleAddImg1').on('click', () => {
+            this.handleLoadImageEvent('#vehicleAddImg1', 0);
+        });
+        $('#vehicleAddImg2').on('click', () => {
+            this.handleLoadImageEvent('#vehicleAddImg2', 1);
+        });
+        $('#vehicleAddImg3').on('click', () => {
+            this.handleLoadImageEvent('#vehicleAddImg3', 2);
+        });
+        $('#vehicleAddImg4').on('click', () => {
+            this.handleLoadImageEvent('#vehicleAddImg4', 3);
+        });
+        $('#vehicleAddImg5').on('click', () => {
+            this.handleLoadImageEvent('#vehicleAddImg5', 4);
+        });
+        $('#driverLicenseImg1').on('click', () => {
+            this.handleLoadImageEvent('#driverLicenseImg1', 5);
+        });
+        $('#driverLicenseImg2').on('click', () => {
+            this.handleLoadImageEvent('#driverLicenseImg2', 6);
+        });
         $('#vehicleAddImgFile').on('change', () => {
-            this.handleImageLoadEvent();
+            this.handleLoadChangeEvent(imgId, arrayIndex);
         });
         $('#SaveVehicleBtn').on('click', () => {
             this.handleValidation("save");
@@ -33,6 +57,7 @@ export class VehicleController {
     }
 
     handleVehicleViewFilterClickEvent(event) {
+
         if (event.target.className === 'vehicleView') {
             $("#vehicleView").css({
                 "display": "none"
@@ -56,20 +81,29 @@ export class VehicleController {
         }
     }
 
-    handleImageLoadEvent() {
+    handleLoadImageEvent(id, index) {
 
-        const file = $('#vehicleAddImgFile')[0].files[0];
-        const selectedImage = $('.vehicleAddImg');
+        imgId = id;
+        arrayIndex = index;
+        $('#vehicleAddImgFile').click();
+    }
+
+    handleLoadChangeEvent(imgId, arrayIndex) {
+
+        const file = $("#vehicleAddImgFile")[0].files[0];
+        imageFileList[arrayIndex] = file;
+
         if (file) {
             const reader = new FileReader();
             reader.onload = function (event) {
-                selectedImage.attr('src', event.target.result);
+                $(imgId).attr('src', event.target.result);
             };
             reader.readAsDataURL(file);
         } else {
-            console.log("awad")
+            console.log("awad");
         }
     }
+
 
     handleValidation(fun) {
         !/^[A-Za-z0-9 ]+$/.test($('#vehicleAddBrandTxt').val()) ? alert("Vehicle brand invalid or empty !") :
@@ -77,40 +111,61 @@ export class VehicleController {
                 $('#fuelAndTransmissionTypeCmb').val() === 'default' ? alert("Vehicle fuel and transmission is empty !") :
                     $('#vehicleTypeCmb').val() === 'default' ? alert("Vehicle type is empty !") :
                         $('#versionCmb').val() === 'default' ? alert("Vehicle version type is empty !") :
-                            !/^[0-9]+$/.test($('#fuelUsageTxt').val()) ? alert("Fuel usage invalid or empty !") :
-                                !/^[0-9]+$/.test($('#seatCapacityTxt').val()) ? alert("Seat capacity invalid or empty !") :
-                                    !/^[0-9]+$/.test($('#vehicleQtyTxt').val()) ? alert("Qty invalid or empty !") :
-                                        fun === "update" ? this.handleUpdateVehicle() :
-                                            !$('#vehicleAddImgFile')[0].files[0] ? alert("Please select the image !") :
-                                                this.handleSaveVehicle();
+                            !/^[0-9]+$/.test($('#freeForDayTxt').val()) ? alert("Free for day invalid or empty !") :
+                                !/^[0-9]+$/.test($('#freeFor1KmTxt').val()) ? alert("Free for 1 km invalid or empty !") :
+                                    !/^[0-9]+$/.test($('#fuelUsageTxt').val()) ? alert("Fuel usage invalid or empty !") :
+                                        !/^[0-9]+$/.test($('#seatCapacityTxt').val()) ? alert("Seat capacity invalid or empty !") :
+                                            !/^[0-9]+$/.test($('#vehicleQtyTxt').val()) ? alert("Qty invalid or empty !") :
+                                                !/^[A-Za-z ]+$/.test($('#driverNameTxt').val()) ? alert("Driver name invalid or empty !") :
+                                                    !/^(075|077|071|074|078|076|070|072)([0-9]{7})$/.test($('#driverContactTxt').val()) ? alert("Driver contact invalid or empty !") :
+                                                        fun === "update" ? this.handleUpdateVehicle() :
+                                                            !imageFileList[0] ? alert("Please select vehicle image !") :
+                                                                !imageFileList[1] ? alert("Please select vehicle image !") :
+                                                                    !imageFileList[2] ? alert("Please select vehicle image !") :
+                                                                        !imageFileList[3] ? alert("Please select vehicle image !") :
+                                                                            !imageFileList[4] ? alert("Please select vehicle image !") :
+                                                                                !imageFileList[5] ? alert("Please select driver license image !") :
+                                                                                    !imageFileList[6] ? alert("Please select driver license image !") :
+                                                                                        this.handleSaveVehicle();
+    }
+
+    handleGetObject(){
+
+        return JSON.stringify(new Vehicle(
+            vehicleId,
+            $('#vehicleAddBrandTxt').val(),
+            $('#vehicleCategoryCmb').val(),
+            $('#fuelAndTransmissionTypeCmb').val(),
+            $('#vehicleTypeCmb').val(),
+            $('#versionCmb').val(),
+            $('#freeForDayTxt').val(),
+            $('#freeFor1KmTxt').val(),
+            $('#fuelUsageTxt').val(),
+            $('#seatCapacityTxt').val(),
+            $('#vehicleQtyTxt').val(),
+            $('#driverNameTxt').val(),
+            $('#driverContactTxt').val(),
+            null
+        ));
     }
 
     handleSaveVehicle() {
 
-        const vehicle = JSON.stringify(new Vehicle(
-            null,
-            $('#vehicleAddBrandTxt').val(),
-            $('#vehicleCategoryCmb').val(),
-            $('#fuelAndTransmissionTypeCmb').val(),
-            $('#versionCmb').val(),
-            $('#fuelUsageTxt').val(),
-            $('#seatCapacityTxt').val(),
-            $('#vehicleTypeCmb').val(),
-            $('#vehicleQtyTxt').val(),
-            null
-        ));
+        const vehicle = this.handleGetObject();
         console.log(vehicle)
 
         const formVehicleData = new FormData();
-        const fileInput = $('#vehicleAddImgFile')[0].files[0];
 
-        formVehicleData.append('file', fileInput);
+        imageFileList.map(value => {
+            formVehicleData.append('imageList', value);
+        });
+
         formVehicleData.append('vehicle', vehicle);
 
         $.ajax({
             url: "http://localhost:8081/nexttravel/api/v1/vehicle",
             method: "POST",
-            processData: false, // Prevent jQuery from processing the data
+            processData: false,
             contentType: false,
             async: true,
             data: formVehicleData,
@@ -134,7 +189,7 @@ export class VehicleController {
         $.ajax({
             url: "http://localhost:8081/nexttravel/api/v1/vehicle/getAll",
             method: "GET",
-            processData: false, // Prevent jQuery from processing the data
+            processData: false,
             contentType: false,
             async: true,
             success: (resp) => {
@@ -164,7 +219,7 @@ export class VehicleController {
                 "                </li>";
 
             $('#vehicleUl').append(li);
-            $('#vehicleUl li:last-child img').attr('src', `data:image/png;base64,${value.imageLocation}`);
+            $('#vehicleUl li:last-child img').attr('src', `data:image/png;base64,${value.imageList[0]}`);
             $('#vehicleUl li:last-child h2').text(value.vehicleId);
             $('#vehicleUl li:last-child h3:nth-child(3)').text(value.vehicleBrand);
             $('#vehicleUl li:last-child h3:nth-child(4)').text(value.versionType);
@@ -199,20 +254,51 @@ export class VehicleController {
 
     handleViewDetails(data) {
 
-        $(".vehicleViewImg").attr('src', `data:image/png;base64,${data.imageLocation}`);
+        vehicleId = data.vehicleId;
+        $("#vehicleAddImg1").attr('src', `data:image/png;base64,${data.imageList[0]}`);
+        $("#vehicleAddImg2").attr('src', `data:image/png;base64,${data.imageList[1]}`);
+        $("#vehicleAddImg3").attr('src', `data:image/png;base64,${data.imageList[2]}`);
+        $("#vehicleAddImg4").attr('src', `data:image/png;base64,${data.imageList[3]}`);
+        $("#vehicleAddImg5").attr('src', `data:image/png;base64,${data.imageList[4]}`);
+        $("#driverLicenseImg1").attr('src', `data:image/png;base64,${data.imageList[5]}`);
+        $("#driverLicenseImg2").attr('src', `data:image/png;base64,${data.imageList[6]}`);
         $("#vehicleBrandLbl").text(data.vehicleBrand);
         $("#vehicleCategoryLbl").text(data.vehicleCategory);
         $("#vehicleFuelAndTransmissionLbl").text(data.fuelAndTransmissionType);
         $("#vehicleTypeLbl").text(data.vehicleType);
         $("#vehicleVersionTypeLbl").text(data.versionType);
+        $("#freeForDayTxt").text(data.freeForDay);
+        $("#freeFor1KmTxt").text(data.freeFor1Km);
         $("#vehicleFuelUsageLbl").text(data.fuelUsage);
         $("#vehicleSeatCapacityLbl").text(data.seatCapacity);
         $("#vehicleQtyLbl").text(data.qty);
+        $("#driverNameTxt").text(data.driverName);
+        $("#driverContactTxt").text(data.driverContact);
+
+        imageFileList[0] = this.handleGetNewImgFile(data.imageList[0], 'vehicle_img_1');
+        imageFileList[1] = this.handleGetNewImgFile(data.imageList[1], 'vehicle_img_2');
+        imageFileList[2] = this.handleGetNewImgFile(data.imageList[2], 'vehicle_img_3');
+        imageFileList[3] = this.handleGetNewImgFile(data.imageList[3], 'vehicle_img_4');
+        imageFileList[4] = this.handleGetNewImgFile(data.imageList[4], 'vehicle_img_5');
+        imageFileList[5] = this.handleGetNewImgFile(data.imageList[5], 'driving_license_img_1');
+        imageFileList[6] = this.handleGetNewImgFile(data.imageList[6], 'driving_license_img_2');
 
 
         $('#vehicleView').css({
             "display": "flex"
         });
+    }
+
+    handleGetNewImgFile(base64Array, imageName) {
+
+        const byteString = atob(base64Array);
+        const blob = new Uint8Array(byteString.length);
+
+        for (let i = 0; i < byteString.length; i++) {
+            blob[i] = byteString.charCodeAt(i);
+        }
+
+        return new File([blob], imageName + ".jpg", {type: "image/jpeg"});
     }
 
     handleVehicleEditDetails() {
@@ -235,65 +321,23 @@ export class VehicleController {
 
     handleUpdateVehicle() {
 
-        const vehicle = JSON.stringify(new Vehicle(
-            vehicleId,
-            $('#vehicleAddBrandTxt').val(),
-            $('#vehicleCategoryCmb').val(),
-            $('#fuelAndTransmissionTypeCmb').val(),
-            $('#versionCmb').val(),
-            $('#fuelUsageTxt').val(),
-            $('#seatCapacityTxt').val(),
-            $('#vehicleTypeCmb').val(),
-            $('#vehicleQtyTxt').val(),
-            null
-        ));
-
-        if ($('#vehicleAddImgFile')[0].files[0]) {
-            this.handleVehicleUpdateWithImg(vehicle);
-        } else {
-            this.handleVehicleUpdateWithoutImg(vehicle);
-        }
-    }
-
-    handleVehicleUpdateWithImg(vehicle) {
+        const vehicle = this.handleGetObject();
 
         const formVehicleData = new FormData();
-        const fileInput = $('#vehicleAddImgFile')[0].files[0];
 
-        formVehicleData.append('file', fileInput);
+        imageFileList.map(value => {
+            formVehicleData.append('imageList', value);
+        });
+
         formVehicleData.append('vehicle', vehicle);
 
         $.ajax({
             url: "http://localhost:8081/nexttravel/api/v1/vehicle",
             method: "PUT",
-            processData: false, // Prevent jQuery from processing the data
+            processData: false,
             contentType: false,
             async: true,
             data: formVehicleData,
-            success: (resp) => {
-                console.log(resp)
-                if (resp.code === 200) {
-                    console.log(resp.message);
-                    this.handleLoadAllData();
-                    this.handleReset();
-                }
-            },
-            error: (ob) => {
-                console.log(ob)
-                alert(ob.responseJSON.message);
-            },
-        });
-    }
-
-    handleVehicleUpdateWithoutImg(vehicle) {
-
-        $.ajax({
-            url: "http://localhost:8081/nexttravel/api/v1/vehicle/without",
-            method: "PUT",
-            dataType: "json",
-            contentType: "application/json",
-            async: true,
-            data: vehicle,
             success: (resp) => {
                 console.log(resp)
                 if (resp.code === 200) {
@@ -335,16 +379,31 @@ export class VehicleController {
 
     handleReset() {
 
-        $('.vehicleAddImg').attr('src', `assets/images/defaultimage.jpg`);
+        $("#vehicleAddImg1").attr('src', `assets/images/defaultimage.jpg`);
+        $("#vehicleAddImg2").attr('src', `assets/images/defaultimage.jpg`);
+        $("#vehicleAddImg3").attr('src', `assets/images/defaultimage.jpg`);
+        $("#vehicleAddImg4").attr('src', `assets/images/defaultimage.jpg`);
+        $("#vehicleAddImg5").attr('src', `assets/images/defaultimage.jpg`);
+        $("#driverLicenseImg1").attr('src', `assets/images/defaultimage.jpg`);
+        $("#driverLicenseImg2").attr('src', `assets/images/defaultimage.jpg`);
         $('#vehicleAddBrandTxt').val("");
         $('#vehicleCategoryCmb').val("default");
         $('#fuelAndTransmissionTypeCmb').val("default");
         $('#vehicleTypeCmb').val("default");
         $('#versionCmb').val("default");
+        $('#freeForDayTxt').val("");
+        $('#freeFor1KmTxt').val("");
         $('#fuelUsageTxt').val("");
         $('#seatCapacityTxt').val("");
         $('#vehicleQtyTxt').val("");
-        vehicleId = undefined;
+        $('#driverNameTxt').val("");
+        $('#driverContactTxt').val("");
+
+        for (let i = 0; i < imageFileList.length; i++){
+            imageFileList[i] = undefined;
+        }
+        vehicleId = null;
+
         $("#vehicleView").css({
             "display": "none"
         });

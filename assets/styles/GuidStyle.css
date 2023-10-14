@@ -14,6 +14,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    background: rgba(0, 0, 0, 0.01);
 }
 .guide .guide-list ul{
     padding: 0;
@@ -46,7 +47,7 @@
     width: 40px;
     aspect-ratio: 1/1;
     border-radius: 90%;
-    background-size: cover;
+    object-fit: cover;
 }
 .guide .guide-list ul li button{
     width: 70px;
@@ -95,7 +96,7 @@
     backdrop-filter: blur(1px);
     align-items: center;
     justify-content: center;
-    display: none;
+    display: flex;
 }
 .guideAdd-container{
     width: 900px;
@@ -107,30 +108,31 @@
 .guideAdd-img-div{
     width: 400px;
     height: 100%;
-    padding: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
 }
 .guide-img-container img{
     width: 300px;
-    background-size: cover;
-    border-radius: 5px;
+    object-fit: cover;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.5s;
 }
-.guideAdd-img-div div{
-    margin: 5px;
+.guide-img-container img:hover, .guide-nic-img-container img:hover, .guide-id-img-container img:hover{
+    scale: 1.1;
+}
+.guide-img-container{
+    border-radius: 10px;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    flex-wrap: wrap;
+    overflow: hidden;
 }
-.guideAdd-container input[type='file']{
-    font-size: 10px;
-    margin: 5px 10px;
-    width: 100px;
+#guideAddImgFile{
+    display: none;
 }
+
 .guide-nic-img-container, .guide-id-img-container{
     width: 100%;
     border: 1px solid rgba(0, 0, 0, 0.2);
@@ -143,11 +145,24 @@
     padding: 40px 30px;
 }
 
-.guide-nic-img-container img, .guide-id-img-container img{
-    width: 130px;
+#guideAddFilter > div > form > div > div.form-group.col-md-12.guide-nic-img-container,
+#guideAddFilter > div > form > div > div.form-group.col-md-12.guide-id-img-container{
+    display: flex;
+}
+.guide-imgNicAndId-container{
     margin: 0 10px;
-    background-size: cover;
+    width: 120px;
+    overflow: hidden;
     border-radius: 5px;
+}
+
+.guide-nic-img-container img, .guide-id-img-container img{
+    width: 120px;
+    object-fit: cover;
+    border-radius: 5px;
+    max-height: 100px;
+    cursor: pointer;
+    transition: all 0.5s;
 }
 #guideAddFilter > div > form > div > div:nth-child(7), #guideAddFilter > div > form > div > div:nth-child(9){
     margin: 0;

@@ -1,26 +1,40 @@
 import {Hotel} from "../model/Hotel.js";
 
-let hotelCategory;
+let hotelId = null;
+let hotelCategory = undefined;
+let hotelImageFile = undefined;
 
 export class HotelController {
     constructor() {
-        $("#hotelImage").on('change', () => {
+        $("#hotelAddImgFile").on('change', () => {
             this.handleImageLoadEvent();
         });
         $("#saveHotelBtn").on('click', () => {
-            this.handleValidation();
+            this.handleValidation('save');
+        });
+        $("#updateHotelBtn").on('click', () => {
+            this.handleValidation('update');
         });
         $("#addHotelBtn").on('click', () => {
             this.handleAddHotelContainer();
         });
-        $(".hotel-add").on('click', (event) => {
+        $(".hotelAdd").on('click', (event) => {
             this.handleHotelAddContainerClickEvent(event);
         });
-        $("#hotelViewFilter").on('click', (event) => {
+        $("#hotelView").on('click', (event) => {
             this.handleHotelViewFilterClickEvent(event);
         });
+        $("#hotelView div.form-group.col-md-2 i").on('click', () => {
+            this.handleHotelViewEditOptions();
+        });
+        $("#btnHotelEdit").on('click', () => {
+            this.handleHotelEdit(hotelId);
+        });
+        $("#btnHotelDelete").on('click', () => {
+            this.handleHotelDelete(hotelId);
+        });
         this.handleHotelCategoryClickEvent();
-       // this.handleLoadAllData();
+        this.handleLoadAllData();
         this.handleHotelContainerClickEvent();
 
 
@@ -28,15 +42,16 @@ export class HotelController {
 
     handleHotelViewFilterClickEvent(event) {
         if (event.target.className === 'hotelView') {
-            $("#hotelViewFilter").css({
+            $("#hotelView").css({
                 "display": "none"
             });
+            this.handleReset();
         }
     }
 
     handleHotelContainerClickEvent() {
-
-        $('#hotelUl').on('click', 'i', (event) => {
+        //#hotelUl > li:nth-child(2) > i
+        $('#hotelUl').on('click', 'i:nth-child(6)', (event) => {
             const hotelId = parseInt($(event.target).closest('li').find('h2').text());
 
             $.ajax({
@@ -61,18 +76,22 @@ export class HotelController {
 
     handleViewDetails(data) {
 
-        $("#hotelViewImg").attr('src', `data:image/png;base64,${data.hotelImageLocation}`);
-        $("#hotelViewName").text(data.hotelName);
-        $("#hotelViewLocation").text(data.hotelLocation);
-        $("#hotelViewPriceTxt").text(data.price);
-        $("#hotelViewCriteriaTxt").text(data.cancellationCriteria);
-        $("#petAllowTxt").text(data.isPetAllow);
-        $("#hotelViewContact1Txt").text(data.contactList[0].contact);
-        $("#hotelViewContact2Txt").text(data.contactList[1].contact);
-        $("#hotelViewEmailTxt").text(data.hotelEmail);
-        $("#reviewLbl").text(data.remarks);
+        hotelId = data.hotelId;
+        $(".hotelViewImg").attr('src', `data:image/png;base64,${data.hotelImageLocation}`);
+        $("#hotelViewNameLbl").text(data.hotelName);
+        $("#hotelViewLocationLbl").text(data.hotelLocation);
+        $("#hotelViewPriceLbl").text(data.price);
+        $("#hotelViewCriteriaTxtLbl").text(data.cancellationCriteria);
+        $("#petAllowLbl").text(data.isPetAllow);
+        $("#hotelViewContact1Lbl").text(data.contactList[0].contact);
+        $("#hotelViewContact2Lbl").text(data.contactList[1].contact);
+        $("#hotelViewEmailLbl").text(data.hotelEmail);
 
-        $('#hotelViewFilter').css({
+        for (let i = 1; i <= data.hotelCategory; i++) {
+            $('.star-selector > div > i:nth-child(' + i + ')').addClass('activeStar');
+        }
+
+        $('#hotelView').css({
             "display": "flex"
         });
 
@@ -94,8 +113,9 @@ export class HotelController {
 
     handleImageLoadEvent() {
 
-        const file = $('#vehicleAddImgfile')[0].files[0];
-        const selectedImage = $('#hotel-img');
+        const file = $('#hotelAddImgFile')[0].files[0];
+        const selectedImage = $('.hotelAddImg');
+        hotelImageFile = file;
         if (file) {
             const reader = new FileReader();
             reader.onload = function (event) {
@@ -107,23 +127,24 @@ export class HotelController {
         }
     }
 
-    handleValidation() {
+    handleValidation(fun) {
+
         !/^[A-Za-z ]+$/.test($('#hotelNameTxt').val()) ? alert("Hotel name invalid or empty !") :
             !hotelCategory ? alert("Hotel category or empty !") :
                 !/^[A-Za-z ]+$/.test($('#hotelLocationTxt').val()) ? alert("Hotel location invalid or empty !") :
-                    !/^[A-Za-z ]+/.test($('#hotelUrlTxt').val()) ? alert("Hotel location url empty !") :
+                    !/^\bhttps?:\/\/\S+\b/.test($('#hotelUrlTxt').val()) ? alert("Hotel location url empty !") :
                         !/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/.test($('#hotelEmailTxt').val()) ? alert("Invalid email !") :
                             !/^(075|077|071|074|078|076|070|072)([0-9]{7})$/.test($('#hotelContactTxt1').val()) ? alert("Invalid contact 1 !") :
                                 !/^(075|077|071|074|078|076|070|072)([0-9]{7})$/.test($('#hotelContactTxt2').val()) ? alert("Invalid contact 2") :
-                                    !/^[0-9]+/.test($('#hotelFreeTxt').val()) ? alert("Hotel free invalid or empty !") :
-                                        !$('#hotelImage')[0].files[0] ? alert("Please select the image !") :
-                                            $.trim($('#hotelRemakesTxt').val()) === '' ? alert("Remarks is empty !") :
-                                                this.handleSaveHotel();
-
-
+                                    $('#hotelIsPetAllowCmb').val() === 'default' ? alert("Please select the pet allow section !") :
+                                        !/^[0-9]+$/.test($('#hotelFreeTxt').val()) ? alert("Hotel free invalid or empty !") :
+                                            $('#hotelCriteriaCmb').val() === 'default' ? alert("Please select Cancellation criteria section !") :
+                                                fun === 'update' ? this.handleUpdateHotel() :
+                                                    !$('#hotelAddImgFile')[0].files[0] ? alert("Please select the image !") :
+                                                        this.handleSaveHotel();
     }
 
-    handleSaveHotel() {
+    handleGetHotelObject() {
 
         const contact1 = {
             contact: $('#hotelContactTxt1').val()
@@ -132,29 +153,28 @@ export class HotelController {
             contact: $('#hotelContactTxt2').val()
         }
 
-        const isPetAllow = $('#hotelPetAllowCheck').is(':checked') ? "Is-Allow" : "Is-Not-Allow";
-
         const contactList = [contact1, contact2];
 
-        const hotel = JSON.stringify(new Hotel(
-            null,
+        return JSON.stringify(new Hotel(
+            hotelId,
             $('#hotelNameTxt').val(),
             hotelCategory,
             $('#hotelLocationTxt').val(),
             $('#hotelUrlTxt').val(),
             $('#hotelEmailTxt').val(),
             contactList,
-            isPetAllow,
+            $('#hotelIsPetAllowCmb').val(),
             parseInt($('#hotelFreeTxt').val()),
             $('#hotelCriteriaCmb').val(),
-            $('#hotelRemakesTxt').val(),
             null
         ));
+    }
 
-        console.log(hotel);
+    handleSaveHotel() {
 
+        const hotel = this.handleGetHotelObject();
         const formHotelData = new FormData();
-        const fileInput = $('#hotelImage')[0].files[0];
+        const fileInput = $('#hotelAddImgFile')[0].files[0];
 
         formHotelData.append('file', fileInput);
         formHotelData.append('hotel', hotel);
@@ -162,14 +182,15 @@ export class HotelController {
         $.ajax({
             url: "http://localhost:8081/nexttravel/api/v1/hotel",
             method: "POST",
-            processData: false, // Prevent jQuery from processing the data
+            processData: false,
             contentType: false,
             async: true,
             data: formHotelData,
             success: (resp) => {
-                console.log(resp)
                 if (resp.code === 200) {
-                    alert(resp.message);
+                    console.log(resp.message);
+                    this.handleLoadAllData();
+                    this.handleReset();
                 }
             },
             error: (ob) => {
@@ -180,16 +201,17 @@ export class HotelController {
     }
 
     handleAddHotelContainer() {
-        $(".hotel-add").css({
-            "display": "block"
+        $(".hotelAdd").css({
+            "display": "flex"
         });
     }
 
     handleHotelAddContainerClickEvent(event) {
-        if (event.target.className === 'hotel-add') {
-            $(".hotel-add").css({
+        if (event.target.className === 'hotelAdd') {
+            $(".hotelAdd").css({
                 "display": "none"
             });
+            this.handleReset();
         }
     }
 
@@ -198,13 +220,13 @@ export class HotelController {
         $.ajax({
             url: "http://localhost:8081/nexttravel/api/v1/hotel/getAll",
             method: "GET",
-            processData: false, // Prevent jQuery from processing the data
+            processData: false,
             contentType: false,
             async: true,
             success: (resp) => {
                 if (resp.code === 200) {
                     this.handleLoadItem(resp.data);
-                    alert(resp.message);
+                    console.log(resp.message);
                 }
             },
             error: (ob) => {
@@ -223,14 +245,210 @@ export class HotelController {
                 "                    <h2>10</h2>\n" +
                 "                    <h3>Hotel Galdari</h3>\n" +
                 "                    <h3>Pandura</h3>\n" +
+                "                    <div class=\"form-group col-md-12 star-selector\">\n" +
+                "                        <div class=\"hotelView-card-stars\">\n" +
+                "                            <i class=\"fa-solid fa-star\"></i>\n" +
+                "                            <i class=\"fa-solid fa-star\"></i>\n" +
+                "                            <i class=\"fa-solid fa-star\"></i>\n" +
+                "                            <i class=\"fa-solid fa-star\"></i>\n" +
+                "                            <i class=\"fa-solid fa-star\"></i>\n" +
+                "                         </div>\n" +
+                "                    </div>\n" +
                 "                    <i class=\"fa-solid fa-arrow-right\"></i>\n" +
                 "                </li>";
+
 
             $('#hotelUl').append(li);
             $('#hotelUl li:last-child img').attr('src', `data:image/png;base64,${value.hotelImageLocation}`);
             $('#hotelUl li:last-child h2').text(value.hotelId);
             $('#hotelUl li:last-child h3:nth-child(3)').text(value.hotelName);
-            $('#hotelUl li:last-child h3:last-child').text(value.hotelLocation);
+            $('#hotelUl li:last-child h3:nth-child(4)').text(value.hotelLocation);
+
+            for (let i = 1; i <= value.hotelCategory; i++) {
+                $('#hotelUl li:last-child > div > div > i:nth-child(' + i + ')').addClass('activeView');
+            }
+        });
+    }
+
+    handleReset() {
+
+        $('.hotelAddImg').attr('src', `assets/images/defaultimage.jpg`);
+        $('#hotelNameTxt').val("");
+        $('#hotelLocationTxt').val("");
+        $('#hotelUrlTxt').val("");
+        $('#hotelEmailTxt').val("");
+        $('#hotelContactTxt1').val("");
+        $('#hotelContactTxt2').val("");
+        $('#hotelIsPetAllowCmb').val("default");
+        $('#hotelFreeTxt').val("");
+        $('#hotelCriteriaCmb').val("default");
+        $('#hotelAddImgFile').val('');
+
+
+        hotelId = null;
+        hotelCategory = undefined;
+        hotelImageFile = undefined;
+
+        $('.stars i').removeClass('active');
+        $('.star-selector > div > i').removeClass('activeStar');
+        this.handleRemoveStyles();
+
+        $("#hotelView").css({
+            "display": "none"
+        });
+        $("#hotelAdd").css({
+            "display": "none"
+        });
+    }
+
+    handleHotelViewEditOptions() {
+
+        $("#hotelView div.form-group.col-md-2 i").hasClass('remove') ? this.handleRemoveStyles() : this.handleAddStyles();
+
+    }
+
+    handleAddStyles() {
+
+        $('#hotelView > div > form > div > div:nth-child(10) span').css({
+            'width': '100%',
+            'height': '100%'
+        });
+
+        $('#hotelView > div > form > div > div.form-group.col-md-2 i').css({
+            'transform': `rotate(${46}deg)`,
+            'background': 'rgba(255, 0, 0, 0.5)',
+            'color': 'rgba(255, 255, 255, 0.8)'
+
+        });
+
+        $("#hotelView div.form-group.col-md-2 i").addClass('remove');
+    }
+
+    handleRemoveStyles() {
+
+        $('#hotelView > div > form > div > div:nth-child(10) span').css({
+            'width': '0',
+            'height': '0'
+        });
+        const button = $('#hotelView > div > form > div > div.form-group.col-md-2 i');
+
+        $(button).css({
+            'transform': `rotate(${0}deg)`,
+            'background': 'none',
+            'color': 'rgba(0, 0, 0, 0.7)'
+        });
+
+        $("#hotelView div.form-group.col-md-2 i").removeClass('remove');
+    }
+
+    handleHotelEdit(hotelId) {
+
+        $.ajax({
+            url: "http://localhost:8081/nexttravel/api/v1/hotel/get?hotelId=" + hotelId,
+            method: "GET",
+            processData: false,
+            contentType: false,
+            async: true,
+            success: (resp) => {
+                if (resp.code === 200) {
+                    this.handleReset();
+                    this.handleEditDetails(resp.data);
+                    console.log(resp.message);
+                }
+            },
+            error: (ob) => {
+                console.log(ob)
+                alert(ob.responseJSON.message);
+            },
+        });
+    }
+
+    handleHotelDelete(hotelId) {
+
+        $.ajax({
+            url: "http://localhost:8081/nexttravel/api/v1/hotel?hotelId=" + hotelId,
+            method: "DELETE",
+            processData: false,
+            contentType: false,
+            async: true,
+            success: (resp) => {
+                if (resp.code === 200) {
+                    console.log(resp.message);
+                    this.handleLoadAllData();
+                    this.handleReset();
+                }
+            },
+            error: (ob) => {
+                console.log(ob)
+                alert(ob.responseJSON.message);
+            },
+        });
+    }
+
+    handleEditDetails(data) {
+
+        $(".hotelAddImg").attr('src', `data:image/png;base64,${data.hotelImageLocation}`);
+        $("#hotelNameTxt").val(data.hotelName);
+        $("#hotelLocationTxt").val(data.hotelLocation);
+        $("#hotelUrlTxt").val(data.locationUrl);
+        $("#hotelEmailTxt").val(data.hotelEmail);
+        $("#hotelContactTxt1").val(data.contactList[0].contact);
+        $("#hotelContactTxt2").val(data.contactList[1].contact);
+        $("#hotelIsPetAllowCmb").val(data.isPetAllow);
+        $("#hotelFreeTxt").val(data.price);
+        $("#hotelCriteriaCmb").val(data.cancellationCriteria);
+
+        hotelCategory = data.hotelCategory;
+
+        for (let i = 1; i <= data.hotelCategory; i++){
+            $('#hotelAdd .star-selector i:nth-child('+ i +')').addClass('active');
+        }
+
+        hotelId = data.hotelId;
+        hotelImageFile = this.handleGetNewImgFile(data.hotelImageLocation, 'hotelImage');
+
+        this.handleAddHotelContainer();
+    }
+
+    handleGetNewImgFile(base64Array, imageName) {
+
+        const byteString = atob(base64Array);
+        const blob = new Uint8Array(byteString.length);
+
+        for (let i = 0; i < byteString.length; i++) {
+            blob[i] = byteString.charCodeAt(i);
+        }
+
+        return new File([blob], imageName + ".jpg", {type: "image/jpeg"});
+    }
+
+    handleUpdateHotel() {
+
+        const hotel = this.handleGetHotelObject();
+        const formHotelData = new FormData();
+        const fileInput = hotelImageFile;
+
+        formHotelData.append('file', fileInput);
+        formHotelData.append('hotel', hotel);
+
+        $.ajax({
+            url: "http://localhost:8081/nexttravel/api/v1/hotel",
+            method: "PUT",
+            processData: false,
+            contentType: false,
+            async: true,
+            data: formHotelData,
+            success: (resp) => {
+                if (resp.code === 200) {
+                    console.log(resp.message);
+                    this.handleLoadAllData();
+                    this.handleReset();
+                }
+            },
+            error: (ob) => {
+                console.log(ob)
+                alert(ob.responseJSON.message);
+            },
         });
     }
 }

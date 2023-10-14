@@ -9,7 +9,6 @@ export class Hotel {
                 isPetAllow,
                 price,
                 cancellationCriteria,
-                remarks,
                 hotelImageLocation) {
         this.hotelId = hotelId;
         this.hotelName = hotelName;
@@ -21,7 +20,6 @@ export class Hotel {
         this.isPetAllow = isPetAllow;
         this.price = price;
         this.cancellationCriteria = cancellationCriteria;
-        this.remarks = remarks;
         this.hotelImageLocation = hotelImageLocation;
     }
 }

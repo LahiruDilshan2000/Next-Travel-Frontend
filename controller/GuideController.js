@@ -1,22 +1,29 @@
 import {Guide} from "../model/Guide.js";
 
-const nicImgIdsArray = ["#guideAddNicImg1", "#guideAddNicImg2"];
-const guidIdImgIdsArray = ["#guideAddIdImg1", "#guideAddIdImg2"];
-const nicArray = new Array(2);
-const idArray = new Array(2);
-let guideImgFile = undefined;
-let guideId = undefined;
+const imageFileList = new Array(5);
+let arrayIndex = null;
+let imgId = undefined;
+let guideId = null;
 
 export class GuideController {
     constructor() {
-        $('#guideAddImgFile').on('change', (event) => {
-            this.handleUploadGuidImg();
+        $('#guideAddImgFile').on('change', () => {
+            this.handleLoadChangeEvent(imgId, arrayIndex);
         });
-        $('#guideAddNicImgFile').on('change', (event) => {
-            this.handleUploadGuidNicOrIdImg('#guideAddNicImgFile', nicImgIdsArray, nicArray);
+        $('#guideAddImg').on('click', () => {
+            this.handleLoadImageEvent('#guideAddImg', 0);
         });
-        $('#guideAddIdImgFile').on('change', (event) => {
-            this.handleUploadGuidNicOrIdImg('#guideAddIdImgFile', guidIdImgIdsArray, idArray);
+        $('#guideAddNicImg1').on('click', () => {
+            this.handleLoadImageEvent('#guideAddNicImg1', 1);
+        });
+        $('#guideAddNicImg2').on('click', () => {
+            this.handleLoadImageEvent('#guideAddNicImg2', 2);
+        });
+        $('#guideAddIdImg1').on('click', () => {
+            this.handleLoadImageEvent('#guideAddIdImg1', 3);
+        });
+        $('#guideAddIdImg2').on('click', () => {
+            this.handleLoadImageEvent('#guideAddIdImg2', 4);
         });
         $('#guideAddFilter').on('click', (event) => {
             this.handleUpFilterClickEvent(event);
@@ -37,34 +44,22 @@ export class GuideController {
         this.handleGuideEditeEvent();
     }
 
-    handleUploadGuidImg() {
+    handleLoadImageEvent(id, index) {
 
-        const file = $('#guideAddImgFile')[0].files[0];
-        const selectedImage = $('#guideAddImg');
-        guideImgFile = file;
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function (event) {
-                selectedImage.attr('src', event.target.result);
-            };
-            reader.readAsDataURL(file);
-        } else {
-            console.log("awad");
-        }
+        imgId = id;
+        arrayIndex = index;
+        $('#guideAddImgFile').click();
     }
 
-    handleUploadGuidNicOrIdImg(selector, idsArray, fileArray) {
+    handleLoadChangeEvent(imgId, arrayIndex) {
 
-        const file = $(selector)[0].files[0];
-        const selectedImage = $(idsArray[0]);
-        fileArray[0] = file;
-        idsArray.reverse();
-        fileArray.reverse();
+        const file = $("#guideAddImgFile")[0].files[0];
+        imageFileList[arrayIndex] = file;
 
         if (file) {
             const reader = new FileReader();
             reader.onload = function (event) {
-                selectedImage.attr('src', event.target.result);
+                $(imgId).attr('src', event.target.result);
             };
             reader.readAsDataURL(file);
         } else {
@@ -118,21 +113,20 @@ export class GuideController {
             !/^[A-Za-z ]+$/.test($('#guideAddressTxt').val()) ? alert("Guide address or empty !") :
                 !/^[0-9]+$/.test($('#guideAgeTxt').val()) ? alert("Guide age invalid or empty !") :
                     $('#guideGenderCmb').val() === 'default' ? alert("Guide gender invalid or empty !") :
-                    !/^(075|077|071|074|078|076|070|072)([0-9]{7})$/.test($('#guideContactTxt').val()) ? alert("Invalid contact !") :
-                        !/^[0-9]+$/.test($('#guideManDayValueTxt').val()) ? alert("Man day value invalid or empty !") :
-                            fun === 'update' ? this.handleUpdateGuide(guideId) :
-                                !$('#guideAddImgFile')[0].files[0] ? alert("Please select the guide image !") :
-                                    !nicArray[0] ? alert("Please select the Nic image !") :
-                                        !nicArray[1] ? alert("Please select the Nic image !") :
-                                            !idArray[0] ? alert("Please select the guid ID image !") :
-                                                !idArray[1] ? alert("Please select guide ID image !") :
-                                                    this.handleSaveGuide();
+                        !/^(075|077|071|074|078|076|070|072)([0-9]{7})$/.test($('#guideContactTxt').val()) ? alert("Invalid contact !") :
+                            !/^[0-9]+$/.test($('#guideManDayValueTxt').val()) ? alert("Man day value invalid or empty !") :
+                                fun === 'update' ? this.handleUpdateGuide(guideId) :
+                                    !imageFileList[0] ? alert("Please select the guide image !") :
+                                        !imageFileList[1] ? alert("Please select the Nic image !") :
+                                            !imageFileList[2] ? alert("Please select the Nic image !") :
+                                                !imageFileList[3] ? alert("Please select guide ID image !") :
+                                                    !imageFileList[4] ? alert("Please select guide ID image !") :
+                                                        this.handleSaveGuide();
     }
 
-    handleSaveGuide() {
-
-        const guide = JSON.stringify(new Guide(
-            null,
+    handleGetGuideObject() {
+        return JSON.stringify(new Guide(
+            guideId,
             $('#guideNameTxt').val(),
             $('#guideAddressTxt').val(),
             $('#guideAgeTxt').val(),
@@ -144,11 +138,15 @@ export class GuideController {
             null
         ));
 
+    }
+
+    handleSaveGuide() {
+
+        const guide = this.handleGetGuideObject();
+
         const formGuideData = new FormData();
 
-        const imageList = [$('#guideAddImgFile')[0].files[0], nicArray[0], nicArray[1], idArray[0], idArray[1]];
-
-        imageList.map(value => {
+        imageFileList.map(value => {
             formGuideData.append('imageList', value);
         });
 
@@ -214,7 +212,7 @@ export class GuideController {
                 "                </li>";
 
             $('#guideUl').append(li);
-            $('#guideUl li:last-child img').attr('src', `data:image/png;base64,${value.guideImage}`);
+            $('#guideUl li:last-child img').attr('src', `data:image/png;base64,${value.guideIdImageList[0]}`);
             $('#guideUl li:last-child h3:nth-child(2)').text(value.guideId);
             $('#guideUl li:last-child h3:nth-child(3)').text(value.name);
             $('#guideUl li:last-child h3:nth-child(4)').text(value.address);
@@ -226,11 +224,12 @@ export class GuideController {
 
     handleEditDetails(data) {
 
-        $("#guideAddImg").attr('src', `data:image/png;base64,${data.guideImage}`);
-        $("#guideAddNicImg1").attr('src', `data:image/png;base64,${data.nicImageList[0]}`);
-        $("#guideAddNicImg2").attr('src', `data:image/png;base64,${data.nicImageList[1]}`);
-        $("#guideAddIdImg1").attr('src', `data:image/png;base64,${data.guideIdImageList[0]}`);
-        $("#guideAddIdImg2").attr('src', `data:image/png;base64,${data.guideIdImageList[1]}`);
+        guideId = data.guideId;
+        $("#guideAddImg").attr('src', `data:image/png;base64,${data.guideIdImageList[0]}`);
+        $("#guideAddNicImg1").attr('src', `data:image/png;base64,${data.guideIdImageList[1]}`);
+        $("#guideAddNicImg2").attr('src', `data:image/png;base64,${data.guideIdImageList[2]}`);
+        $("#guideAddIdImg1").attr('src', `data:image/png;base64,${data.guideIdImageList[3]}`);
+        $("#guideAddIdImg2").attr('src', `data:image/png;base64,${data.guideIdImageList[4]}`);
         $("#guideNameTxt").val(data.name);
         $("#guideAddressTxt").val(data.address);
         $("#guideAgeTxt").val(data.age);
@@ -238,11 +237,11 @@ export class GuideController {
         $("#guideContactTxt").val(data.contact);
         $("#guideManDayValueTxt").val(data.manDayValue);
 
-        guideImgFile = this.handleGetNewImgFile(data.guideImage, 'guideImage');
-        nicArray[0] = this.handleGetNewImgFile(data.nicImageList[0], 'nicImage_1');
-        nicArray[1] = this.handleGetNewImgFile(data.nicImageList[1], 'nicImage_2');
-        idArray[0] = this.handleGetNewImgFile(data.guideIdImageList[0], 'guideIdImage_1');
-        idArray[1] = this.handleGetNewImgFile(data.guideIdImageList[1], 'guideIdImage_2');
+        imageFileList[0] = this.handleGetNewImgFile(data.guideIdImageList[0], 'guide_img');
+        imageFileList[1] = this.handleGetNewImgFile(data.guideIdImageList[1], 'nic_img_1');
+        imageFileList[2] = this.handleGetNewImgFile(data.guideIdImageList[2], 'nic_img_2');
+        imageFileList[3] = this.handleGetNewImgFile(data.guideIdImageList[3], 'guide_id_img_1');
+        imageFileList[4] = this.handleGetNewImgFile(data.guideIdImageList[4], 'guide_id_img_2');
 
         this.handleGuideAddContainerShowEvent();
     }
@@ -259,26 +258,13 @@ export class GuideController {
         return new File([blob], imageName + ".jpg", {type: "image/jpeg"});
     }
 
-    handleUpdateGuide(guideId) {
+    handleUpdateGuide() {
 
-        const guide = JSON.stringify(new Guide(
-            guideId,
-            $('#guideNameTxt').val(),
-            $('#guideAddressTxt').val(),
-            $('#guideAgeTxt').val(),
-            $('#guideGenderCmb').val(),
-            $('#guideContactTxt').val(),
-            $('#guideManDayValueTxt').val(),
-            null,
-            null,
-            null
-        ));
+        const guide = this.handleGetGuideObject();
 
         const formGuideData = new FormData();
 
-        const imageList = [guideImgFile, nicArray[0], nicArray[1], idArray[0], idArray[1]];
-
-        imageList.map(value => {
+        imageFileList.map(value => {
             formGuideData.append('imageList', value);
         });
 
@@ -310,7 +296,7 @@ export class GuideController {
         $.ajax({
             url: "http://localhost:8081/nexttravel/api/v1/guide?guideId=" + guideId,
             method: "DELETE",
-            processData: false, // Prevent jQuery from processing the data
+            processData: false,
             contentType: false,
             async: true,
             success: (resp) => {
@@ -340,12 +326,15 @@ export class GuideController {
         $('#guideGenderCmb').val("default");
         $('#guideContactTxt').val("");
         $('#guideManDayValueTxt').val("");
-        guideId = undefined;
-        guideImgFile = undefined;
-        nicArray[0] = undefined;
-        nicArray[1] = undefined;
-        idArray[0] = undefined;
-        idArray[1] = undefined;
+        $('#guideAddImgFile').val('');
+        $('#guideAddNicImgFile').val('');
+        $('#guideAddIdImgFile').val('');
+
+        guideId = null;
+
+        for (let i = 0; i < imageFileList.length; i++){
+            imageFileList[0] = undefined;
+        }
         $("#guideAddFilter").css({
             "display": "none"
         });
