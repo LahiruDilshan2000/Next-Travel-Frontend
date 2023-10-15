@@ -96,7 +96,7 @@
     backdrop-filter: blur(1px);
     align-items: center;
     justify-content: center;
-    display: flex;
+    display: none;
 }
 .guideAdd-container{
     width: 900px;

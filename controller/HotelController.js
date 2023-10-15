@@ -9,6 +9,9 @@ export class HotelController {
         $("#hotelAddImgFile").on('change', () => {
             this.handleImageLoadEvent();
         });
+        $(".hotelAddImg").on('click', () => {
+            $("#hotelAddImgFile").click();
+        });
         $("#saveHotelBtn").on('click', () => {
             this.handleValidation('save');
         });
@@ -80,7 +83,10 @@ export class HotelController {
         $(".hotelViewImg").attr('src', `data:image/png;base64,${data.hotelImageLocation}`);
         $("#hotelViewNameLbl").text(data.hotelName);
         $("#hotelViewLocationLbl").text(data.hotelLocation);
-        $("#hotelViewPriceLbl").text(data.price);
+        $("#fullDPriceLbl").text(data.fullDPrice);
+        $("#halfDPriceLbl").text(data.halfDPrice);
+        $("#fullTPriceLbl").text(data.fullTPrice);
+        $("#halfTPriceLbl").text(data.halfTPrice);
         $("#hotelViewCriteriaTxtLbl").text(data.cancellationCriteria);
         $("#petAllowLbl").text(data.isPetAllow);
         $("#hotelViewContact1Lbl").text(data.contactList[0].contact);
@@ -114,12 +120,11 @@ export class HotelController {
     handleImageLoadEvent() {
 
         const file = $('#hotelAddImgFile')[0].files[0];
-        const selectedImage = $('.hotelAddImg');
         hotelImageFile = file;
         if (file) {
             const reader = new FileReader();
             reader.onload = function (event) {
-                selectedImage.attr('src', event.target.result);
+                $('.hotelAddImg').attr('src', event.target.result);
             };
             reader.readAsDataURL(file);
         } else {
@@ -137,11 +142,14 @@ export class HotelController {
                             !/^(075|077|071|074|078|076|070|072)([0-9]{7})$/.test($('#hotelContactTxt1').val()) ? alert("Invalid contact 1 !") :
                                 !/^(075|077|071|074|078|076|070|072)([0-9]{7})$/.test($('#hotelContactTxt2').val()) ? alert("Invalid contact 2") :
                                     $('#hotelIsPetAllowCmb').val() === 'default' ? alert("Please select the pet allow section !") :
-                                        !/^[0-9]+$/.test($('#hotelFreeTxt').val()) ? alert("Hotel free invalid or empty !") :
-                                            $('#hotelCriteriaCmb').val() === 'default' ? alert("Please select Cancellation criteria section !") :
-                                                fun === 'update' ? this.handleUpdateHotel() :
-                                                    !$('#hotelAddImgFile')[0].files[0] ? alert("Please select the image !") :
-                                                        this.handleSaveHotel();
+                                        !/^[0-9]+$/.test($('#fullDFreeTxt').val()) ? alert("Full Luxury-D free invalid or empty !") :
+                                            !/^[0-9]+$/.test($('#halfDFreeTxt').val()) ? alert("Half Luxury-D free invalid or empty !") :
+                                                !/^[0-9]+$/.test($('#fullTFreeTxt').val()) ? alert("Full Luxury-T free invalid or empty !") :
+                                                    !/^[0-9]+$/.test($('#halfTFreeTxt').val()) ? alert("Half Luxury-T free invalid or empty !") :
+                                                        $('#hotelCriteriaCmb').val() === 'default' ? alert("Please select Cancellation criteria section !") :
+                                                            fun === 'update' ? this.handleUpdateHotel() :
+                                                                !$('#hotelAddImgFile')[0].files[0] ? alert("Please select the image !") :
+                                                                    this.handleSaveHotel();
     }
 
     handleGetHotelObject() {
@@ -164,7 +172,10 @@ export class HotelController {
             $('#hotelEmailTxt').val(),
             contactList,
             $('#hotelIsPetAllowCmb').val(),
-            parseInt($('#hotelFreeTxt').val()),
+            parseInt($('#fullDFreeTxt').val()),
+            parseInt($('#halfDFreeTxt').val()),
+            parseInt($('#fullTFreeTxt').val()),
+            parseInt($('#halfTFreeTxt').val()),
             $('#hotelCriteriaCmb').val(),
             null
         ));
@@ -174,9 +185,8 @@ export class HotelController {
 
         const hotel = this.handleGetHotelObject();
         const formHotelData = new FormData();
-        const fileInput = $('#hotelAddImgFile')[0].files[0];
 
-        formHotelData.append('file', fileInput);
+        formHotelData.append('file', hotelImageFile);
         formHotelData.append('hotel', hotel);
 
         $.ajax({
@@ -280,7 +290,10 @@ export class HotelController {
         $('#hotelContactTxt1').val("");
         $('#hotelContactTxt2').val("");
         $('#hotelIsPetAllowCmb').val("default");
-        $('#hotelFreeTxt').val("");
+        $('#fullDFreeTxt').val("");
+        $('#halfDFreeTxt').val("");
+        $('#fullTFreeTxt').val("");
+        $('#halfTFreeTxt').val("");
         $('#hotelCriteriaCmb').val("default");
         $('#hotelAddImgFile').val('');
 
@@ -309,7 +322,7 @@ export class HotelController {
 
     handleAddStyles() {
 
-        $('#hotelView > div > form > div > div:nth-child(10) span').css({
+        $('#hotelView > div > form > div > div:nth-child(12) span').css({
             'width': '100%',
             'height': '100%'
         });
@@ -326,13 +339,12 @@ export class HotelController {
 
     handleRemoveStyles() {
 
-        $('#hotelView > div > form > div > div:nth-child(10) span').css({
+        $('#hotelView > div > form > div > div:nth-child(12) span').css({
             'width': '0',
             'height': '0'
         });
-        const button = $('#hotelView > div > form > div > div.form-group.col-md-2 i');
 
-        $(button).css({
+        $('#hotelView > div > form > div > div.form-group.col-md-2 i').css({
             'transform': `rotate(${0}deg)`,
             'background': 'none',
             'color': 'rgba(0, 0, 0, 0.7)'
@@ -395,13 +407,16 @@ export class HotelController {
         $("#hotelContactTxt1").val(data.contactList[0].contact);
         $("#hotelContactTxt2").val(data.contactList[1].contact);
         $("#hotelIsPetAllowCmb").val(data.isPetAllow);
-        $("#hotelFreeTxt").val(data.price);
+        $("#fullDFreeTxt").val(data.fullDPrice);
+        $("#halfDFreeTxt").val(data.halfDPrice);
+        $("#fullTFreeTxt").val(data.fullTPrice);
+        $("#halfTFreeTxt").val(data.halfTPrice);
         $("#hotelCriteriaCmb").val(data.cancellationCriteria);
 
         hotelCategory = data.hotelCategory;
 
-        for (let i = 1; i <= data.hotelCategory; i++){
-            $('#hotelAdd .star-selector i:nth-child('+ i +')').addClass('active');
+        for (let i = 1; i <= data.hotelCategory; i++) {
+            $('#hotelAdd .star-selector i:nth-child(' + i + ')').addClass('active');
         }
 
         hotelId = data.hotelId;
@@ -426,9 +441,8 @@ export class HotelController {
 
         const hotel = this.handleGetHotelObject();
         const formHotelData = new FormData();
-        const fileInput = hotelImageFile;
 
-        formHotelData.append('file', fileInput);
+        formHotelData.append('file', hotelImageFile);
         formHotelData.append('hotel', hotel);
 
         $.ajax({

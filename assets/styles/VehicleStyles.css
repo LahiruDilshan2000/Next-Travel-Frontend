@@ -112,7 +112,7 @@
     border-radius: 10px;
     display: inline-flex;
 }
-.vehicleAdd-img-div, .vehicleView-img-div{
+.vehicleAdd-img-div{
     width: 400px;
     height: 100%;
     padding: 20px;
@@ -121,27 +121,46 @@
     justify-content: center;
     flex-direction: column;
 }
+.vehicleView-img{
+    width: 400px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.vehicleView-img > div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.vehicleView-img > div img{
+    width: 130px;
+    margin: 10px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+.vehicleView-img > div img:first-child{
+    width: 300px;
+}
 .vehicleAdd-form, .vehicleView-form{
     width: 600px;
     height: 100%;
     padding: 30px 30px;
+}
+.vehicleView-form{
+    width: 500px;
+    padding: 40px 30px;
 }
 .vehicleAdd-form label, .vehicleView-form label{
     font-size: 14px;
     color: rgba(0, 0, 0, 0.6);
     display: block;
 }
-.vehicleView-form label:last-child{
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
-    height: 35px;
-    padding: 5px 10px;
-    color: rgba(0, 0, 0, 0.8);
-}
 #SaveVehicleBtn{
     width: 100px;
 }
-.vehicleAdd-img-div > div .img-container img, .vehicleView-img-div img{
+.vehicleAdd-img-div > div .img-container img{
     width: 130px;
     object-fit: cover;
     border-radius: 10px;
@@ -197,26 +216,29 @@ select:hover{
     justify-content: center;
 }
 #vehicleView > div > form > div > div.form-group.col-md-2 i{
-    padding-top: 9px;
-    text-align: center;
-    width: 38px;
+    width: 40px;
     aspect-ratio: 1/1;
-    font-size: 20px;
     border-radius: 90%;
-    background: rgba(0, 0, 0, 0.2);
-    color: white;
+    font-size: 22px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    padding-top: 9px;
     cursor: pointer;
-    transition: all 0.5s;
+    color: rgba(0, 0, 0, 0.5);
+    transition: ease-in-out 0.5s;
 }
 #vehicleView > div > form > div > div.form-group.col-md-2 i:hover{
-    background:rgba(10, 83, 190, 0.5);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
 }
-#vehicleView > div > form > div > div:nth-child(10){
-    background: white;
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
+#vehicleView > div > form > div > div:nth-child(14) span{
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
-    height: fit-content;
     padding: 0;
+    overflow: hidden;
+    display: block;
+    width: 0;
+    height: 0;
+    transition: all 0.8s;
 }
 .myBtn{
     border: none;
@@ -239,11 +261,7 @@ select:hover{
     justify-content: center;
     align-items: center;
 }
-#vehicleAdd > div > form > div > div.form-group.col-md-12 input[type="file"]{
-    font-size: 10px;
-    width: 100px;
 
-}
 #vehicleAdd > div > form > div > div.form-group.col-md-12 img{
     width: 120px;
     border-radius: 5px;
@@ -252,4 +270,37 @@ select:hover{
 }
 #vehicleAdd > div > form > div > div.form-group.col-md-12 img:hover{
     scale: 1.1;
+}
+#vehicleBrandLbl{
+    font-size: 30px;
+    font-family: 'AR One Sans', sans-serif;
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 10px;
+}
+.vehicleView-form > div label{
+    font-size: 15px;
+    color: rgba(0, 0, 0, 0.4);
+}
+.vehicleView-form > div label:first-child{
+    font-size: 15px;
+    font-family: 'Ubuntu', sans-serif;
+    color: rgba(0, 0, 0, 0.5);
+}
+#vehicleView > div > form > div > div:nth-child(12){
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#vehicleView > div > form > div > div:nth-child(12) img{
+    width: 110px;
+    border-radius: 5px;
+    max-height: 100px;
+    margin: 0 10px;
+    overflow: hidden;
+}
+#vehicleView > div > form > div > div.form-group.col-md-6, #vehicleView > div > form > div > div.form-group.col-md-2{
+    margin: 0;
+}
+#vehicleView > div > form > div > div.form-group.col-md-2{
+    height: 80px;
 }

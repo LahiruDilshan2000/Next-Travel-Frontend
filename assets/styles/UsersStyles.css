@@ -1,28 +1,32 @@
-.users{
+.users {
     height: 100vh;
     padding: 0 150px;
 }
-.users .usersNav ul{
+
+.users .usersNav ul {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.users .usersNav ul li{
+
+.users .usersNav ul li {
     list-style: none;
     margin: 0 20px;
     letter-spacing: 1px;
     cursor: pointer;
 }
-.users .usersNav ul li:hover{
+
+.users .usersNav ul li:hover {
     color: red;
 }
 
-.users .user-list, .users .admins-list{
+.users .user-list, .users .admins-list {
     width: 100%;
     position: relative;
 }
-.user-list-header, .admins-list-header{
+
+.user-list-header, .admins-list-header {
     width: 100%;
     height: 60px;
     box-shadow: -1px 1px 15px rgba(0, 0, 0, 0.1);
@@ -31,10 +35,12 @@
     align-items: center;
     justify-content: space-between;
 }
-.users .user-list ul, .users .admins-list ul{
+
+.users .user-list ul, .users .admins-list ul {
     padding: 0;
 }
-.users .user-list ul li, .users .admins-list ul li{
+
+.users .user-list ul li, .users .admins-list ul li {
     width: 100%;
     height: 50px;
     list-style: none;
@@ -47,37 +53,53 @@
     overflow: hidden;
     transition: all 0.5s;
 }
-.users .user-list ul li:hover, .users .admins-list ul li:hover{
+
+.users .user-list ul li:hover, .users .admins-list ul li:hover {
     box-shadow: -1px 1px 15px rgba(0, 0, 0, 0.25);
 }
-.users .user-list ul li h3, .users .admins-list ul li h3{
+
+.users .user-list ul li h3, .users .admins-list ul li h3 {
     font-size: 14px;
     font-weight: 400;
     font-family: 'Ubuntu', sans-serif;
     color: rgba(0, 0, 0, 0.5);
+    margin: 0;
 }
-.users .user-list ul li img, .users .admins-list ul li img{
-    width: 80px;
-    height: 100%;
-    background: #0d45a5;
+
+.users .user-list ul li img, .users .admins-list ul li img {
+    width: 40px;
+    aspect-ratio: 1/1;
+    border-radius: 90%;
+    object-fit: cover;
 }
-.users .user-list ul li button, .users .admins-list ul li button{
-    width: 80px;
+
+.users .user-list ul li button, .users .admins-list ul li button {
+    width: 70px;
     height: 100%;
-    background: red;
+    background: rgba(255, 0, 0, 0.6);
     color: white;
     border: none;
+    transition: all 0.5s ease-in-out;
+    font-size: 13px;
+    letter-spacing: 1px
 }
+
+.users .user-list ul li button:hover, .users .admins-list ul li button:hover {
+    background: rgba(255, 0, 0, 1);
+}
+
 .users .user-list ul li, .users .admins-list ul li {
     padding-left: 20px;
 }
-.user-list-header h3, .admins-list-header h3{
+
+.user-list-header h3, .admins-list-header h3 {
     font-size: 15px;
     font-weight: 400;
     margin: 0 20px;
     letter-spacing: 2px;
 }
-.users .user-list .fa-plus, .users .admins-list .fa-plus{
+
+.users .user-list .fa-plus, .users .admins-list .fa-plus {
     width: 40px;
     font-size: 20px;
     aspect-ratio: 1/1;
@@ -93,6 +115,70 @@
     color: rgba(0, 0, 0, 0.6);
     transition: all 0.5s;
 }
-.users .user-list .fa-plus:hover, .users .admins-list .fa-plus:hover{
+
+.users .user-list .fa-plus:hover, .users .admins-list .fa-plus:hover {
     color: orangered;
+}
+
+#addUserForm {
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    align-items: center;
+    justify-content: center;
+    display: none;
+}
+.addUser-container{
+    width: 380px;
+    height: 590px;
+    background: white;
+    border-radius: 20px;
+}
+#addUserForm > .addUser-container > div:first-child{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+#userImage{
+    width: 180px;
+    aspect-ratio: 1/1;
+    border-radius: 90%;
+    object-fit: cover;
+    cursor: pointer;
+}
+#userImgFile{
+    display: none;
+}
+#addUserForm > div > div.form-row{
+    padding: 0 30px;
+}
+.btn-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0;
+}
+.form-control{
+    border-radius: 10px!important;
+}
+#saveUserBtn{
+    width: 150px;
+    height: 40px;
+    cursor: pointer;
+    color: white;
+    background: rgba(13, 110, 253, 0.75);
+    outline: none;
+    border: none;
+    border-radius: 25px;
+    transition: all 0.5s;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 14px;
+    letter-spacing: 1px;
+
+}
+#saveUserBtn:hover{
+    background: rgba(13, 110, 253, 1);
 }

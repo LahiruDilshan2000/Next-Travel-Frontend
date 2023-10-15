@@ -173,9 +173,17 @@
     color: rgba(0, 0, 0, 0.6);
     display: block;
 }
-
 #saveHotelBtn{
     width: 90px;
+}
+.hotelAdd-img-div div{
+    width: 320px;
+    height: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    overflow: hidden;
 }
 .hotelAdd-img-div img, .hotelView-img-div img{
     width: 320px;
@@ -183,10 +191,19 @@
     height: 80%;
     object-fit: cover;
 }
+.hotelAdd-img-div img{
+    height: 100%;
+}
+#hotelAdd > div > div > div > img{
+    cursor: pointer;
+    transition: all 0.5s;
+    object-fit: cover;
+}
+#hotelAdd > div > div > div > img:hover{
+    scale: 1.1;
+}
 #hotelAddImgFile{
-    font-size: 11px;
-    padding-left: 30px;
-    color: rgba(0, 0, 0, 0.6);
+    display: none;
 }
 select:hover{
     background: rgba(0, 0, 0, 0.06);
@@ -219,10 +236,12 @@ input[type='tel']:hover{
     color: rgba(0, 0, 0, 0.8);
 }
 .hotelView-form > .form-row div label:first-child{
-    font-size: 18px;
+    font-size: 16px;
     font-family: 'Ubuntu', sans-serif;
     color: rgba(0, 0, 0, 0.6);
-
+}
+#hotelView > div > form > div > div.form-group.col-md-12{
+    margin-bottom: 5px;
 }
 .hotelView-form > .form-row div label:last-child, .hotelView-form > .form-row div label:nth-child(2){
     font-size: 13px;
@@ -257,7 +276,7 @@ input[type='tel']:hover{
 #hotelView > div > form > div > div.form-group.col-md-2 i:hover{
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
 }
-#hotelView > div > form > div > div:nth-child(10) span{
+#hotelView > div > form > div > div:nth-child(12) span{
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     padding: 0;
@@ -266,8 +285,5 @@ input[type='tel']:hover{
     width: 0;
     height: 0;
     transition: all 0.8s;
-}
-#hotelView > div > form > div > div:nth-child(10) span button, #hotelView > div > form > div > div:nth-child(10) span button i{
-    /*display: none;*/
 }
 

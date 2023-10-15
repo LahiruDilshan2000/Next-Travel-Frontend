@@ -4,6 +4,7 @@ const imageFileList = new Array(5);
 let arrayIndex = null;
 let imgId = undefined;
 let guideId = null;
+const defaultImg = 'assets/images/defaultimage.jpg';
 
 export class GuideController {
     constructor() {
@@ -133,8 +134,6 @@ export class GuideController {
             $('#guideGenderCmb').val(),
             $('#guideContactTxt').val(),
             $('#guideManDayValueTxt').val(),
-            null,
-            null,
             null
         ));
 
@@ -212,7 +211,7 @@ export class GuideController {
                 "                </li>";
 
             $('#guideUl').append(li);
-            $('#guideUl li:last-child img').attr('src', `data:image/png;base64,${value.guideIdImageList[0]}`);
+            $('#guideUl li:last-child img').attr('src', `data:image/png;base64,${value.imageList[0]}`);
             $('#guideUl li:last-child h3:nth-child(2)').text(value.guideId);
             $('#guideUl li:last-child h3:nth-child(3)').text(value.name);
             $('#guideUl li:last-child h3:nth-child(4)').text(value.address);
@@ -225,11 +224,11 @@ export class GuideController {
     handleEditDetails(data) {
 
         guideId = data.guideId;
-        $("#guideAddImg").attr('src', `data:image/png;base64,${data.guideIdImageList[0]}`);
-        $("#guideAddNicImg1").attr('src', `data:image/png;base64,${data.guideIdImageList[1]}`);
-        $("#guideAddNicImg2").attr('src', `data:image/png;base64,${data.guideIdImageList[2]}`);
-        $("#guideAddIdImg1").attr('src', `data:image/png;base64,${data.guideIdImageList[3]}`);
-        $("#guideAddIdImg2").attr('src', `data:image/png;base64,${data.guideIdImageList[4]}`);
+        $("#guideAddImg").attr('src', `data:image/png;base64,${data.imageList[0]}`);
+        $("#guideAddNicImg1").attr('src', `data:image/png;base64,${data.imageList[1]}`);
+        $("#guideAddNicImg2").attr('src', `data:image/png;base64,${data.imageList[2]}`);
+        $("#guideAddIdImg1").attr('src', `data:image/png;base64,${data.imageList[3]}`);
+        $("#guideAddIdImg2").attr('src', `data:image/png;base64,${data.imageList[4]}`);
         $("#guideNameTxt").val(data.name);
         $("#guideAddressTxt").val(data.address);
         $("#guideAgeTxt").val(data.age);
@@ -237,11 +236,11 @@ export class GuideController {
         $("#guideContactTxt").val(data.contact);
         $("#guideManDayValueTxt").val(data.manDayValue);
 
-        imageFileList[0] = this.handleGetNewImgFile(data.guideIdImageList[0], 'guide_img');
-        imageFileList[1] = this.handleGetNewImgFile(data.guideIdImageList[1], 'nic_img_1');
-        imageFileList[2] = this.handleGetNewImgFile(data.guideIdImageList[2], 'nic_img_2');
-        imageFileList[3] = this.handleGetNewImgFile(data.guideIdImageList[3], 'guide_id_img_1');
-        imageFileList[4] = this.handleGetNewImgFile(data.guideIdImageList[4], 'guide_id_img_2');
+        imageFileList[0] = this.handleGetNewImgFile(data.imageList[0], 'guide_img');
+        imageFileList[1] = this.handleGetNewImgFile(data.imageList[1], 'nic_img_1');
+        imageFileList[2] = this.handleGetNewImgFile(data.imageList[2], 'nic_img_2');
+        imageFileList[3] = this.handleGetNewImgFile(data.imageList[3], 'guide_id_img_1');
+        imageFileList[4] = this.handleGetNewImgFile(data.imageList[4], 'guide_id_img_2');
 
         this.handleGuideAddContainerShowEvent();
     }
@@ -315,11 +314,11 @@ export class GuideController {
 
     handleReset() {
 
-        $('#guideAddImg').attr('src', `assets/images/defaultimage.jpg`);
-        $('#guideAddNicImg1').attr('src', `assets/images/defaultimage.jpg`);
-        $('#guideAddNicImg2').attr('src', `assets/images/defaultimage.jpg`);
-        $('#guideAddIdImg1').attr('src', `assets/images/defaultimage.jpg`);
-        $('#guideAddIdImg2').attr('src', `assets/images/defaultimage.jpg`);
+        $('#guideAddImg').attr('src', `${defaultImg}`);
+        $('#guideAddNicImg1').attr('src', `${defaultImg}`);
+        $('#guideAddNicImg2').attr('src', `${defaultImg}`);
+        $('#guideAddIdImg1').attr('src', `${defaultImg}`);
+        $('#guideAddIdImg2').attr('src', `${defaultImg}`);
         $('#guideNameTxt').val("");
         $('#guideAddressTxt').val("");
         $('#guideAgeTxt').val("");

@@ -112,8 +112,12 @@
     <!---------------------------------------------------------------------------------->
     <header>
         <nav>
-            <div class="toggle"></div>
-            <img src="assets/images/defaultUser.jpg" alt="">
+            <div>
+                <div class="toggle"></div>
+                <img src="assets/images/defaultUser.jpg" alt="">
+            </div>
+            <button type="button" id="loginBtn"><i class="fa-solid fa-arrow-right-to-bracket"></i></button>
+            <button type="button" id="logoutBtn"><i class="fa-solid fa-power-off"></i></button>
         </nav>
     </header>
     <!---------------------------------------------------------------------------------->
@@ -127,7 +131,6 @@
                 <li id="hotelNavBtn">Hotels</li>
                 <li id="vehicleNavBtn">Vehicles</li>
                 <li id="guideNavBtn">Guide</li>
-                <li id="driverNavBtn">Driver</li>
                 <li id="userNavBtn">User</li>
                 <li id="financialNavBtn">Financial</li>
             </ul>
@@ -274,64 +277,76 @@
     <!---------------------------------------------------------------------------------->
     <section class="vehicleView" id="vehicleView">
         <div class="vehicleView-con">
-            <div class="vehicleView-img-div">
-                <img src="assets/images/defaultimage.jpg" alt="" class="vehicleViewImg">
+            <div class="vehicleView-img">
+                <div>
+                    <img src="assets/images/defaultimage.jpg" alt="" class="vehicleViewImg" id="vehicleViewImg1">
+                    <img src="assets/images/defaultimage.jpg" alt="" class="vehicleViewImg" id="vehicleViewImg2">
+                    <img src="assets/images/defaultimage.jpg" alt="" class="vehicleViewImg" id="vehicleViewImg3">
+                    <img src="assets/images/defaultimage.jpg" alt="" class="vehicleViewImg" id="vehicleViewImg4">
+                    <img src="assets/images/defaultimage.jpg" alt="" class="vehicleViewImg" id="vehicleViewImg5">
+                </div>
             </div>
             <form class="vehicleView-form">
                 <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label>Vehicle Brand</label>
-                        <label id="vehicleBrandLbl">Vehicle Brand</label>
+                    <div class="form-group col-md-12">
+                        <label id="vehicleBrandLbl">Suzuki Wagon R Synergy</label>
                     </div>
-                    <div class="form-group col-md-6">
-                        <label>Vehicle Category</label>
-                        <label id="vehicleCategoryLbl">Vehicle Category</label>
-
+                    <div class="form-group col-md-3">
+                        <label>Category</label>
+                        <label id="vehicleCategoryLbl">Mid-Range</label>
                     </div>
-                    <div class="form-group col-md-6">
-                        <label>Fuel & transmission</label>
-                        <label id="vehicleFuelAndTransmissionLbl">Fuel & transmission</label>
-
-                    </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-3">
                         <label>Vehicle type</label>
-                        <label id="vehicleTypeLbl">Vehicle type</label>
-
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label>Version type</label>
-                        <label id="vehicleVersionTypeLbl">Version type</label>
-
+                        <label id="vehicleTypeLbl">Car</label>
                     </div>
                     <div class="form-group col-md-4">
+                        <label>Fuel & trans</label>
+                        <label id="vehicleFuelAndTransmissionLbl">P/A</label>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>Version</label>
+                        <label id="vehicleVersionTypeLbl">Hybrid</label>
+                    </div>
+                    <div class="form-group col-md-3">
                         <label>Fuel usage</label>
-                        <label id="vehicleFuelUsageLbl">Fuel usage</label>
-
+                        <label id="vehicleFuelUsageLbl">25</label>
                     </div>
-                    <div class="form-group col-md-4">
-                        <label>Free for day</label>
-                        <label id="vehicleFreeForDayLbl">Fuel usage</label>
-
+                    <div class="form-group col-md-3">
+                        <label>For day</label>
+                        <label id="vehicleFreeForDayLbl">4500</label>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>For 1 Km</label>
+                        <label id="vehicleFreeFor1KmLbl">100</label>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>Driver name</label>
+                        <label id="vehicleDriverNameLbl">Lenas</label>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>Contact</label>
+                        <label id="vehicleDriverContactLbl">0774108855</label>
                     </div>
                     <div class="form-group col-md-4">
                         <label>Seat capacity</label>
-                        <label id="vehicleSeatCapacityLbl">Seat capacity</label>
-
+                        <label id="vehicleSeatCapacityLbl">4</label>
                     </div>
-                    <div class="form-group col-md-4">
-                        <label>Qty</label>
-                        <label id="vehicleQtyLbl">Qty</label>
+                    <div class="form-group col-md-12">
+                        <img src="assets/images/defaultimage.jpg" alt="" id="drivingLicenseImg1">
+                        <img src="assets/images/defaultimage.jpg" alt="" id="drivingLicenseImg2">
                     </div>
                     <div class="form-group col-md-2">
                         <i class="fa-solid fa-plus"></i>
                     </div>
-                    <div class="form-group col-md-4">
-                        <button type="button" class="myBtn col-md-12" id="btnVehicleEdit"><i
-                                class="fa-solid fa-pen"></i>Edit
+                    <div class="form-group col-md-6">
+                        <span>
+                            <button type="button" class="myBtn col-md-12" id="btnVehicleEdit"><i
+                                    class="fa-solid fa-pen"></i>Edit
                         </button>
                         <button type="button" class="myBtn col-md-12" id="btnVehicleDelete"><i
                                 class="fa-solid fa-delete-left"></i>Delete
                         </button>
+                        </span>
                     </div>
                 </div>
             </form>
@@ -437,33 +452,6 @@
             </form>
         </div>
     </section>
-    <!---------------------------------driver------------------------------------------------->
-    <section class="driver" id="driverContainer">
-        <div class="driver-list">
-            <i class="fa-solid fa-plus" id="addDriverBtn"></i>
-            <div class="driver-list-header">
-                <h3>ID</h3>
-                <h3>Name</h3>
-                <h3>Contact</h3>
-                <h3>Age</h3>
-                <h3>Gender</h3>
-                <h3>Option</h3>
-            </div>
-            <ul id="driverUl">
-                <li>
-                    <h3 class="driverIdTxt">null</h3>
-                    <h3>null</h3>
-                    <h3>null</h3>
-                    <h3>null</h3>
-                    <h3>null</h3>
-                    <button type="button">Edit</button>
-                </li>
-                <li></li>
-                <li></li>
-                <li></li>
-            </ul>
-        </div>
-    </section>
     <!--------------------------------user-------------------------------------------------->
     <section class="users" id="usersContainer">
         <nav class="usersNav">
@@ -475,17 +463,17 @@
         <div class="user-list">
             <i class="fa-solid fa-plus" id="addUserBtn"></i>
             <div class="user-list-header">
+                <h3>Pic</h3>
                 <h3>ID</h3>
                 <h3>Name</h3>
-                <h3>Contact</h3>
-                <h3>Age</h3>
-                <h3>Gender</h3>
-                <h3>Role</h3>
+                <h3>Nic</h3>
+                <h3>Address</h3>
+                <h3>Email</h3>
                 <h3>Option</h3>
             </div>
             <ul id="userUl">
                 <li>
-                    <h3 class="driverIdTxt">null</h3>
+                    <img src="assets/images/google.png" alt="">
                     <h3>null</h3>
                     <h3>null</h3>
                     <h3>null</h3>
@@ -523,6 +511,35 @@
                 <li></li>
                 <li></li>
             </ul>
+        </div>
+    </section>
+    <!------------------------------------------------------------------------------------->
+    <section class="addUser" id="addUserForm">
+        <div class="addUser-container">
+            <div class="form-group col-md-12">
+                <img src="assets/images/defaultimage.jpg" alt="" id="userImage">
+                <input type="file" id="userImgFile">
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <input type="text" class="form-control" id="nameTxt" placeholder="User name">
+                </div>
+                <div class="form-group col-md-12">
+                    <input type="text" class="form-control" id="nicTxt" placeholder="Nic / passport">
+                </div>
+                <div class="form-group col-md-12">
+                    <input type="text" class="form-control" id="addressTxt" placeholder="Address">
+                </div>
+                <div class="form-group col-md-12">
+                    <input type="email" class="form-control" id="emailTxt" placeholder="Email">
+                </div>
+                <div class="form-group col-md-12">
+                    <input type="password" class="form-control" id="passwordTxt" placeholder="Password">
+                </div>
+            </div>
+            <div class="form-group col-md-12 btn-container">
+                <button type="button" id="saveUserBtn">Save</button>
+            </div>
         </div>
     </section>
     <!-----------------------------financial----------------------------------------------------->
@@ -581,24 +598,35 @@
                             <i class="fa-solid fa-star"></i>
                         </div>
                     </div>
-                    <div class="form-group col-md-6">
-                        <label>Price</label>
-                        <label id="hotelViewPriceLbl">8000</label>
+                    <div class="form-group col-md-4">
+                        <label>Luxury</label>
+                        <label>Full</label>
+                        <label>Half</label>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
+                        <label>Double</label>
+                        <label id="fullDPriceLbl">8000</label>
+                        <label id="halfDPriceLbl">8000</label>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Triple</label>
+                        <label id="fullTPriceLbl">8000</label>
+                        <label id="halfTPriceLbl">8000</label>
+                    </div>
+                    <div class="form-group col-md-8">
                         <label>Cancellation Criteria</label>
                         <label id="hotelViewCriteriaTxtLbl">Free</label>
                     </div>
-                    <div class="form-group col-md-12">
+                    <div class="form-group col-md-4">
                         <label>Pets</label>
                         <label id="petAllowLbl">Not-allow</label>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-8">
                         <label>Contact</label>
                         <label id="hotelViewContact1Lbl">0774105588</label>
                         <label id="hotelViewContact2Lbl">0774105588</label>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                         <label>Email</label>
                         <label id="hotelViewEmailLbl">Email@gmail.com</label>
                     </div>
@@ -623,7 +651,9 @@
     <section class="hotelAdd" id="hotelAdd">
         <div class="hotelAdd-con">
             <div class="hotelAdd-img-div">
-                <img src="assets/images/defaultimage.jpg" alt="" class="hotelAddImg">
+                <div>
+                    <img src="assets/images/defaultimage.jpg" alt="" class="hotelAddImg">
+                </div>
                 <input type="file" name="imageFile" id="hotelAddImgFile">
             </div>
             <form class="hotelAdd-form">
@@ -648,17 +678,18 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label>Google location</label>
-                        <input type="text" class="form-control" id="hotelUrlTxt" placeholder="https://www.google.com/search?q=hotel+hilton">
+                        <input type="text" class="form-control" id="hotelUrlTxt"
+                               placeholder="https://www.google.com/search?q=hotel+hilton">
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                         <label>Email</label>
                         <input type="email" class="form-control" id="hotelEmailTxt" placeholder="FourS@hotmail.com">
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                         <label>Contact 1</label>
                         <input type="tel" class="form-control" id="hotelContactTxt1" placeholder="07x xxxxxxx">
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                         <label>Contact 2</label>
                         <input type="tel" class="form-control" id="hotelContactTxt2" placeholder="07x xxxxxxx">
                     </div>
@@ -671,10 +702,6 @@
                         </select>
                     </div>
                     <div class="form-group col-md-6">
-                        <label>Hotel free</label>
-                        <input type="text" class="form-control" id="hotelFreeTxt" placeholder="10 000">
-                    </div>
-                    <div class="form-group col-md-6">
                         <label>Cancellation criteria</label>
                         <select id="hotelCriteriaCmb" class="form-select">
                             <option value="default" selected>Select</option>
@@ -682,6 +709,23 @@
                             <option>Non-free</option>
                         </select>
                     </div>
+                    <div class="form-group col-md-3">
+                        <label>Full Luxury-D</label>
+                        <input type="text" class="form-control" id="fullDFreeTxt" placeholder="6000">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>Half Luxury-D</label>
+                        <input type="text" class="form-control" id="halfDFreeTxt" placeholder="4000">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>Full Luxury-T</label>
+                        <input type="text" class="form-control" id="fullTFreeTxt" placeholder="8000">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>Half Luxury-T</label>
+                        <input type="text" class="form-control" id="halfTFreeTxt" placeholder="7000">
+                    </div>
+
                 </div>
                 <button type="button" class="btn btn-primary" id="saveHotelBtn">Save</button>
                 <button type="button" class="btn btn-primary" id="updateHotelBtn">Update</button>

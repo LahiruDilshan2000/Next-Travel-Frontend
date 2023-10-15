@@ -12,9 +12,6 @@ export class MainNavController {
         $('#guideNavBtn').on('click', () => {
             this.handleNavContainer("#guideContainer", "#guideNavBtn");
         });
-        $('#driverNavBtn').on('click', () => {
-            this.handleNavContainer("#driverContainer", "#driverNavBtn");
-        });
         $('#userNavBtn').on('click', () => {
             this.handleNavContainer("#usersContainer", "#userNavBtn");
         });
@@ -38,7 +35,6 @@ export class MainNavController {
             '#hotelContainer',
             '#packageContainer',
             '#guideContainer',
-            '#driverContainer',
             '#usersContainer',
             '#financialContainer'];
 

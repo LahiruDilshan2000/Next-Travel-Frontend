@@ -6,9 +6,7 @@ export class Guide {
                 gender,
                 contact,
                 manDayValue,
-                guideImage,
-                nicImageList,
-                guideIdImageList) {
+                imageList) {
         this.guideId = guideId;
         this.name = name;
         this.address = address;
@@ -16,8 +14,6 @@ export class Guide {
         this.gender = gender;
         this.contact = contact;
         this.manDayValue = manDayValue;
-        this.guideImage = guideImage;
-        this.nicImageList = nicImageList;
-        this.guideIdImageList = guideIdImageList;
+        this.imageList = imageList;
     }
 }

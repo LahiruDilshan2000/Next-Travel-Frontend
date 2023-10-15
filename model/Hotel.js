@@ -7,7 +7,10 @@ export class Hotel {
                 hotelEmail,
                 contactList,
                 isPetAllow,
-                price,
+                fullDPrice,
+                halfDPrice,
+                fullTPrice,
+                halfTPrice,
                 cancellationCriteria,
                 hotelImageLocation) {
         this.hotelId = hotelId;
@@ -18,7 +21,10 @@ export class Hotel {
         this.hotelEmail = hotelEmail;
         this.contactList = contactList;
         this.isPetAllow = isPetAllow;
-        this.price = price;
+        this.fullDPrice = fullDPrice;
+        this.halfDPrice = halfDPrice;
+        this.fullTPrice = fullTPrice;
+        this.halfTPrice = halfTPrice;
         this.cancellationCriteria = cancellationCriteria;
         this.hotelImageLocation = hotelImageLocation;
     }

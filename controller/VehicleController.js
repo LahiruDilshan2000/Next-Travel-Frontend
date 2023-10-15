@@ -4,6 +4,8 @@ let vehicleId = null;
 let imgId = undefined;
 let arrayIndex = undefined;
 const imageFileList = new Array(7);
+const defaultImg = 'assets/images/defaultimage.jpg';
+let qty = null;
 
 export class VehicleController {
     constructor() {
@@ -51,6 +53,9 @@ export class VehicleController {
         });
         $("#vehicleView").on('click', (event) => {
             this.handleVehicleViewFilterClickEvent(event);
+        });
+        $("#vehicleView div.form-group.col-md-2 > i").on('click', () => {
+            this.handleHotelViewEditOptions();
         });
         this.handleLoadAllData();
         this.handleVehicleViewEvent();
@@ -152,7 +157,6 @@ export class VehicleController {
     handleSaveVehicle() {
 
         const vehicle = this.handleGetObject();
-        console.log(vehicle)
 
         const formVehicleData = new FormData();
 
@@ -170,7 +174,6 @@ export class VehicleController {
             async: true,
             data: formVehicleData,
             success: (resp) => {
-                console.log(resp)
                 if (resp.code === 200) {
                     console.log(resp.message);
                     this.handleLoadAllData();
@@ -230,12 +233,10 @@ export class VehicleController {
         $('#vehicleUl').on('click', 'i', (event) => {
             vehicleId = parseInt($(event.target).closest('li').find('h2').text());
 
-            console.log(vehicleId);
-
             $.ajax({
                 url: "http://localhost:8081/nexttravel/api/v1/vehicle/get?vehicleId=" + vehicleId,
                 method: "GET",
-                processData: false, // Prevent jQuery from processing the data
+                processData: false,
                 contentType: false,
                 async: true,
                 success: (resp) => {
@@ -255,25 +256,25 @@ export class VehicleController {
     handleViewDetails(data) {
 
         vehicleId = data.vehicleId;
-        $("#vehicleAddImg1").attr('src', `data:image/png;base64,${data.imageList[0]}`);
-        $("#vehicleAddImg2").attr('src', `data:image/png;base64,${data.imageList[1]}`);
-        $("#vehicleAddImg3").attr('src', `data:image/png;base64,${data.imageList[2]}`);
-        $("#vehicleAddImg4").attr('src', `data:image/png;base64,${data.imageList[3]}`);
-        $("#vehicleAddImg5").attr('src', `data:image/png;base64,${data.imageList[4]}`);
-        $("#driverLicenseImg1").attr('src', `data:image/png;base64,${data.imageList[5]}`);
-        $("#driverLicenseImg2").attr('src', `data:image/png;base64,${data.imageList[6]}`);
+        $("#vehicleViewImg1").attr('src', `data:image/png;base64,${data.imageList[0]}`);
+        $("#vehicleViewImg2").attr('src', `data:image/png;base64,${data.imageList[1]}`);
+        $("#vehicleViewImg3").attr('src', `data:image/png;base64,${data.imageList[2]}`);
+        $("#vehicleViewImg4").attr('src', `data:image/png;base64,${data.imageList[3]}`);
+        $("#vehicleViewImg5").attr('src', `data:image/png;base64,${data.imageList[4]}`);
+        $("#drivingLicenseImg1").attr('src', `data:image/png;base64,${data.imageList[5]}`);
+        $("#drivingLicenseImg2").attr('src', `data:image/png;base64,${data.imageList[6]}`);
         $("#vehicleBrandLbl").text(data.vehicleBrand);
         $("#vehicleCategoryLbl").text(data.vehicleCategory);
-        $("#vehicleFuelAndTransmissionLbl").text(data.fuelAndTransmissionType);
         $("#vehicleTypeLbl").text(data.vehicleType);
+        $("#vehicleFuelAndTransmissionLbl").text(data.fuelAndTransmissionType);
         $("#vehicleVersionTypeLbl").text(data.versionType);
-        $("#freeForDayTxt").text(data.freeForDay);
-        $("#freeFor1KmTxt").text(data.freeFor1Km);
         $("#vehicleFuelUsageLbl").text(data.fuelUsage);
+        $("#vehicleFreeForDayLbl").text(data.freeForDay);
+        $("#vehicleFreeFor1KmLbl").text(data.freeFor1Km);
+        $("#vehicleDriverNameLbl").text(data.driverName);
+        $("#vehicleDriverContactLbl").text(data.driverContact);
         $("#vehicleSeatCapacityLbl").text(data.seatCapacity);
-        $("#vehicleQtyLbl").text(data.qty);
-        $("#driverNameTxt").text(data.driverName);
-        $("#driverContactTxt").text(data.driverContact);
+        qty = data.qty;
 
         imageFileList[0] = this.handleGetNewImgFile(data.imageList[0], 'vehicle_img_1');
         imageFileList[1] = this.handleGetNewImgFile(data.imageList[1], 'vehicle_img_2');
@@ -303,15 +304,25 @@ export class VehicleController {
 
     handleVehicleEditDetails() {
 
-        $(".vehicleAddImg").attr('src', `${$(".vehicleViewImg").attr('src')}`);
+        $("#vehicleAddImg1").attr('src', `${$("#vehicleViewImg1").attr('src')}`);
+        $("#vehicleAddImg2").attr('src', `${$("#vehicleViewImg2").attr('src')}`);
+        $("#vehicleAddImg3").attr('src', `${$("#vehicleViewImg3").attr('src')}`);
+        $("#vehicleAddImg4").attr('src', `${$("#vehicleViewImg4").attr('src')}`);
+        $("#vehicleAddImg5").attr('src', `${$("#vehicleViewImg5").attr('src')}`);
+        $("#driverLicenseImg1").attr('src', `${$("#drivingLicenseImg1").attr('src')}`);
+        $("#driverLicenseImg2").attr('src', `${$("#drivingLicenseImg2").attr('src')}`);
         $('#vehicleAddBrandTxt').val($("#vehicleBrandLbl").text());
         $('#vehicleCategoryCmb').val($("#vehicleCategoryLbl").text());
+        $('#vehicleTypeCmb').val($("#vehicleTypeLbl").text());
         $('#fuelAndTransmissionTypeCmb').val($("#vehicleFuelAndTransmissionLbl").text());
         $('#versionCmb').val($("#vehicleVersionTypeLbl").text());
         $('#fuelUsageTxt').val($("#vehicleFuelUsageLbl").text());
+        $('#freeForDayTxt').val($("#vehicleFreeForDayLbl").text());
+        $('#freeFor1KmTxt').val($("#vehicleFreeFor1KmLbl").text());
+        $('#driverNameTxt').val($("#vehicleDriverNameLbl").text());
+        $('#driverContactTxt').val($("#vehicleDriverContactLbl").text());
         $('#seatCapacityTxt').val($("#vehicleSeatCapacityLbl").text());
-        $('#vehicleTypeCmb').val($("#vehicleTypeLbl").text());
-        $('#vehicleQtyTxt').val($("#vehicleQtyLbl").text());
+        $('#vehicleQtyTxt').val(qty);
 
         $('#vehicleView').css({
             "display": "none"
@@ -339,7 +350,6 @@ export class VehicleController {
             async: true,
             data: formVehicleData,
             success: (resp) => {
-                console.log(resp)
                 if (resp.code === 200) {
                     console.log(resp.message);
                     this.handleLoadAllData();
@@ -379,13 +389,13 @@ export class VehicleController {
 
     handleReset() {
 
-        $("#vehicleAddImg1").attr('src', `assets/images/defaultimage.jpg`);
-        $("#vehicleAddImg2").attr('src', `assets/images/defaultimage.jpg`);
-        $("#vehicleAddImg3").attr('src', `assets/images/defaultimage.jpg`);
-        $("#vehicleAddImg4").attr('src', `assets/images/defaultimage.jpg`);
-        $("#vehicleAddImg5").attr('src', `assets/images/defaultimage.jpg`);
-        $("#driverLicenseImg1").attr('src', `assets/images/defaultimage.jpg`);
-        $("#driverLicenseImg2").attr('src', `assets/images/defaultimage.jpg`);
+        $("#vehicleAddImg1").attr('src', `${defaultImg}`);
+        $("#vehicleAddImg2").attr('src', `${defaultImg}`);
+        $("#vehicleAddImg3").attr('src', `${defaultImg}`);
+        $("#vehicleAddImg4").attr('src', `${defaultImg}`);
+        $("#vehicleAddImg5").attr('src', `${defaultImg}`);
+        $("#driverLicenseImg1").attr('src', `${defaultImg}`);
+        $("#driverLicenseImg2").attr('src', `${defaultImg}`);
         $('#vehicleAddBrandTxt').val("");
         $('#vehicleCategoryCmb').val("default");
         $('#fuelAndTransmissionTypeCmb').val("default");
@@ -399,6 +409,8 @@ export class VehicleController {
         $('#driverNameTxt').val("");
         $('#driverContactTxt').val("");
 
+        this.handleRemoveStyles();
+
         for (let i = 0; i < imageFileList.length; i++){
             imageFileList[i] = undefined;
         }
@@ -410,6 +422,45 @@ export class VehicleController {
         $("#vehicleAdd").css({
             "display": "none"
         });
+    }
+
+    handleHotelViewEditOptions() {
+
+        $("#vehicleView div.form-group.col-md-2 > i").hasClass('remove') ? this.handleRemoveStyles() : this.handleAddStyles();
+
+    }
+
+    handleAddStyles() {
+
+        $('#vehicleView > div > form > div > div:nth-child(14) span').css({
+            'width': '100%',
+            'height': '100%'
+        });
+
+        $('#vehicleView div.form-group.col-md-2 > i').css({
+            'transform': `rotate(${46}deg)`,
+            'background': 'rgba(255, 0, 0, 0.5)',
+            'color': 'rgba(255, 255, 255, 0.8)'
+
+        });
+
+        $("#vehicleView div.form-group.col-md-2 > i").addClass('remove');
+    }
+
+    handleRemoveStyles() {
+
+        $('#vehicleView > div > form > div > div:nth-child(14) span').css({
+            'width': '0',
+            'height': '0'
+        });
+
+        $($('#vehicleView div.form-group.col-md-2 > i')).css({
+            'transform': `rotate(${0}deg)`,
+            'background': 'none',
+            'color': 'rgba(0, 0, 0, 0.7)'
+        });
+
+        $("#vehicleView div.form-group.col-md-2 > i").removeClass('remove');
     }
 }
 
