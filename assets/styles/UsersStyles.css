@@ -2,31 +2,12 @@
     height: 100vh;
     padding: 0 150px;
 }
-
-.users .usersNav ul {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.users .usersNav ul li {
-    list-style: none;
-    margin: 0 20px;
-    letter-spacing: 1px;
-    cursor: pointer;
-}
-
-.users .usersNav ul li:hover {
-    color: red;
-}
-
-.users .user-list, .users .admins-list {
+.users .user-list{
     width: 100%;
     position: relative;
 }
 
-.user-list-header, .admins-list-header {
+.user-list-header{
     width: 100%;
     height: 60px;
     box-shadow: -1px 1px 15px rgba(0, 0, 0, 0.1);
@@ -36,11 +17,11 @@
     justify-content: space-between;
 }
 
-.users .user-list ul, .users .admins-list ul {
+.users .user-list ul{
     padding: 0;
 }
 
-.users .user-list ul li, .users .admins-list ul li {
+.users .user-list ul li{
     width: 100%;
     height: 50px;
     list-style: none;
@@ -54,11 +35,11 @@
     transition: all 0.5s;
 }
 
-.users .user-list ul li:hover, .users .admins-list ul li:hover {
+.users .user-list ul li:hover{
     box-shadow: -1px 1px 15px rgba(0, 0, 0, 0.25);
 }
 
-.users .user-list ul li h3, .users .admins-list ul li h3 {
+.users .user-list ul li h3{
     font-size: 14px;
     font-weight: 400;
     font-family: 'Ubuntu', sans-serif;
@@ -66,14 +47,14 @@
     margin: 0;
 }
 
-.users .user-list ul li img, .users .admins-list ul li img {
+.users .user-list ul li img{
     width: 40px;
     aspect-ratio: 1/1;
     border-radius: 90%;
     object-fit: cover;
 }
 
-.users .user-list ul li button, .users .admins-list ul li button {
+.users .user-list ul li button{
     width: 70px;
     height: 100%;
     background: rgba(255, 0, 0, 0.6);
@@ -84,22 +65,22 @@
     letter-spacing: 1px
 }
 
-.users .user-list ul li button:hover, .users .admins-list ul li button:hover {
+.users .user-list ul li button:hover{
     background: rgba(255, 0, 0, 1);
 }
 
-.users .user-list ul li, .users .admins-list ul li {
+.users .user-list ul li{
     padding-left: 20px;
 }
 
-.user-list-header h3, .admins-list-header h3 {
+.user-list-header h3{
     font-size: 15px;
     font-weight: 400;
     margin: 0 20px;
     letter-spacing: 2px;
 }
 
-.users .user-list .fa-plus, .users .admins-list .fa-plus {
+.users .user-list .fa-plus {
     width: 40px;
     font-size: 20px;
     aspect-ratio: 1/1;
@@ -116,7 +97,7 @@
     transition: all 0.5s;
 }
 
-.users .user-list .fa-plus:hover, .users .admins-list .fa-plus:hover {
+.users .user-list .fa-plus:hover {
     color: orangered;
 }
 
@@ -181,4 +162,27 @@
 }
 #saveUserBtn:hover{
     background: rgba(13, 110, 253, 1);
+}
+#updateUserBtn, #deleteUserBtn{
+    width: 150px;
+    height: 40px;
+    cursor: pointer;
+    border-radius: 25px;
+    outline: none;
+    border: none;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 14px;
+    letter-spacing: 1px;
+    margin: 5px;
+    color: rgba(0, 0, 0, 0.8);
+    transition: all 0.8s;
+    display: none;
+}
+#updateUserBtn:hover{
+    background: #6f42c1;
+    color: white;
+}
+#deleteUserBtn:hover{
+    background: rgba(255, 0, 0, 0.7);
+    color: white;
 }

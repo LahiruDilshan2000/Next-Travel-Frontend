@@ -106,6 +106,7 @@ export class GuideController {
         $("#guideAddFilter").css({
             "display": "flex"
         });
+        document.body.style.overflow = 'hidden';
     }
 
     handleValidation(fun) {
@@ -334,6 +335,7 @@ export class GuideController {
         for (let i = 0; i < imageFileList.length; i++){
             imageFileList[0] = undefined;
         }
+        document.body.style.overflow = 'auto';
         $("#guideAddFilter").css({
             "display": "none"
         });

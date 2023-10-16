@@ -101,6 +101,8 @@ export class HotelController {
             "display": "flex"
         });
 
+        document.body.style.overflow = 'hidden';
+
     }
 
     handleHotelCategoryClickEvent() {
@@ -214,6 +216,7 @@ export class HotelController {
         $(".hotelAdd").css({
             "display": "flex"
         });
+        document.body.style.overflow = 'hidden';
     }
 
     handleHotelAddContainerClickEvent(event) {
@@ -305,6 +308,8 @@ export class HotelController {
         $('.stars i').removeClass('active');
         $('.star-selector > div > i').removeClass('activeStar');
         this.handleRemoveStyles();
+
+        document.body.style.overflow = 'auto';
 
         $("#hotelView").css({
             "display": "none"

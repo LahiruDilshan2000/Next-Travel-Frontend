@@ -2,16 +2,11 @@ import {User} from "../model/User.js";
 
 let userImg = undefined;
 let userId = null;
+let nic = null;
 const defaultImg = 'assets/images/defaultimage.jpg';
 
 export class UsersController {
     constructor() {
-        $('#usersNavBtn').on('click', () => {
-            this.handleNavContainer(".user-list", "#usersNavBtn");
-        });
-        $('#adminsNavBtn').on('click', () => {
-            this.handleNavContainer(".admins-list", "#adminsNavBtn");
-        });
         $('#addUserForm').on('click', (event) => {
             this.handleUserViewAddFilterClickEvent(event);
         });
@@ -25,10 +20,17 @@ export class UsersController {
             this.handleImageSetEvent();
         });
         $('#saveUserBtn').on('click', () => {
-            this.handleValidation();
+            this.handleValidation('save');
+        });
+        $('#updateUserBtn').on('click', () => {
+            this.handleValidation('update');
+        });
+        $('#deleteUserBtn').on('click', () => {
+            this.handleDeleteUser(userId);
         });
         this.handleNavContainer(".user-list", "#usersNavBtn");
         this.handleLoadAllData();
+        this.handleUserEditeEvent();
     }
 
     handleUserAddEvent() {
@@ -113,13 +115,14 @@ export class UsersController {
         });
     }
 
-    handleValidation() {
+    handleValidation(fun) {
 
         !/^([A-Za-z ]{3,})$/.test($('#nameTxt').val()) ? alert("User name invalid or empty !") :
             !/^([A-Za-z0-9]{10,})$/.test($('#nicTxt').val()) ? alert("Nic invalid or empty !") :
                 !/^[A-Za-z ]+$/.test($('#addressTxt').val()) ? alert("Address invalid or empty !") :
                     !/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/.test($('#emailTxt').val()) ? alert("Email invalid or empty !") :
                         !/^([A-Za-z0-9@]{4,})$/.test($('#passwordTxt').val()) ? alert("Password invalid or empty !") :
+                            fun === 'update' ? this.handleUpdateUser() :
                             !$('#userImgFile')[0].files[0] ? alert("Please select the image !") :
                                 this.handleSaveUser();
     }
@@ -205,8 +208,124 @@ export class UsersController {
         $('#passwordTxt').val("");
         $('#userImgFile').val("");
         userImg = undefined;
+        nic = null;
         document.body.style.overflow = 'auto';
+
+        $('#saveUserBtn').css({'display' : 'block'});
+        $('#updateUserBtn').css({'display' : 'none'});
+        $('#deleteUserBtn').css({'display' : 'none'});
+    }
+
+    handleUserEditeEvent() {
+
+        $('#userUl').on('click', 'button', (event) => {
+            nic = $(event.target).closest('li').find('h3:nth-child(4)').text();
+
+            $.ajax({
+                url: "http://localhost:8081/nexttravel/api/v1/user/get?nic=" + nic,
+                method: "GET",
+                processData: false,
+                contentType: false,
+                async: true,
+                success: (resp) => {
+                    if (resp.code === 200) {
+                        this.handleEditDetails(resp.data);
+                        console.log(resp.message);
+                    }
+                },
+                error: (ob) => {
+                    console.log(ob)
+                    alert(ob.responseJSON.message);
+                },
+            });
+        });
+    }
+
+    handleEditDetails(data) {
+
+        userId = data.userId;
+        $("#userImage").attr('src', `data:image/png;base64,${data.userImage}`);
+        $("#nameTxt").val(data.userName);
+        $("#nicTxt").val(data.nic);
+        $("#addressTxt").val(data.address);
+        $("#emailTxt").val(data.email);
+        $("#passwordTxt").val(data.password);
+
+        userImg = this.handleGetNewImgFile(data.userImage, 'user_img');
+
+        $('#saveUserBtn').css({'display' : 'none'});
+        $('#updateUserBtn').css({'display' : 'block'});
+        $('#deleteUserBtn').css({'display' : 'block'});
+
+        this.handleUserAddEvent();
+    }
+    handleGetNewImgFile(base64Array, imageName) {
+
+        const byteString = atob(base64Array);
+        const blob = new Uint8Array(byteString.length);
+
+        for (let i = 0; i < byteString.length; i++) {
+            blob[i] = byteString.charCodeAt(i);
+        }
+
+        return new File([blob], imageName + ".jpg", {type: "image/jpeg"});
+    }
+
+    handleUpdateUser() {
+
+        const user = this.handleGetObject();
+
+        const userFormData = new FormData();
+
+        userFormData.append('file', userImg);
+        userFormData.append('user', user);
+
+        $.ajax({
+            url: "http://localhost:8081/nexttravel/api/v1/user",
+            method: "PUT",
+            processData: false,
+            contentType: false,
+            async: true,
+            data: userFormData,
+            success: (resp) => {
+                if (resp.code === 200) {
+                    console.log(resp.message);
+                    this.handleLoadAllData();
+                    this.handleReset();
+                    $('#addUserForm').click();
+                }
+            },
+            error: (ob) => {
+                console.log(ob)
+                alert(ob.responseJSON.message);
+            },
+        });
+    }
+
+    handleDeleteUser(userId) {
+
+        $.ajax({
+            url: "http://localhost:8081/nexttravel/api/v1/user?userId=" + userId,
+            method: "DELETE",
+            processData: false,
+            contentType: false,
+            async: true,
+            success: (resp) => {
+                if (resp.code === 200) {
+                    console.log(resp.message);
+                    this.handleLoadAllData();
+                    this.handleReset();
+                    $('#addUserForm').click();
+                }
+            },
+            error: (ob) => {
+                console.log(ob)
+                alert(ob.responseJSON.message);
+            },
+        });
     }
 }
+
+
 
 new UsersController();

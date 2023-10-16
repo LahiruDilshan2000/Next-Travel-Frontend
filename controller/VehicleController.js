@@ -74,7 +74,8 @@ export class VehicleController {
     handleVehicleAddContainerShowEvent() {
         $('#vehicleAdd').css({
             "display": "flex"
-        })
+        });
+        document.body.style.overflow = 'hidden';
     }
 
     handleVehicleAddContainerHideEvent(event) {
@@ -285,6 +286,8 @@ export class VehicleController {
         imageFileList[6] = this.handleGetNewImgFile(data.imageList[6], 'driving_license_img_2');
 
 
+        document.body.style.overflow = 'hidden';
+
         $('#vehicleView').css({
             "display": "flex"
         });
@@ -327,6 +330,7 @@ export class VehicleController {
         $('#vehicleView').css({
             "display": "none"
         });
+
         this.handleVehicleAddContainerShowEvent();
     }
 
@@ -415,6 +419,8 @@ export class VehicleController {
             imageFileList[i] = undefined;
         }
         vehicleId = null;
+
+        document.body.style.overflow = 'auto';
 
         $("#vehicleView").css({
             "display": "none"

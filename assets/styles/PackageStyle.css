@@ -1,24 +1,487 @@
 .package{
     height: 100vh;
-    padding: 20px 100px;
+    padding: 10px 80px;
+    background: linear-gradient(white 60%, #232D3F 60%);
 }
-.package .package-list{
+.pkg-container{
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    height: 100%;
 }
-.package .package-list ul{
+.pkg-list-container{
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
 }
-.package .package-list ul li{
+.pkg-list-container li{
     list-style: none;
-    width: 300px;
-    height: 350px;
-    background: green;
+    width: 280px;
+    height: 320px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    margin: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.5s;
+    background: white;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+.pkg-list-container li:hover{
+    transform: translateY(-5px);
+}
+.pkg-list-container li img{
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+#packageContainer > div > div{
+    padding-left: 90px;
+    margin: 30px 0;
+}
+#packageContainer > div > div h2{
+    font-size: 40px;
+    font-family: 'AR One Sans', sans-serif;
+    color: rgba(0, 0, 0, 0.8);
+}
+#packageContainer > div > div p{
+    font-size: 15px;
+    letter-spacing: 2px;
+    color: rgba(0, 0, 0, 0.5);
+}
+.pkg-list-container li h3{
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+    color: rgba(0, 0, 0, 0.6);
+    margin: 10px 15px;
+}
+.pkg-list-container li .add{
+    width: 43px;
+    aspect-ratio: 1/1;
+    border-radius: 90%;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: rgba(111, 66, 193, 0.5);
+    background: white;
+    transition: all 0.5s;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+}
+#packageContainer > div > ul li > div{
+    display: flex;
+    padding-left: 10px;
+}
+#packageContainer > div > ul li > div .fa-solid.fa-star.show{
+    color: orange;
+}
+#packageContainer > div > ul li > div i {
+    margin: 5px;
+}
+.pkg-list-container li .add:hover{
+    background: rgba(111, 66, 193, 0.9);
+    color: white;
+}
+#addPackage-container{
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 100vh;
+    align-items: center;
+    justify-content: center;
+    padding-top: 50px;
+    z-index: 1000;
+    transition: ease-in-out 0.5s;
+}
+#addPackage-container .addPackage-div{
+    width: 100%;
+    height: 100%;
+    background: white;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    padding: 0 50px;
+}
+.addPackage-div .div-container{
+    width: 100%;
+    height: 90vh;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.05);
+    background: white;
+}
+.div-1{
+    height: 80px;
+    display: flex;
+    align-items: center;
+    padding: 0 50px;
+    position: relative;
+}
+.div-1 i{
+    width: 40px;
+    aspect-ratio: 1/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 90%;
+    background: rgba(0, 0, 0, 0.1);
+    font-size: 20px;
+    color: rgba(0, 0, 0, 0.5);
+    transition: all 0.5s;
+    cursor: pointer;
+}
+.div-1 i:last-child{
+    position: absolute;
+    right: 20px;
+}
+.div-1 i:last-child:hover{
+    background: rgba(255, 0, 0, 0.6);
+    color: white;
+}
+
+#travel-area{
+    height: 500px;
+    /*display: flex;*/
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+}
+#button-div{
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    padding: 0 50px;
+}
+#button-div button{
+    width: 100px;
+    height: 40px;
+    margin: 0 10px;
+    outline: none;
+    border: none;
+    background: rgba(0, 0, 0, 0.1);
+    color: rgba(0, 0, 0, 0.7);
+    transition: all 0.5s;
+    border-radius: 5px;
+}
+#button-div button:hover{
+    background: #0d6efd;
+    color: white;
+}
+#travel-area ul{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+    padding: 0;
+}
+#travel-area ul li{
+    list-style: none;
+    width: 200px;
+    height: 210px;
+    margin: 10px 20px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: all 0.5s;
+    overflow: hidden;
+    position: relative;
+}
+#travel-area ul li:hover{
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+}
+#travel-area ul li img{
+    width: 100%;
+    object-fit: cover;
+}
+#travel-area ul li p{
+    font-family: 'Roboto', sans-serif;
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.6);
+    padding: 8px;
+}
+
+#travel-area ul li i{
+    width: 30px;
+    aspect-ratio: 1/1;
+    border-radius: 90%;
+    position: absolute;
+    right: 10px;
+    bottom: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
+    color: rgba(0, 0 ,0, 0.5);
+    transition: ease-in-out 0.5s;
+}
+#travel-area ul li i:hover{
+    color: #0d6efd;
+}
+#travel-area ul li .fa-solid.fa-check{
+    background: #0d6efd;
+    color: white;
+}
+#hotel-container, #vehicle-container{
+    width: 100%;
+    height: 100vh;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+}
+#vehicle-container{
+    /*display: flex;*/
+}
+#pkgHotel, #pkgVehicle{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    height: 62vh;
+    background: white;
+    margin: 0;
+}
+#pkgHotel li, #pkgVehicle li{
+    list-style: none;
+    width: 260px;
+    height: 320px;
+    background: rgba(0, 0, 0, 0.01);
     margin: 30px;
     border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.5s ease 0s;
+    box-shadow: -2px 0 20px rgba(0, 0, 0, 0.15);
+    position: relative;
+}
+#pkgHotel li img, #pkgVehicle li img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+#pkgHotel li h3, #pkgVehicle li h3 {
+    font-family: 'AR One Sans', sans-serif;
+    font-size: 15px;
+    padding: 0 20px;
+    font-weight: 300;
+    color: rgba(0, 0, 0, 0.6);
+}
+#pkgHotel li h3:nth-child(5), #pkgVehicle li h3:nth-child(5){
+    font-size: 13px;
+}
+#pkgHotel li > div > div{
+    display: flex;
+    justify-content: start;
+}
+#pkgHotel li > div > div .fa-solid.fa-star{
+    cursor: default;
+    margin: 5px;
+    font-size: 15px;
+}
+#pkgHotel li > i, #pkgVehicle li > i{
+    width: 38px;
+    aspect-ratio: 1/1;
+    border-radius: 90%;
+    position: absolute;
+    right: 15px;
+    bottom: 12px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
+    color: rgba(0, 0 ,0, 0.5);
+    transition: ease-in-out 0.5s;
+    cursor: pointer;
+}
+#pkgHotel li h2, #pkgHotel li p, #pkgVehicle li h2, #pkgVehicle li p{
+    display: none;
+}
+#pkgHotel li > i:hover,  #pkgVehicle li > i:hover{
+    color: white;
+    background: rgba(0, 0, 0, 0.3);
+}
+#pkgHotel li > i:nth-child(7).fa-solid.fa-check, #pkgVehicle li > i.fa-solid.fa-check{
+    background: #0d6efd;
+    color: white;
+}
+#pkgHotel li > div > div > .fa-solid.fa-star.activeView{
+    color: orange;
+}
+.next-hotel-div, .next-vehicle-div{
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.next-hotel-div i, .next-vehicle-div i{
+    width: 40px;
+    aspect-ratio: 1/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.05);
+    margin: 0 10px;
+    color: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: all 0.5s;
+    font-size: 18px;
+}
+.next-hotel-div i:hover, .next-vehicle-div i:hover{
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+}
+#vehicle-container{
+    width: 100%;
+}
+#other-details-container{
+    width: 100%;
+    height: 74vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 25px 10px;
+}
+.details-div1{
+    /*background: white;*/
+    height: 100vh;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.details-div1 div{
+    background: white;
+    margin: 10px;
+    border-radius: 15px;
+    box-shadow: -2px 0 20px rgba(0, 0, 0, 0.15);
+}
+.details-div1 .hotel-div{
+    width: 200px;
+    height: 230px;
+    overflow: hidden;
+}
+.details-div1 .hotel-div img{
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+.details-div1 .hotel-div h3{
+    font-family: 'AR One Sans', sans-serif;
+    font-size: 15px;
+    padding: 0 10px;
+    font-weight: 300;
+    color: rgba(0, 0, 0, 0.6);
+}
+.details-div1 .hotel-div h3:last-child{
+    font-size: 13px;
+}
+.details-div1 .free-div{
+    width: 200px;
+    height: 200px;
+}
+.details-div2{
+    height: 100%;
+    width: 800px;
+    border-radius: 20px;
+    box-shadow: -2px 0 20px rgba(0, 0, 0, 0.15);
+    padding: 20px 50px;
+    background: white;
+}
+#other-details-container > div.details-div2 > div > div.form-group.col-md-12 > label{
+    font-size: 28px;
+    padding: 0;
+    color: rgba(0, 0, 0, 0.6);
+    margin-bottom: 15px;
+}
+.details-div2 > div div{
+    display: flex;
+    flex-direction: column;
+}
+.details-div2 > div div label:first-child{
+    font-size: 15px;
+    color: rgba(0, 0, 0, 0.6);
+}
+.details-div2 > div div label:last-child{
+    font-size: 18px;
+    margin: 0;
+    padding-left: 10px;
+    color: #0d6efd;
+}
+.details-div2 > div div select, .details-div2 > div div input[type='date']{
+    color: rgba(0, 0, 0, 0.6);
+}
+#other-details-container > div.details-div2 > div > div:nth-child(5){
+    display: flex;
+    justify-content: end;
+    padding: 0 20px;
+}
+#qtyAddBtn{
+    width: 60px;
+    height: 35px;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    color: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.1);
+    transition: all 0.5s;
+}
+
+#qtyAddBtn:hover{
+    background: #0d6efd;
+    color: white;
+}
+#other-details-container > div.details-div2 > div > div:nth-child(6){
+    display: flex;
+    justify-content: end;
+}
+#other-details-container > div.details-div2 > div > div:nth-child(6) i{
+    width: 39px;
+    aspect-ratio: 1/1;
+    background: rgba(0, 0, 0, 0.1);
+    color: rgba(0, 0, 0, 0.5);
+    border-radius: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+#other-details-container > div.details-div2 > div > div:nth-child(6) i:hover{
+    background: #6f42c1;
+    color: white;
+}
+.free-div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.free-div h2{
+    font-family: 'AR One Sans', sans-serif;
+    font-size: 15px;
+    margin-bottom: 10px;
+    color: rgba(0, 0, 0, 0.6);
+}
+.free-div h3{
+    font-size: 30px;
+    color: red;
+}
+#backBtn:hover{
+    background: rgba(0, 0, 0, 0.4)!important;
+    color: white!important;
 }

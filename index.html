@@ -36,6 +36,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 </head>
 <body>
 <main>
@@ -138,13 +141,257 @@
     </section>
     <!---------------------------------------------------------------------------------->
     <section class="package" id="packageContainer">
-        <div class="package-list">
-            <ul id="packageUl">
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
+        <div class="pkg-container">
+            <div class="pkg-text">
+                <h2>Select your travel package</h2>
+                <p>Select the package category you want to enjoy !</p>
+            </div>
+            <ul class="pkg-list-container">
+                <li>
+                    <img src="assets/images/deep-dive-luxury-travel-1024x683-1.webp" alt="">
+                    <h3>Super Luxury</h3>
+                    <div class="star-selector">
+                        <div class="hotelView-stars">
+                            <i class="fa-solid fa-star show"></i>
+                            <i class="fa-solid fa-star show"></i>
+                            <i class="fa-solid fa-star show"></i>
+                            <i class="fa-solid fa-star show"></i>
+                            <i class="fa-solid fa-star show"></i>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-plus add"></i>
+                </li>
+                <li>
+                    <img src="assets/images/anse-source-dargent-taken-at-sunset-from-a-drone-royalty-free-image-1677701213.jpg"
+                         alt="">
+                    <h3>Luxury</h3>
+                    <div class="star-selector">
+                        <div class="hotelView-stars">
+                            <i class="fa-solid fa-star show"></i>
+                            <i class="fa-solid fa-star show"></i>
+                            <i class="fa-solid fa-star show"></i>
+                            <i class="fa-solid fa-star show"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-plus add"></i>
+                </li>
+                <li>
+                    <img src="assets/images/SI-P18-4-06-KSN-1.png" alt="">
+                    <h3>Mid Leve</h3>
+                    <div class="star-selector">
+                        <div class="hotelView-stars">
+                            <i class="fa-solid fa-star show"></i>
+                            <i class="fa-solid fa-star show"></i>
+                            <i class="fa-solid fa-star show"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-plus add"></i>
+                </li>
+                <li>
+                    <img src="assets/images/3106390037552f181eb0do_20220714165408.jpg" alt="">
+                    <h3>Regular</h3>
+                    <div class="star-selector">
+                        <div class="hotelView-stars">
+                            <i class="fa-solid fa-star show"></i>
+                            <i class="fa-solid fa-star show"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-plus add"></i>
+                </li>
             </ul>
+        </div>
+    </section>
+    <!--------------------------------------------------------------------------------------->
+    <section class="addPackage-container" id="addPackage-container">
+        <div class="addPackage-div">
+            <div class="div-1">
+                <i class="fa-solid fa-xmark" id="closeBtn"></i>
+            </div>
+            <div class="div-container">
+                <div id="travel-area">
+                    <ul>
+                        <li value="1">
+                            <img src="assets/images/defaultimage.jpg" alt="">
+                            <p>Kandy and Upcountry</p>
+                            <i class="fa-solid fa-plus"></i>
+                        </li>
+                        <li value="2">
+                            <img src="assets/images/defaultimage.jpg" alt="">
+                            <p>Eastern Coast</p>
+                            <i class="fa-solid fa-plus"></i>
+                        </li>
+                        <li value="3">
+                            <img src="assets/images/defaultimage.jpg" alt="">
+                            <p>Capital Colombo</p>
+                            <i class="fa-solid fa-plus"></i>
+                        </li>
+                        <li value="4">
+                            <img src="assets/images/defaultimage.jpg" alt="">
+                            <p>Western Coast</p>
+                            <i class="fa-solid fa-plus"></i>
+                        </li>
+                        <li value="5">
+                            <img src="assets/images/defaultimage.jpg" alt="">
+                            <p>North Peninsula</p>
+                            <i class="fa-solid fa-plus"></i>
+                        </li>
+                        <li value="6">
+                            <img src="assets/images/defaultimage.jpg" alt="">
+                            <p>Down South</p>
+                            <i class="fa-solid fa-plus"></i>
+                        </li>
+                        <li value="7">
+                            <img src="assets/images/defaultimage.jpg" alt="">
+                            <p>Sigiriya and Dambulla</p>
+                            <i class="fa-solid fa-plus"></i>
+                        </li>
+                        <li value="8">
+                            <img src="assets/images/defaultimage.jpg" alt="">
+                            <p>Anuradhapura and Polonnaruwa</p>
+                            <i class="fa-solid fa-plus"></i>
+                        </li>
+                        <li value="9">
+                            <img src="assets/images/deep-dive-luxury-travel-1024x683-1.webp" alt="">
+                            <p>Matale</p>
+                            <i class="fa-solid fa-plus"></i>
+                        </li>
+                    </ul>
+                </div>
+                <div id="hotel-container">
+                    <ul id="pkgHotel">
+                        <li>
+                            <img src="assets/images/login.jpg">
+                            <p></p>
+                            <h2>10</h2>
+                            <h3>Hotel Galdari</h3>
+                            <h3>Pandura</h3>
+                            <div class="form-group col-md-12 star-selector">
+                                <div class="hotelView-card-stars">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-plus"></i>
+                        </li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                    </ul>
+                    <div class="next-hotel-div">
+                        <i class="fa-solid fa-chevron-left" id="previousBtn"></i>
+                        <i class="fa-solid fa-chevron-right" id="nextHotelBtn"></i>
+                    </div>
+                </div>
+                <div id="vehicle-container">
+                    <ul id="pkgVehicle">
+                        <li>
+                            <img src="assets/images/login.jpg">
+                            <p></p>
+                            <h2>10</h2>
+                            <h3>Hotel Galdari</h3>
+                            <h3>Pandura</h3>
+                            <i class="fa-solid fa-plus"></i>
+                        </li>
+                    </ul>
+                    <div class="next-vehicle-div">
+                        <i class="fa-solid fa-chevron-left" id="previousVehicleBtn"></i>
+                        <i class="fa-solid fa-chevron-right" id="nextVehicleBtn"></i>
+                    </div>
+                </div>
+                <div id="other-details-container">
+                    <div class="details-div1">
+                        <div class="hotel-div">
+                            <img src="assets/images/login.jpg">
+                            <h3>Hotel Galdari</h3>
+                            <h3>Pandura</h3>
+                        </div>
+                        <div class="free-div">
+                            <h2>Total price</h2>
+                            <h3 id="totalLbl">50 000</h3>
+                        </div>
+                    </div>
+                    <div class="details-div2">
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label>Please select additional details</label>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Room category</label>
+                                <select id="CategoryCmb" class="form-select">
+                                    <option value="default" selected>Select</option>
+                                    <option>Full Luxury Double</option>
+                                    <option>Half Luxury Double</option>
+                                    <option>Full Luxury Triple</option>
+                                    <option>Half Luxury Triple</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label>Price</label>
+                                <label id="priceLbl">0</label>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label>Qty</label>
+                                <input type="text" class="form-control" id="roomQtyTxt" placeholder="1">
+                            </div>
+                            <div class="form-group col-md-2">
+                                <button type="button" id="qtyAddBtn">Add</button>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Start date</label>
+                                <input type="date" class="form-control" id="startDateTxt">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>End date</label>
+                                <input type="date" class="form-control" id="endDateTxt">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>No of adults</label>
+                                <input type="text" class="form-control" id="noOfAdultsTxt" placeholder="2">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>No of children</label>
+                                <input type="text" class="form-control" id="noOfChildrenTxt" placeholder="4">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Total head count</label>
+                                <label id="headCountLbl">0</label>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>With pets or </label>
+                                <select id="withPetCmb" class="form-select">
+                                    <option value="default" selected>Select</option>
+                                    <option>With pets</option>
+                                    <option>No pets</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Optional Guide</label>
+                                <select id="guideCmb" class="form-select">
+                                    <option value="default" selected>Select</option>
+                                    <option>With pets</option>
+                                    <option>No pets</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="button-div">
+                <button type="button" id="backBtn">Back</button>
+                <button type="button" id="nextBtn">Next</button>
+            </div>
         </div>
     </section>
     <!---------------------------vehicle------------------------------------------------------->
@@ -454,12 +701,6 @@
     </section>
     <!--------------------------------user-------------------------------------------------->
     <section class="users" id="usersContainer">
-        <nav class="usersNav">
-            <ul>
-                <li id="usersNavBtn">Users</li>
-                <li id="adminsNavBtn">Admins</li>
-            </ul>
-        </nav>
         <div class="user-list">
             <i class="fa-solid fa-plus" id="addUserBtn"></i>
             <div class="user-list-header">
@@ -474,32 +715,6 @@
             <ul id="userUl">
                 <li>
                     <img src="assets/images/google.png" alt="">
-                    <h3>null</h3>
-                    <h3>null</h3>
-                    <h3>null</h3>
-                    <h3>null</h3>
-                    <h3>null</h3>
-                    <button type="button">Edit</button>
-                </li>
-                <li></li>
-                <li></li>
-                <li></li>
-            </ul>
-        </div>
-        <div class="admins-list">
-            <i class="fa-solid fa-plus" id="addAdminsBtn"></i>
-            <div class="admins-list-header">
-                <h3>ID</h3>
-                <h3>Name</h3>
-                <h3>Contact</h3>
-                <h3>Age</h3>
-                <h3>Gender</h3>
-                <h3>Role</h3>
-                <h3>Option</h3>
-            </div>
-            <ul id="adminUl">
-                <li>
-                    <h3 class="driverIdTxt">null</h3>
                     <h3>null</h3>
                     <h3>null</h3>
                     <h3>null</h3>
@@ -539,6 +754,8 @@
             </div>
             <div class="form-group col-md-12 btn-container">
                 <button type="button" id="saveUserBtn">Save</button>
+                <button type="button" id="updateUserBtn">Update</button>
+                <button type="button" id="deleteUserBtn">Delete</button>
             </div>
         </div>
     </section>
@@ -741,5 +958,6 @@
 <script src="controller/HotelController.js" type="module"></script>
 <script src="controller/VehicleController.js" type="module"></script>
 <script src="controller/GuideController.js" type="module"></script>
+<script src="controller/PackageController.js" type="module"></script>
 </body>
 </html>
