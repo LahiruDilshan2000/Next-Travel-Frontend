@@ -159,7 +159,7 @@
                             <i class="fa-solid fa-star show"></i>
                         </div>
                     </div>
-                    <i class="fa-solid fa-plus add"></i>
+                    <i class="fa-solid fa-plus add" id="btnSuperLuxury"></i>
                 </li>
                 <li>
                     <img src="assets/images/anse-source-dargent-taken-at-sunset-from-a-drone-royalty-free-image-1677701213.jpg"
@@ -174,7 +174,7 @@
                             <i class="fa-solid fa-star"></i>
                         </div>
                     </div>
-                    <i class="fa-solid fa-plus add"></i>
+                    <i class="fa-solid fa-plus add" id="btnLuxury"></i>
                 </li>
                 <li>
                     <img src="assets/images/SI-P18-4-06-KSN-1.png" alt="">
@@ -188,7 +188,7 @@
                             <i class="fa-solid fa-star"></i>
                         </div>
                     </div>
-                    <i class="fa-solid fa-plus add"></i>
+                    <i class="fa-solid fa-plus add" id="btnMidLevel"></i>
                 </li>
                 <li>
                     <img src="assets/images/3106390037552f181eb0do_20220714165408.jpg" alt="">
@@ -202,7 +202,7 @@
                             <i class="fa-solid fa-star"></i>
                         </div>
                     </div>
-                    <i class="fa-solid fa-plus add"></i>
+                    <i class="fa-solid fa-plus add" id="btnRegular"></i>
                 </li>
             </ul>
         </div>
@@ -310,19 +310,29 @@
                 <div id="other-details-container">
                     <div class="details-div1">
                         <div class="hotel-div">
-                            <img src="assets/images/login.jpg">
-                            <h3>Hotel Galdari</h3>
-                            <h3>Pandura</h3>
+                            <section>
+                                <img src="assets/images/login.jpg">
+                                <h3>Hotel Galdari</h3>
+                                <h3>Pandura</h3>
+                            </section>
                         </div>
                         <div class="free-div">
                             <h2>Total price</h2>
-                            <h3 id="totalLbl">50 000</h3>
+                            <h3 id="totalLbl">0.00</h3>
                         </div>
                     </div>
                     <div class="details-div2">
                         <div class="form-row">
                             <div class="form-group col-md-12">
                                 <label>Please select additional details</label>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Start date</label>
+                                <input type="date" class="form-control" id="startDateTxt">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>End date</label>
+                                <input type="date" class="form-control" id="endDateTxt">
                             </div>
                             <div class="form-group col-md-4">
                                 <label>Room category</label>
@@ -346,15 +356,20 @@
                                 <button type="button" id="qtyAddBtn">Add</button>
                             </div>
                             <div class="form-group col-md-2">
-                                <i class="fa-solid fa-cart-shopping"></i>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label>Start date</label>
-                                <input type="date" class="form-control" id="startDateTxt">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label>End date</label>
-                                <input type="date" class="form-control" id="endDateTxt">
+                                <i class="fa-solid fa-cart-shopping" id="viewRoomCart"></i>
+                                <div class="roomFilter" id="roomFilter">
+                                    <div id="showRooms">
+                                        <ul id="showR">
+                                            <li>
+                                                <h2>0</h2>
+                                                <p>Full Luxury Double</p>
+                                                <p>Qty</p>
+                                                <i class="fa-solid fa-delete-left"></i>
+                                            </li>
+                                            <li></li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group col-md-4">
                                 <label>No of adults</label>

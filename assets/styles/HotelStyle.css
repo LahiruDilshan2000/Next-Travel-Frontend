@@ -286,4 +286,8 @@ input[type='tel']:hover{
     height: 0;
     transition: all 0.8s;
 }
+#updateHotelBtn{
+    display: none;
+    background: #6f42c1;
+}
 

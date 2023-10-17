@@ -243,6 +243,16 @@ export class GuideController {
         imageFileList[3] = this.handleGetNewImgFile(data.imageList[3], 'guide_id_img_1');
         imageFileList[4] = this.handleGetNewImgFile(data.imageList[4], 'guide_id_img_2');
 
+        $("#saveGuideBtn").css({
+            "display": "none"
+        });
+        $("#updateGuideBtn").css({
+            "display": "inline"
+        });
+        $("#deleteGuideBtn").css({
+            "display": "inline"
+        });
+
         this.handleGuideAddContainerShowEvent();
     }
 
@@ -337,6 +347,15 @@ export class GuideController {
         }
         document.body.style.overflow = 'auto';
         $("#guideAddFilter").css({
+            "display": "none"
+        });
+        $("#saveGuideBtn").css({
+            "display": "block"
+        });
+        $("#updateGuideBtn").css({
+            "display": "none"
+        });
+        $("#deleteGuideBtn").css({
             "display": "none"
         });
     }

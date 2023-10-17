@@ -304,3 +304,7 @@ select:hover{
 #vehicleView > div > form > div > div.form-group.col-md-2{
     height: 80px;
 }
+#updateVehicleBtn{
+    display: none;
+    background: #6f42c1;
+}

@@ -330,6 +330,12 @@ export class VehicleController {
         $('#vehicleView').css({
             "display": "none"
         });
+        $('#SaveVehicleBtn').css({
+            "display": "none"
+        });
+        $('#updateVehicleBtn').css({
+            "display": "block"
+        });
 
         this.handleVehicleAddContainerShowEvent();
     }
@@ -426,6 +432,12 @@ export class VehicleController {
             "display": "none"
         });
         $("#vehicleAdd").css({
+            "display": "none"
+        });
+        $('#SaveVehicleBtn').css({
+            "display": "block"
+        });
+        $('#updateVehicleBtn').css({
             "display": "none"
         });
     }

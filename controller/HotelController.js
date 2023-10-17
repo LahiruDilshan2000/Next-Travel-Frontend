@@ -39,8 +39,6 @@ export class HotelController {
         this.handleHotelCategoryClickEvent();
         this.handleLoadAllData();
         this.handleHotelContainerClickEvent();
-
-
     }
 
     handleHotelViewFilterClickEvent(event) {
@@ -60,7 +58,7 @@ export class HotelController {
             $.ajax({
                 url: "http://localhost:8081/nexttravel/api/v1/hotel/get?hotelId=" + hotelId,
                 method: "GET",
-                processData: false, // Prevent jQuery from processing the data
+                processData: false,
                 contentType: false,
                 async: true,
                 success: (resp) => {
@@ -317,6 +315,9 @@ export class HotelController {
         $("#hotelAdd").css({
             "display": "none"
         });
+
+        $('#updateHotelBtn').css({'display' : 'none'});
+        $('#saveHotelBtn').css({'display' : 'block'});
     }
 
     handleHotelViewEditOptions() {
@@ -426,6 +427,9 @@ export class HotelController {
 
         hotelId = data.hotelId;
         hotelImageFile = this.handleGetNewImgFile(data.hotelImageLocation, 'hotelImage');
+
+        $('#updateHotelBtn').css({'display' : 'block'});
+        $('#saveHotelBtn').css({'display' : 'none'});
 
         this.handleAddHotelContainer();
     }

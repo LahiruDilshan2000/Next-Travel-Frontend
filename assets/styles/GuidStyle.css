@@ -180,4 +180,12 @@
     border: none;
     outline: none;
 }
+#updateGuideBtn{
+    display: none;
+    background: #6f42c1;
+}
+#deleteGuideBtn{
+    display: none;
+    background: red;
+}
 

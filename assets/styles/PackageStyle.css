@@ -349,7 +349,7 @@
 #other-details-container{
     width: 100%;
     height: 74vh;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     padding: 25px 10px;
@@ -425,7 +425,7 @@
 .details-div2 > div div select, .details-div2 > div div input[type='date']{
     color: rgba(0, 0, 0, 0.6);
 }
-#other-details-container > div.details-div2 > div > div:nth-child(5){
+#other-details-container > div.details-div2 > div > div:nth-child(7){
     display: flex;
     justify-content: end;
     padding: 0 20px;
@@ -445,11 +445,11 @@
     background: #0d6efd;
     color: white;
 }
-#other-details-container > div.details-div2 > div > div:nth-child(6){
+#other-details-container > div.details-div2 > div > div:nth-child(8){
     display: flex;
     justify-content: end;
 }
-#other-details-container > div.details-div2 > div > div:nth-child(6) i{
+#other-details-container > div.details-div2 > div > div:nth-child(8) > i{
     width: 39px;
     aspect-ratio: 1/1;
     background: rgba(0, 0, 0, 0.1);
@@ -461,7 +461,7 @@
     cursor: pointer;
     transition: all 0.5s;
 }
-#other-details-container > div.details-div2 > div > div:nth-child(6) i:hover{
+#other-details-container > div.details-div2 > div > div:nth-child(8) > i:hover{
     background: #6f42c1;
     color: white;
 }
@@ -484,4 +484,67 @@
 #backBtn:hover{
     background: rgba(0, 0, 0, 0.4)!important;
     color: white!important;
+}
+#other-details-container > div.details-div2 > div > div:nth-child(8){
+    position: relative;
+}
+#roomFilter{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 100;
+    transition: all 0.5s;
+    display: none;
+}
+#showRooms{
+    position: absolute;
+    background: white;
+    width: 600px;
+    height: 400px;
+    top: 220px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+    right: 350px;
+}
+#showRooms ul{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+#showRooms ul li{
+    list-style: none;
+    width: 100%;
+    height: 50px;
+    margin: 5px 0;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#showRooms ul li h2{
+    display: none;
+}
+#showRooms ul li p{
+    margin: 0 10px;
+}
+#showRooms ul li i.fa-solid.fa-delete-left{
+    width: 35px;
+    aspect-ratio: 1/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 20px;
+    border-radius: 90%;
+    color: rgba(0, 0, 0, 0.5);
+    transition: all 0.5s;
+    background: rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+#showRooms ul li i.fa-solid.fa-delete-left:hover{
+    background: red;
+    color: white;
 }
