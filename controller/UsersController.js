@@ -4,6 +4,10 @@ let userImg = undefined;
 let userId = null;
 let nic = null;
 const defaultImg = 'assets/images/defaultimage.jpg';
+let uNextPage = 1;
+let uCurrentPage = 0;
+const count = 10;
+let userHasPage = false;
 
 export class UsersController {
     constructor() {
@@ -28,9 +32,33 @@ export class UsersController {
         $('#deleteUserBtn').on('click', () => {
             this.handleDeleteUser(userId);
         });
+        $("#nextAddUserBtn").on('click', () => {
+            this.handleNextUserList();
+        });
+        $("#previousAddUserBtn").on('click', () => {
+            this.handlePreviousUserList();
+        });
         this.handleNavContainer(".user-list", "#usersNavBtn");
-        this.handleLoadAllData();
+        this.handleLoadAllData(0, count);
         this.handleUserEditeEvent();
+    }
+
+    handleNextUserList() {
+        if (uNextPage !== 0) {
+            this.handleLoadAllData(uNextPage, count);
+            if (userHasPage) {
+                uCurrentPage++;
+                uNextPage++;
+            }
+        }
+    }
+
+    handlePreviousUserList() {
+        if (uCurrentPage !== 0) {
+            uCurrentPage--;
+            uNextPage--;
+            this.handleLoadAllData(uCurrentPage, count);
+        }
     }
 
     handleUserAddEvent() {
@@ -94,14 +122,14 @@ export class UsersController {
         });
     }
 
-    handleLoadAllData() {
+    handleLoadAllData(page, count) {
 
         $.ajax({
-            url: "http://localhost:8081/nexttravel/api/v1/user/getAll",
+            url: "http://localhost:8081/nexttravel/api/v1/user/getAll?page=" + page + "&count=" + count,
             method: "GET",
             processData: false,
             contentType: false,
-            async: true,
+            async: false,
             success: (resp) => {
                 if (resp.code === 200) {
                     this.handleLoadUser(resp.data);
@@ -123,8 +151,8 @@ export class UsersController {
                     !/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/.test($('#emailTxt').val()) ? alert("Email invalid or empty !") :
                         !/^([A-Za-z0-9@]{4,})$/.test($('#passwordTxt').val()) ? alert("Password invalid or empty !") :
                             fun === 'update' ? this.handleUpdateUser() :
-                            !$('#userImgFile')[0].files[0] ? alert("Please select the image !") :
-                                this.handleSaveUser();
+                                !$('#userImgFile')[0].files[0] ? alert("Please select the image !") :
+                                    this.handleSaveUser();
     }
 
     handleSaveUser() {
@@ -173,28 +201,34 @@ export class UsersController {
 
     handleLoadUser(data) {
 
-        $('#userUl li').remove();
+        if (data.length !== 0) {
 
-        data.map(value => {
+            $('#userUl li').remove();
 
-            let li = "<li>\n" +
-                "                    <img src=\"assets/images/google.png\">\n" +
-                "                    <h3>null</h3>\n" +
-                "                    <h3>null</h3>\n" +
-                "                    <h3>null</h3>\n" +
-                "                    <h3>null</h3>\n" +
-                "                    <h3>null</h3>\n" +
-                "                    <button type=\"button\">Edit</button>\n" +
-                "                </li>";
+            data.map(value => {
 
-            $('#userUl').append(li);
-            $('#userUl li:last-child img').attr('src', `data:image/png;base64,${value.userImage}`);
-            $('#userUl li:last-child h3:nth-child(2)').text(value.userId);
-            $('#userUl li:last-child h3:nth-child(3)').text(value.userName);
-            $('#userUl li:last-child h3:nth-child(4)').text(value.nic);
-            $('#userUl li:last-child h3:nth-child(5)').text(value.address);
-            $('#userUl li:last-child h3:nth-child(6)').text(value.email);
-        });
+                let li = "<li>\n" +
+                    "                    <img src=\"assets/images/google.png\">\n" +
+                    "                    <h3>null</h3>\n" +
+                    "                    <h3>null</h3>\n" +
+                    "                    <h3>null</h3>\n" +
+                    "                    <h3>null</h3>\n" +
+                    "                    <h3>null</h3>\n" +
+                    "                    <button type=\"button\">Edit</button>\n" +
+                    "                </li>";
+
+                $('#userUl').append(li);
+                $('#userUl li:last-child img').attr('src', `data:image/png;base64,${value.userImage}`);
+                $('#userUl li:last-child h3:nth-child(2)').text(value.userId);
+                $('#userUl li:last-child h3:nth-child(3)').text(value.userName);
+                $('#userUl li:last-child h3:nth-child(4)').text(value.nic);
+                $('#userUl li:last-child h3:nth-child(5)').text(value.address);
+                $('#userUl li:last-child h3:nth-child(6)').text(value.email);
+            });
+            userHasPage = true;
+        } else {
+            userHasPage = false;
+        }
     }
 
     handleReset() {
@@ -211,9 +245,9 @@ export class UsersController {
         nic = null;
         document.body.style.overflow = 'auto';
 
-        $('#saveUserBtn').css({'display' : 'block'});
-        $('#updateUserBtn').css({'display' : 'none'});
-        $('#deleteUserBtn').css({'display' : 'none'});
+        $('#saveUserBtn').css({'display': 'block'});
+        $('#updateUserBtn').css({'display': 'none'});
+        $('#deleteUserBtn').css({'display': 'none'});
     }
 
     handleUserEditeEvent() {
@@ -253,12 +287,13 @@ export class UsersController {
 
         userImg = this.handleGetNewImgFile(data.userImage, 'user_img');
 
-        $('#saveUserBtn').css({'display' : 'none'});
-        $('#updateUserBtn').css({'display' : 'block'});
-        $('#deleteUserBtn').css({'display' : 'block'});
+        $('#saveUserBtn').css({'display': 'none'});
+        $('#updateUserBtn').css({'display': 'block'});
+        $('#deleteUserBtn').css({'display': 'block'});
 
         this.handleUserAddEvent();
     }
+
     handleGetNewImgFile(base64Array, imageName) {
 
         const byteString = atob(base64Array);
@@ -290,7 +325,7 @@ export class UsersController {
             success: (resp) => {
                 if (resp.code === 200) {
                     console.log(resp.message);
-                    this.handleLoadAllData();
+                    this.handleLoadAllData(0,count);
                     this.handleReset();
                     $('#addUserForm').click();
                 }
@@ -313,7 +348,7 @@ export class UsersController {
             success: (resp) => {
                 if (resp.code === 200) {
                     console.log(resp.message);
-                    this.handleLoadAllData();
+                    this.handleLoadAllData(0, count);
                     this.handleReset();
                     $('#addUserForm').click();
                 }
@@ -325,7 +360,6 @@ export class UsersController {
         });
     }
 }
-
 
 
 new UsersController();

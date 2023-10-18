@@ -6,6 +6,10 @@ let arrayIndex = undefined;
 const imageFileList = new Array(7);
 const defaultImg = 'assets/images/defaultimage.jpg';
 let qty = null;
+let vNextPage = 1;
+let vCurrentPage = 0;
+const count = 8;
+let vehicleHasPage = false;
 
 export class VehicleController {
     constructor() {
@@ -57,8 +61,69 @@ export class VehicleController {
         $("#vehicleView div.form-group.col-md-2 > i").on('click', () => {
             this.handleHotelViewEditOptions();
         });
-        this.handleLoadAllData();
+        $("#nextAddVehicleBtn").on('click', () => {
+            this.handleNextVehicleList();
+        });
+        $("#previousAddVehicleBtn").on('click', () => {
+            this.handlePreviousVehicleList();
+        });
+        $("#searchVehicleBtn").on('click', () => {
+            this.handleSearchVehicle(0, count);
+        });
+        $("#restVehicle").on('click', () => {
+            this.handleRestSearch();
+        });
+        this.handleLoadAllData(0, count);
         this.handleVehicleViewEvent();
+    }
+
+    handleRestSearch(){
+
+        const seat = $('#searchVehicleSeatTxt');
+        const fuel = $('#searchVehicleFuelAndTransmissionCmb');
+        if (seat.val() || fuel.val() !== 'default'){
+            this.handleLoadAllData(0, 8);
+            seat.val("");
+            fuel.val('default');
+            vNextPage = 1;
+            vCurrentPage = 0;
+        }
+    }
+
+    handleNextVehicleList() {
+
+        if (!$('#searchVehicleSeatTxt').val() && $('#searchVehicleFuelAndTransmissionCmb').val() === 'default') {
+            if (vNextPage !== 0) {
+                this.handleLoadAllData(vNextPage, count);
+                if (vehicleHasPage) {
+                    vCurrentPage++;
+                    vNextPage++;
+                }
+            }
+        }else {
+            this.handleSearchVehicle(vNextPage, count);
+            if (vehicleHasPage) {
+                vCurrentPage++;
+                vNextPage++;
+            }
+        }
+    }
+
+    handlePreviousVehicleList() {
+
+        if (!$('#searchVehicleSeatTxt').val() && $('#searchVehicleFuelAndTransmissionCmb').val() === 'default') {
+            if (vCurrentPage !== 0) {
+                vCurrentPage--;
+                vNextPage--;
+                this.handleLoadAllData(vCurrentPage, count);
+            }
+        }else {
+            if (vCurrentPage !== 0) {
+                vCurrentPage--;
+                vNextPage--;
+                this.handleSearchVehicle(vCurrentPage, count);
+            }
+        }
     }
 
     handleVehicleViewFilterClickEvent(event) {
@@ -94,10 +159,98 @@ export class VehicleController {
         $('#vehicleAddImgFile').click();
     }
 
+    handleSearchVehicle(page, count){
+
+        const  seat = $('#searchVehicleSeatTxt').val();
+        const  fuelAndTrans = $('#searchVehicleFuelAndTransmissionCmb').val();
+
+        if(seat && fuelAndTrans !== 'default'){
+            this.handleSearchVehicleBySeatCapacityAndFelAndTransmission(page, count, parseInt(seat), fuelAndTrans);
+        }else if(seat){
+            this.handleSearchVehicleBySeatCapacity(page, count, parseInt(seat));
+        }else if (fuelAndTrans !== 'default'){
+            this.handleSearchVehicleByFelAndTransmission(page, count, fuelAndTrans);
+        }
+    }
+    handleSearchVehicleBySeatCapacityAndFelAndTransmission(page, count, seatCapacity, fuelAndTrans){
+
+        console.log(page)
+        console.log(count)
+        console.log(seatCapacity)
+        console.log(fuelAndTrans)
+        $.ajax({
+            url: "http://localhost:8081/nexttravel/api/v1/vehicle/getAllWithSeatAndFulWithTrans?page=" +
+                page + "&count=" + count + "&seatCapacity=" + seatCapacity + "&fuelAndTrans=" + fuelAndTrans,
+            method: "GET",
+            processData: false,
+            contentType: false,
+            async: false,
+            success: (resp) => {
+                if (resp.code === 200) {
+                    this.handleLoadItem(resp.data);
+                    console.log(resp.message);
+
+                }
+            },
+            error: (ob) => {
+                console.log(ob)
+                alert(ob.responseJSON.message);
+            },
+        });
+    }
+
+    handleSearchVehicleBySeatCapacity(page, count, seatCapacity){
+
+        $.ajax({
+            url: "http://localhost:8081/nexttravel/api/v1/vehicle/getAllWithSeatCapacity?page=" +
+                page + "&count=" + count + "&seatCapacity=" + seatCapacity,
+            method: "GET",
+            processData: false,
+            contentType: false,
+            async: false,
+            success: (resp) => {
+                if (resp.code === 200) {
+                    this.handleLoadItem(resp.data);
+                    console.log(resp.message);
+
+                }
+            },
+            error: (ob) => {
+                console.log(ob)
+                alert(ob.responseJSON.message);
+            },
+        });
+    }
+
+    handleSearchVehicleByFelAndTransmission(page, count, fuelAndTrans){
+
+        $.ajax({
+            url: "http://localhost:8081/nexttravel/api/v1/vehicle/getAllWithFuelAndTransmission?page=" +
+                page + "&count=" + count + "&fuelAndTrans=" + fuelAndTrans,
+            method: "GET",
+            processData: false,
+            contentType: false,
+            async: false,
+            success: (resp) => {
+                if (resp.code === 200) {
+                    this.handleLoadItem(resp.data);
+                    console.log(resp.message);
+
+                }
+            },
+            error: (ob) => {
+                console.log(ob)
+                alert(ob.responseJSON.message);
+            },
+        });
+    }
+
     handleLoadChangeEvent(imgId, arrayIndex) {
 
-        const file = $("#vehicleAddImgFile")[0].files[0];
+        const selector = $("#vehicleAddImgFile");
+        const file = selector[0].files[0];
         imageFileList[arrayIndex] = file;
+        selector.val('');
 
         if (file) {
             const reader = new FileReader();
@@ -177,7 +330,7 @@ export class VehicleController {
             success: (resp) => {
                 if (resp.code === 200) {
                     console.log(resp.message);
-                    this.handleLoadAllData();
+                    this.handleLoadAllData(0, count);
                     this.handleReset();
                 }
             },
@@ -188,14 +341,14 @@ export class VehicleController {
         });
     }
 
-    handleLoadAllData() {
+    handleLoadAllData(page, count) {
 
         $.ajax({
-            url: "http://localhost:8081/nexttravel/api/v1/vehicle/getAll",
+            url: "http://localhost:8081/nexttravel/api/v1/vehicle/getAll?page=" + page + "&count=" + count,
             method: "GET",
             processData: false,
             contentType: false,
-            async: true,
+            async: false,
             success: (resp) => {
                 if (resp.code === 200) {
                     console.log(resp.message);
@@ -210,24 +363,31 @@ export class VehicleController {
     }
 
     handleLoadItem(data) {
-        $('#vehicleUl li').remove();
 
-        data.map(value => {
+        if (data.length !== 0) {
 
-            let li = "<li>\n" +
-                "                    <img src=\"assets/images/login.jpg\">\n" +
-                "                    <h2>10</h2>\n" +
-                "                    <h3>Hotel Galdari</h3>\n" +
-                "                    <h3>Pandura</h3>\n" +
-                "                    <i class=\"fa-solid fa-arrow-right\"></i>\n" +
-                "                </li>";
+            $('#vehicleUl li').remove();
 
-            $('#vehicleUl').append(li);
-            $('#vehicleUl li:last-child img').attr('src', `data:image/png;base64,${value.imageList[0]}`);
-            $('#vehicleUl li:last-child h2').text(value.vehicleId);
-            $('#vehicleUl li:last-child h3:nth-child(3)').text(value.vehicleBrand);
-            $('#vehicleUl li:last-child h3:nth-child(4)').text(value.versionType);
-        });
+            data.map(value => {
+
+                let li = "<li>\n" +
+                    "                    <img src=\"assets/images/login.jpg\">\n" +
+                    "                    <h2>10</h2>\n" +
+                    "                    <h3>Hotel Galdari</h3>\n" +
+                    "                    <h3>Pandura</h3>\n" +
+                    "                    <i class=\"fa-solid fa-arrow-right\"></i>\n" +
+                    "                </li>";
+
+                $('#vehicleUl').append(li);
+                $('#vehicleUl li:last-child img').attr('src', `data:image/png;base64,${value.imageList[0]}`);
+                $('#vehicleUl li:last-child h2').text(value.vehicleId);
+                $('#vehicleUl li:last-child h3:nth-child(3)').text(value.vehicleBrand);
+                $('#vehicleUl li:last-child h3:nth-child(4)').text(value.versionType);
+            });
+            vehicleHasPage = true;
+        }else {
+            vehicleHasPage = false;
+        }
     }
 
     handleVehicleViewEvent() {
@@ -362,7 +522,7 @@ export class VehicleController {
             success: (resp) => {
                 if (resp.code === 200) {
                     console.log(resp.message);
-                    this.handleLoadAllData();
+                    this.handleLoadAllData(0, count);
                     this.handleReset();
                 }
             },
@@ -385,7 +545,7 @@ export class VehicleController {
                     console.log(resp)
                     if (resp.code === 200) {
                         console.log(resp.message);
-                        this.handleLoadAllData();
+                        this.handleLoadAllData(0, count);
                         this.handleReset();
                     }
                 },

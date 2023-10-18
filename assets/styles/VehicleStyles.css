@@ -1,6 +1,6 @@
 .vehicle{
     height: 100vh;
-    padding: 20px 100px;
+    padding: 10px 100px;
 }
 .vehicle .vehicle-list{
     width: 100%;
@@ -8,6 +8,7 @@
     align-items: center;
     justify-content: center;
     position: relative;
+
 }
 #vehicleAddBtn {
     width: 40px;
@@ -20,7 +21,7 @@
     justify-content: center;
     position: absolute;
     right: 0;
-    top: -40px;
+    top: -100px;
     cursor: pointer;
     color: rgba(0, 0, 0, 0.6);
     transition: all 0.5s;
@@ -307,4 +308,39 @@ select:hover{
 #updateVehicleBtn{
     display: none;
     background: #6f42c1;
+}
+.vehicleSearch{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 30px 0;
+}
+#searchVehicleBtn, #restVehicle{
+    width: 40px;
+    aspect-ratio: 1/1;
+    border-radius: 90%;
+    background: rgba(0, 0, 0, 0.08);
+    color: rgba(0, 0, 0, 0.4);
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 0 8px;
+}
+#vehicleContainer > div.vehicleSearch > div  div.form-group{
+    margin: 0;
+}
+#searchVehicleFuelAndTransmissionCmb{
+    border-radius: 10px;
+ }
+
+#searchVehicleBtn:hover{
+    background: rgba(13, 110, 253, 0.6);
+    color: white;
+}
+#restVehicle:hover{
+    background: rgba(255, 0, 0, 0.5);
+    color: white;
 }

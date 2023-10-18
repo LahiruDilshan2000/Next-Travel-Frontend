@@ -5,6 +5,10 @@ let arrayIndex = null;
 let imgId = undefined;
 let guideId = null;
 const defaultImg = 'assets/images/defaultimage.jpg';
+let gNextPage = 1;
+let gCurrentPage = 0;
+const count = 10;
+let guideHasPage = false;
 
 export class GuideController {
     constructor() {
@@ -41,8 +45,32 @@ export class GuideController {
         $("#deleteGuideBtn").on('click', () => {
             this.handleDeleteGuide(guideId);
         });
-        this.handleLoadAllGuideData();
+        $("#nextAddGuideBtn").on('click', () => {
+            this.handleNextUserList();
+        });
+        $("#previousAddGuideBtn").on('click', () => {
+            this.handlePreviousUserList();
+        });
+        this.handleLoadAllData(0, count);
         this.handleGuideEditeEvent();
+    }
+
+    handleNextUserList() {
+        if (gNextPage !== 0) {
+            this.handleLoadAllData(gNextPage, count);
+            if (guideHasPage) {
+                gCurrentPage++;
+                gNextPage++;
+            }
+        }
+    }
+
+    handlePreviousUserList() {
+        if (gCurrentPage !== 0) {
+            gCurrentPage--;
+            gNextPage--;
+            this.handleLoadAllData(gCurrentPage, count);
+        }
     }
 
     handleLoadImageEvent(id, index) {
@@ -54,8 +82,10 @@ export class GuideController {
 
     handleLoadChangeEvent(imgId, arrayIndex) {
 
-        const file = $("#guideAddImgFile")[0].files[0];
+        const selector = $("#guideAddImgFile");
+        const file = selector[0].files[0];
         imageFileList[arrayIndex] = file;
+        selector.val('');
 
         if (file) {
             const reader = new FileReader();
@@ -162,7 +192,7 @@ export class GuideController {
             success: (resp) => {
                 if (resp.code === 200) {
                     console.log(resp.message);
-                    this.handleLoadAllGuideData();
+                    this.handleLoadAllData(0, count);
                     this.handleReset();
                 }
             },
@@ -173,14 +203,14 @@ export class GuideController {
         });
     }
 
-    handleLoadAllGuideData() {
+    handleLoadAllData(page, count) {
 
         $.ajax({
-            url: "http://localhost:8081/nexttravel/api/v1/guide/getAll",
+            url: "http://localhost:8081/nexttravel/api/v1/guide/getAll?page="+ page + "&count=" + count,
             method: "GET",
             processData: false,
             contentType: false,
-            async: true,
+            async: false,
             success: (resp) => {
                 if (resp.code === 200) {
                     this.handleLoadGuide(resp.data);
@@ -195,6 +225,8 @@ export class GuideController {
     }
 
     handleLoadGuide(data) {
+
+        if (data.length !== 0) {
 
         $('#guideUl li').remove();
 
@@ -220,6 +252,10 @@ export class GuideController {
             $('#guideUl li:last-child h3:nth-child(6)').text(value.gender);
             $('#guideUl li:last-child h3:nth-child(7)').text(value.contact);
         });
+            guideHasPage = true;
+        } else {
+            guideHasPage = false;
+        }
     }
 
     handleEditDetails(data) {
@@ -290,7 +326,7 @@ export class GuideController {
             success: (resp) => {
                 if (resp.code === 200) {
                     console.log(resp.message);
-                    this.handleLoadAllGuideData();
+                    this.handleLoadAllData(0, count);
                     this.handleReset();
                 }
             },
@@ -312,7 +348,7 @@ export class GuideController {
             success: (resp) => {
                 if (resp.code === 200) {
                     console.log(resp.message);
-                    this.handleLoadAllGuideData();
+                    this.handleLoadAllData(0, count);
                     this.handleReset();
                 }
             },

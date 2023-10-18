@@ -160,6 +160,8 @@
                         </div>
                     </div>
                     <i class="fa-solid fa-plus add" id="btnSuperLuxury"></i>
+                    <h2>5</h2>
+                    <h2>Super Luxury</h2>
                 </li>
                 <li>
                     <img src="assets/images/anse-source-dargent-taken-at-sunset-from-a-drone-royalty-free-image-1677701213.jpg"
@@ -175,6 +177,8 @@
                         </div>
                     </div>
                     <i class="fa-solid fa-plus add" id="btnLuxury"></i>
+                    <h2>4</h2>
+                    <h2>Luxury</h2>
                 </li>
                 <li>
                     <img src="assets/images/SI-P18-4-06-KSN-1.png" alt="">
@@ -189,6 +193,8 @@
                         </div>
                     </div>
                     <i class="fa-solid fa-plus add" id="btnMidLevel"></i>
+                    <h2>3</h2>
+                    <h2>Mid-Range</h2>
                 </li>
                 <li>
                     <img src="assets/images/3106390037552f181eb0do_20220714165408.jpg" alt="">
@@ -203,6 +209,8 @@
                         </div>
                     </div>
                     <i class="fa-solid fa-plus add" id="btnRegular"></i>
+                    <h2>2</h2>
+                    <h2>Economy</h2>
                 </li>
             </ul>
         </div>
@@ -383,7 +391,15 @@
                                 <label>Total head count</label>
                                 <label id="headCountLbl">0</label>
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-3">
+                                <label>Contact</label>
+                                <input type="tel" class="form-control" id="pkgContactTxt" placeholder="07x xxxxxxx">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>Email</label>
+                                <input type="email" class="form-control" id="pkgEmailTxt" placeholder="info@mail.com">
+                            </div>
+                            <div class="form-group col-md-3">
                                 <label>With pets or </label>
                                 <select id="withPetCmb" class="form-select">
                                     <option value="default" selected>Select</option>
@@ -391,7 +407,7 @@
                                     <option>No pets</option>
                                 </select>
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-3">
                                 <label>Optional Guide</label>
                                 <select id="guideCmb" class="form-select">
                                     <option value="default" selected>Select</option>
@@ -411,6 +427,24 @@
     </section>
     <!---------------------------vehicle------------------------------------------------------->
     <section class="vehicle" id="vehicleContainer">
+        <div class="vehicleSearch">
+            <div class="form-row">
+                <div class="form-group col-md-5">
+                    <input type="number" class="form-control" id="searchVehicleSeatTxt" placeholder="Search seat cap" max="40" min="4">
+                </div>
+                <div class="form-group col-md-7">
+                    <select id="searchVehicleFuelAndTransmissionCmb" class="form-select">
+                        <option value="default" selected>Fuel & trans</option>
+                        <option>D/M</option>
+                        <option>D/A</option>
+                        <option>P/M</option>
+                        <option>P/A</option>
+                    </select>
+                </div>
+            </div>
+            <i class="fa-solid fa-magnifying-glass" id="searchVehicleBtn"></i>
+            <i class="fa-solid fa-rotate-right" id="restVehicle"></i>
+        </div>
         <div class="vehicle-list">
             <i class="fa-solid fa-plus" id="vehicleAddBtn"></i>
             <ul id="vehicleUl">
@@ -425,6 +459,10 @@
                 <li><h3>3</h3></li>
                 <li><h3>4</h3></li>
             </ul>
+        </div>
+        <div class="next-hotel-div">
+            <i class="fa-solid fa-chevron-left" id="previousAddVehicleBtn"></i>
+            <i class="fa-solid fa-chevron-right" id="nextAddVehicleBtn"></i>
         </div>
     </section>
     <!---------------------------------------------------------------------------------->
@@ -645,6 +683,10 @@
                 <li></li>
             </ul>
         </div>
+        <div class="next-hotel-div">
+            <i class="fa-solid fa-chevron-left" id="previousAddGuideBtn"></i>
+            <i class="fa-solid fa-chevron-right" id="nextAddGuideBtn"></i>
+        </div>
     </section>
     <!---------------------------------------------------------------------------------->
     <section class="guideAdd" id="guideAddFilter">
@@ -742,6 +784,10 @@
                 <li></li>
             </ul>
         </div>
+        <div class="next-hotel-div">
+            <i class="fa-solid fa-chevron-left" id="previousAddUserBtn"></i>
+            <i class="fa-solid fa-chevron-right" id="nextAddUserBtn"></i>
+        </div>
     </section>
     <!------------------------------------------------------------------------------------->
     <section class="addUser" id="addUserForm">
@@ -781,6 +827,13 @@
     </section>
     <!-----------------------------hotel----------------------------------------------------->
     <section class="hotel" id="hotelContainer">
+        <div class="hotelSearch">
+            <div class="form-group col-md-2">
+                <input type="number" class="form-control" id="searchHotelTxt" placeholder="Search star rate" max="5" min="1">
+            </div>
+            <i class="fa-solid fa-magnifying-glass" id="searchHotelBtn"></i>
+            <i class="fa-solid fa-rotate-right" id="restHotel"></i>
+        </div>
         <div class="hotel-list">
             <i class="fa-solid fa-plus" id="addHotelBtn"></i>
             <ul id="hotelUl">
@@ -804,6 +857,10 @@
                 <li></li>
                 <li></li>
             </ul>
+        </div>
+        <div class="next-hotel-div">
+            <i class="fa-solid fa-chevron-left" id="previousAddHotelBtn"></i>
+            <i class="fa-solid fa-chevron-right" id="nextAddHotelBtn"></i>
         </div>
     </section>
     <!---------------------------------------------------------------------------------->

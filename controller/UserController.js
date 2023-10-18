@@ -14,6 +14,7 @@ export class UserController {
         $('#spanSignUp').on('click', () => {
             this.handleDefaultLoad();
         });
+
         this.handleDefaultLoad();
     }
 

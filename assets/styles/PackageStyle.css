@@ -548,3 +548,6 @@
     background: red;
     color: white;
 }
+#packageContainer > div > ul li h2{
+    display: none;
+}

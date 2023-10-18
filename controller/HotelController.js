@@ -3,6 +3,10 @@ import {Hotel} from "../model/Hotel.js";
 let hotelId = null;
 let hotelCategory = undefined;
 let hotelImageFile = undefined;
+let hNextPage = 1;
+let hCurrentPage = 0;
+const count = 6;
+let hotelHasPage = false;
 
 export class HotelController {
     constructor() {
@@ -36,9 +40,71 @@ export class HotelController {
         $("#btnHotelDelete").on('click', () => {
             this.handleHotelDelete(hotelId);
         });
+        $("#nextAddHotelBtn").on('click', () => {
+            this.handleNextHotelList();
+        });
+        $("#previousAddHotelBtn").on('click', () => {
+            this.handlePreviousHotelList();
+        });
+        $("#btnRest").on('click', () => {
+            this.handlePreviousHotelList();
+        });
+        $("#searchHotelBtn").on('click', () => {
+            this.handleSearchHotel(0, count);
+        });
+        $("#restHotel").on('click', () => {
+            this.handleRestSearch();
+        });
         this.handleHotelCategoryClickEvent();
-        this.handleLoadAllData();
+        this.handleLoadAllData(0, count);
         this.handleHotelContainerClickEvent();
+    }
+
+    handleRestSearch(){
+
+        const text = $('#searchHotelTxt');
+        if (text.val()){
+            this.handleLoadAllData(0, 6);
+            hNextPage = 1;
+            hCurrentPage = 0;
+            text.val("")
+        }
+    }
+
+    handleNextHotelList() {
+
+        if (!$('#searchHotelTxt').val()) {
+            if (hNextPage !== 0) {
+                this.handleLoadAllData(hNextPage, count);
+                if (hotelHasPage) {
+                    hCurrentPage++;
+                    hNextPage++;
+                }
+            }
+        }else {
+            this.handleSearchHotel(hNextPage, count);
+            if (hotelHasPage) {
+                hCurrentPage++;
+                hNextPage++;
+            }
+        }
+    }
+
+    handlePreviousHotelList() {
+
+        if (!$('#searchHotelTxt').val()) {
+            if (hCurrentPage !== 0) {
+                hCurrentPage--;
+                hNextPage--;
+                this.handleLoadAllData(hCurrentPage, count);
+            }
+        }else {
+            if (hCurrentPage !== 0) {
+                hCurrentPage--;
+                hNextPage--;
+                this.handleSearchHotel(hCurrentPage, count);
+            }
+        }
     }
 
     handleHotelViewFilterClickEvent(event) {
@@ -51,7 +117,7 @@ export class HotelController {
     }
 
     handleHotelContainerClickEvent() {
-        //#hotelUl > li:nth-child(2) > i
+
         $('#hotelUl').on('click', 'i:nth-child(6)', (event) => {
             const hotelId = parseInt($(event.target).closest('li').find('h2').text());
 
@@ -117,6 +183,32 @@ export class HotelController {
         });
     }
 
+    handleSearchHotel(page, count){
+
+       const category = $('#searchHotelTxt').val();
+       if(category) {
+
+           $.ajax({
+               url: "http://localhost:8081/nexttravel/api/v1/hotel/getAllWithCategory?page=" + page + "&count=" + count + "&category=" + category,
+               method: "GET",
+               processData: false,
+               contentType: false,
+               async: false,
+               success: (resp) => {
+                   if (resp.code === 200) {
+                       this.handleLoadItem(resp.data);
+                       console.log(resp.message);
+
+                   }
+               },
+               error: (ob) => {
+                   console.log(ob)
+                   alert(ob.responseJSON.message);
+               },
+           });
+       }
+    }
+
     handleImageLoadEvent() {
 
         const file = $('#hotelAddImgFile')[0].files[0];
@@ -155,10 +247,10 @@ export class HotelController {
     handleGetHotelObject() {
 
         const contact1 = {
-            contact: $('#hotelContactTxt1').val()
+            contact: $('#hotelContactTxt1').val()+""
         }
         const contact2 = {
-            contact: $('#hotelContactTxt2').val()
+            contact: $('#hotelContactTxt2').val()+""
         }
 
         const contactList = [contact1, contact2];
@@ -166,7 +258,7 @@ export class HotelController {
         return JSON.stringify(new Hotel(
             hotelId,
             $('#hotelNameTxt').val(),
-            hotelCategory,
+            parseInt(hotelCategory),
             $('#hotelLocationTxt').val(),
             $('#hotelUrlTxt').val(),
             $('#hotelEmailTxt').val(),
@@ -184,6 +276,7 @@ export class HotelController {
     handleSaveHotel() {
 
         const hotel = this.handleGetHotelObject();
+
         const formHotelData = new FormData();
 
         formHotelData.append('file', hotelImageFile);
@@ -199,7 +292,7 @@ export class HotelController {
             success: (resp) => {
                 if (resp.code === 200) {
                     console.log(resp.message);
-                    this.handleLoadAllData();
+                    this.handleLoadAllData(0, count);
                     this.handleReset();
                 }
             },
@@ -226,14 +319,14 @@ export class HotelController {
         }
     }
 
-    handleLoadAllData() {
+    handleLoadAllData(page, count) {
 
         $.ajax({
-            url: "http://localhost:8081/nexttravel/api/v1/hotel/getAll",
+            url: "http://localhost:8081/nexttravel/api/v1/hotel/getAll?page="+ page + "&count="+ count,
             method: "GET",
             processData: false,
             contentType: false,
-            async: true,
+            async: false,
             success: (resp) => {
                 if (resp.code === 200) {
                     this.handleLoadItem(resp.data);
@@ -248,37 +341,45 @@ export class HotelController {
     }
 
     handleLoadItem(data) {
-        $('#hotelUl li').remove();
 
-        data.map(value => {
-            let li = "<li>\n" +
-                "                    <img src=\"assets/images/login.jpg\">\n" +
-                "                    <h2>10</h2>\n" +
-                "                    <h3>Hotel Galdari</h3>\n" +
-                "                    <h3>Pandura</h3>\n" +
-                "                    <div class=\"form-group col-md-12 star-selector\">\n" +
-                "                        <div class=\"hotelView-card-stars\">\n" +
-                "                            <i class=\"fa-solid fa-star\"></i>\n" +
-                "                            <i class=\"fa-solid fa-star\"></i>\n" +
-                "                            <i class=\"fa-solid fa-star\"></i>\n" +
-                "                            <i class=\"fa-solid fa-star\"></i>\n" +
-                "                            <i class=\"fa-solid fa-star\"></i>\n" +
-                "                         </div>\n" +
-                "                    </div>\n" +
-                "                    <i class=\"fa-solid fa-arrow-right\"></i>\n" +
-                "                </li>";
+        if (data.length !== 0) {
 
 
-            $('#hotelUl').append(li);
-            $('#hotelUl li:last-child img').attr('src', `data:image/png;base64,${value.hotelImageLocation}`);
-            $('#hotelUl li:last-child h2').text(value.hotelId);
-            $('#hotelUl li:last-child h3:nth-child(3)').text(value.hotelName);
-            $('#hotelUl li:last-child h3:nth-child(4)').text(value.hotelLocation);
+            $('#hotelUl li').remove();
 
-            for (let i = 1; i <= value.hotelCategory; i++) {
-                $('#hotelUl li:last-child > div > div > i:nth-child(' + i + ')').addClass('activeView');
-            }
-        });
+            data.map(value => {
+                let li = "<li>\n" +
+                    "                    <img src=\"assets/images/login.jpg\">\n" +
+                    "                    <h2>10</h2>\n" +
+                    "                    <h3>Hotel Galdari</h3>\n" +
+                    "                    <h3>Pandura</h3>\n" +
+                    "                    <div class=\"form-group col-md-12 star-selector\">\n" +
+                    "                        <div class=\"hotelView-card-stars\">\n" +
+                    "                            <i class=\"fa-solid fa-star\"></i>\n" +
+                    "                            <i class=\"fa-solid fa-star\"></i>\n" +
+                    "                            <i class=\"fa-solid fa-star\"></i>\n" +
+                    "                            <i class=\"fa-solid fa-star\"></i>\n" +
+                    "                            <i class=\"fa-solid fa-star\"></i>\n" +
+                    "                         </div>\n" +
+                    "                    </div>\n" +
+                    "                    <i class=\"fa-solid fa-arrow-right\"></i>\n" +
+                    "                </li>";
+
+
+                $('#hotelUl').append(li);
+                $('#hotelUl li:last-child img').attr('src', `data:image/png;base64,${value.hotelImageLocation}`);
+                $('#hotelUl li:last-child h2').text(value.hotelId);
+                $('#hotelUl li:last-child h3:nth-child(3)').text(value.hotelName);
+                $('#hotelUl li:last-child h3:nth-child(4)').text(value.hotelLocation);
+
+                for (let i = 1; i <= value.hotelCategory; i++) {
+                    $('#hotelUl li:last-child > div > div > i:nth-child(' + i + ')').addClass('activeView');
+                }
+            });
+            hotelHasPage = true;
+        }else {
+            hotelHasPage = false;
+        }
     }
 
     handleReset() {
@@ -392,7 +493,7 @@ export class HotelController {
             success: (resp) => {
                 if (resp.code === 200) {
                     console.log(resp.message);
-                    this.handleLoadAllData();
+                    this.handleLoadAllData(0, count);
                     this.handleReset();
                 }
             },
@@ -464,7 +565,7 @@ export class HotelController {
             success: (resp) => {
                 if (resp.code === 200) {
                     console.log(resp.message);
-                    this.handleLoadAllData();
+                    this.handleLoadAllData(0, count);
                     this.handleReset();
                 }
             },

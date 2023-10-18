@@ -14,6 +14,7 @@
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
+    max-height: 120vh;
 }
 .hotel .hotel-list ul li{
     list-style: none;
@@ -290,4 +291,34 @@ input[type='tel']:hover{
     display: none;
     background: #6f42c1;
 }
-
+.hotelSearch{
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+#searchHotelBtn, #restHotel{
+    width: 40px;
+    aspect-ratio: 1/1;
+    border-radius: 90%;
+    background: rgba(0, 0, 0, 0.08);
+    color: rgba(0, 0, 0, 0.4);
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 0 8px;
+}
+#searchHotelBtn:hover{
+    background: rgba(13, 110, 253, 0.6);
+    color: white;
+}
+#restHotel:hover{
+    background: rgba(255, 0, 0, 0.5);
+    color: white;
+}
+#hotelContainer > div.hotelSearch > div{
+    margin: 0;
+    padding-left: 60px;
+}

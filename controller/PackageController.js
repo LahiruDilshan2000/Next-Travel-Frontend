@@ -8,11 +8,13 @@ let vCurrentPage = 0;
 let hNextPage = 1;
 let hCurrentPage = 0;
 const count = 4;
-const array = ['#travel-area', '#other-details-container', '#hotel-container', '#vehicle-container'];
+let array = ['#travel-area', '#other-details-container', '#hotel-container', '#vehicle-container'];
 let hotel = undefined;
 const roomArray = [];
 let hotelHasPage = false;
 let vehicleHasPage = false;
+let vehicleCategory = undefined;
+let hotelCategory = undefined;
 
 export class PackageController {
     constructor() {
@@ -33,15 +35,9 @@ export class PackageController {
         });
         $('#nextBtn').on('click', () => {
             this.handleValidation();
-            //this.handleGetVehicleList(0, 4);
-            //this.handleGetHotelList(0, 4);
         });
         $('#backBtn').on('click', () => {
-            console.log(array[array.length - 2]);
             this.handlePreviousContainer();
-            //this.handleValidation();
-            //this.handleGetVehicleList(0, 4);
-            //this.handleGetHotelList(0, 4);
         });
         $('#closeBtn').on('click', () => {
             $('#addPackage-container').click();
@@ -64,17 +60,17 @@ export class PackageController {
         $('.roomFilter').on('click', (event) => {
             this.handleHideCart(event);
         });
-        $('#btnSuperLuxury').on('click', () => {
-            this.handleGetDetails();
+        $('#btnSuperLuxury').on('click', (event) => {
+            this.handleGetDetails(event);
         });
-        $('#btnLuxury').on('click', () => {
-
+        $('#btnLuxury').on('click', (event) => {
+            this.handleGetDetails(event);
         });
-        $('#btnMidLevel').on('click', () => {
-
+        $('#btnMidLevel').on('click', (event) => {
+            this.handleGetDetails(event);
         });
-        $('#btnRegular').on('click', () => {
-
+        $('#btnRegular').on('click', (event) => {
+            this.handleGetDetails(event);
         });
         $('#CategoryCmb').on('change', () => {
             this.handleSetRoomPrice(hotel);
@@ -100,9 +96,49 @@ export class PackageController {
             this.handleRemoveRoom(event);
             this.handleTotalFree();
         });
-
         this.handleDefaultData();
+    }
 
+    handleTest2(){
+
+        $.ajax({
+            url: "http://localhost:8081/nexttravel/api/v1/vehicle/getAllWithCategory?page=" + 0 + "&count=" + 4 + "&category=" + "Economy",
+            method: "GET",
+            processData: false,
+            contentType: false,
+            async: true,
+            success: (resp) => {
+                if (resp.code === 200) {
+                    //this.handleHotelDetails(resp.data);
+                    console.log(resp.message);
+                }
+            },
+            error: (ob) => {
+                console.log(ob)
+                alert(ob.responseJSON.message);
+            },
+        });
+    }
+
+    handleTest(){
+
+        $.ajax({
+            url: "http://localhost:8081/nexttravel/api/v1/hotel/getAllWithCategory?page=" + 0 + "&count=" + 4 + "&category=" + 4,
+            method: "GET",
+            processData: false,
+            contentType: false,
+            async: true,
+            success: (resp) => {
+                if (resp.code === 200) {
+                    //this.handleHotelDetails(resp.data);
+                    console.log(resp.message);
+                }
+            },
+            error: (ob) => {
+                console.log(ob)
+                alert(ob.responseJSON.message);
+            },
+        });
     }
 
     handleSetEndMinDate() {
@@ -185,19 +221,27 @@ export class PackageController {
 
         travelArea.length === 0 ? alert('Please select our travel area !') :
             vehicleId === null && array[0] === '#vehicle-container' ?
-                (this.handleGetVehicleList(0, count), this.handleNextContainer()) :
+                (this.handleGetVehicleList(0, count, vehicleCategory),
+                    this.handleNextContainer()) :
                 vehicleId === null && array[0] === '#hotel-container' ? alert('Please select your vehicle !') :
                     vehicleId !== null && array[0] === '#hotel-container' ?
-                        (this.handleGetHotelList(0, count), this.handleNextContainer()) :
+                        (this.handleGetHotelList(0, count, hotelCategory),
+                            this.handleNextContainer()) :
                         hotelId === null && array[0] === '#other-details-container' ? alert('Please select your hotel !') :
                             vehicleId !== null && array[0] === '#other-details-container' ?
-                                (this.handleGetMoreDetails(), this.handleNextContainer()) :
+                                (this.handleGetMoreDetails(),
+                                    this.handleNextContainer()) :
                                 this.handleNextContainer();
 
     }
 
     handleReset(){
+        console.log("wad")
+        array = ['#travel-area', '#other-details-container', '#hotel-container', '#vehicle-container'];
+        hotelId = null;
+        vehicleId = null;
         $('#withPetCmb').prop("disabled", false);
+        document.body.style.overflow = 'auto';
     }
 
     handleNextContainer() {
@@ -225,8 +269,10 @@ export class PackageController {
         });
     }
 
-    handleGetDetails() {
+    handleGetDetails(event) {
 
+        hotelCategory = parseInt($(event.target).closest('li').find('h2:nth-child(5)').text());
+        vehicleCategory = $(event.target).closest('li').find('h2:nth-child(6)').text();
         this.handleHideAllContainer();
         this.handleNextContainer('#travel-area');
     }
@@ -307,8 +353,7 @@ export class PackageController {
                 "top": "100vh",
                 'background': 'none'
             });
-            document.body.style.overflow = 'auto';
-            //this.handleReset();
+            this.handleReset();
         }
     }
 
@@ -374,10 +419,11 @@ export class PackageController {
 
     }
 
-    handleGetHotelList(page, count) {
+    handleGetHotelList(page, count, category) {
 
+        console.log(category)
         $.ajax({
-            url: "http://localhost:8081/nexttravel/api/v1/hotel/getPageable?page=" + page + "&count=" + count,
+            url: "http://localhost:8081/nexttravel/api/v1/hotel/getAllWithCategory?page=" + page + "&count=" + count + "&category=" + category,
             method: "GET",
             processData: false,
             contentType: false,
@@ -463,7 +509,7 @@ export class PackageController {
     handleNextHotelList() {
 
         if (hNextPage !== 0) {
-            this.handleGetHotelList(hNextPage, count);
+            this.handleGetHotelList(hNextPage, count, hotelCategory);
             if (hotelHasPage){
                 hCurrentPage++;
                 hNextPage++;
@@ -476,20 +522,21 @@ export class PackageController {
         if (hCurrentPage !== 0) {
             hCurrentPage--;
             hNextPage--;
-            this.handleGetHotelList(hCurrentPage, count);
+            this.handleGetHotelList(hCurrentPage, count, hotelCategory);
         }
     }
 
-    handleGetVehicleList(page, count) {
+    handleGetVehicleList(page, count, category) {
 
         $.ajax({
-            url: "http://localhost:8081/nexttravel/api/v1/vehicle/getPageable?page=" + page + "&count=" + count,
+            url: "http://localhost:8081/nexttravel/api/v1/vehicle/getAllWithCategory?page=" + page + "&count=" + count + "&category=" + category,
             method: "GET",
             processData: false,
             contentType: false,
             async: false,
             success: (resp) => {
                 if (resp.code === 200) {
+                    console.log(resp.data.length)
                     this.handleLoadVehicles(resp.data);
                     console.log(resp.message);
                 }
@@ -555,7 +602,7 @@ export class PackageController {
 
     handleNextVehicleList() {
         if (vNextPage !== 0) {
-            this.handleGetVehicleList(vNextPage, count);
+            this.handleGetVehicleList(vNextPage, count, vehicleCategory);
             if(vehicleHasPage){
                 vCurrentPage++;
                 vNextPage++;
@@ -567,7 +614,7 @@ export class PackageController {
         if (vCurrentPage !== 0) {
             vCurrentPage--;
             vNextPage--;
-            this.handleGetVehicleList(vCurrentPage, count);
+            this.handleGetVehicleList(vCurrentPage, count, vehicleCategory);
         }
     }
 
