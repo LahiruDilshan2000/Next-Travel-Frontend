@@ -10,6 +10,7 @@ let vNextPage = 1;
 let vCurrentPage = 0;
 const count = 8;
 let vehicleHasPage = false;
+const defaultGateway = "http://localhost:8080/vehicle-service/";
 
 export class VehicleController {
     constructor() {
@@ -179,7 +180,7 @@ export class VehicleController {
         console.log(seatCapacity)
         console.log(fuelAndTrans)
         $.ajax({
-            url: "http://localhost:8081/nexttravel/api/v1/vehicle/getAllWithSeatAndFulWithTrans?page=" +
+            url: defaultGateway + "nexttravel/api/v1/vehicle/getAllWithSeatAndFulWithTrans?page=" +
                 page + "&count=" + count + "&seatCapacity=" + seatCapacity + "&fuelAndTrans=" + fuelAndTrans,
             method: "GET",
             processData: false,
@@ -202,7 +203,7 @@ export class VehicleController {
     handleSearchVehicleBySeatCapacity(page, count, seatCapacity){
 
         $.ajax({
-            url: "http://localhost:8081/nexttravel/api/v1/vehicle/getAllWithSeatCapacity?page=" +
+            url: defaultGateway + "nexttravel/api/v1/vehicle/getAllWithSeatCapacity?page=" +
                 page + "&count=" + count + "&seatCapacity=" + seatCapacity,
             method: "GET",
             processData: false,
@@ -225,7 +226,7 @@ export class VehicleController {
     handleSearchVehicleByFelAndTransmission(page, count, fuelAndTrans){
 
         $.ajax({
-            url: "http://localhost:8081/nexttravel/api/v1/vehicle/getAllWithFuelAndTransmission?page=" +
+            url: defaultGateway + "nexttravel/api/v1/vehicle/getAllWithFuelAndTransmission?page=" +
                 page + "&count=" + count + "&fuelAndTrans=" + fuelAndTrans,
             method: "GET",
             processData: false,
@@ -321,7 +322,7 @@ export class VehicleController {
         formVehicleData.append('vehicle', vehicle);
 
         $.ajax({
-            url: "http://localhost:8081/nexttravel/api/v1/vehicle",
+            url: defaultGateway + "nexttravel/api/v1/vehicle",
             method: "POST",
             processData: false,
             contentType: false,
@@ -344,7 +345,7 @@ export class VehicleController {
     handleLoadAllData(page, count) {
 
         $.ajax({
-            url: "http://localhost:8081/nexttravel/api/v1/vehicle/getAll?page=" + page + "&count=" + count,
+            url: defaultGateway + "nexttravel/api/v1/vehicle/getAll?page=" + page + "&count=" + count,
             method: "GET",
             processData: false,
             contentType: false,
@@ -395,7 +396,7 @@ export class VehicleController {
             vehicleId = parseInt($(event.target).closest('li').find('h2').text());
 
             $.ajax({
-                url: "http://localhost:8081/nexttravel/api/v1/vehicle/get?vehicleId=" + vehicleId,
+                url: defaultGateway + "nexttravel/api/v1/vehicle/get?vehicleId=" + vehicleId,
                 method: "GET",
                 processData: false,
                 contentType: false,
@@ -513,7 +514,7 @@ export class VehicleController {
         formVehicleData.append('vehicle', vehicle);
 
         $.ajax({
-            url: "http://localhost:8081/nexttravel/api/v1/vehicle",
+            url: defaultGateway + "nexttravel/api/v1/vehicle",
             method: "PUT",
             processData: false,
             contentType: false,
@@ -537,7 +538,7 @@ export class VehicleController {
 
         if (vehicleId) {
             $.ajax({
-                url: "http://localhost:8081/nexttravel/api/v1/vehicle?vehicleId=" + vehicleId,
+                url: defaultGateway + "nexttravel/api/v1/vehicle?vehicleId=" + vehicleId,
                 method: "DELETE",
                 dataType: "json",
                 async: true,
@@ -600,6 +601,9 @@ export class VehicleController {
         $('#updateVehicleBtn').css({
             "display": "none"
         });
+
+        vNextPage = 1;
+        vCurrentPage = 0;
     }
 
     handleHotelViewEditOptions() {

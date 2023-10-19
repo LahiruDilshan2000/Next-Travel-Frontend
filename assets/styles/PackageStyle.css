@@ -551,3 +551,51 @@
 #packageContainer > div > ul li h2{
     display: none;
 }
+.details-div3{
+    height: 70vh;
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.details-div3 .pane{
+    width: 400px;
+    height: 450px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+#btnPlace{
+    width: 180px;
+    height: 50px;
+    outline: none;
+    border: none;
+    font-size: 20px;
+    margin-top: 80px ;
+    transition: all 0.5s;
+    background: rgba(0, 0, 0, 0.1);
+    color: rgba(0, 0, 0, 0.5);
+}
+#btnPlace:hover{
+    background: rgba(10, 111, 253, 1);
+    color: white;
+}
+#totLbl{
+    font-family: 'AR One Sans', sans-serif;
+    font-size: 40px;
+    color: rgba(0, 0, 0, 0.6);
+}
+#addPackage-container > div > div.div-container > div.details-div3 > div > h2:nth-child(2){
+    font-family: 'AR One Sans', sans-serif;
+    font-size: 30px;
+    color: red;
+}
+#orderIdLbl{
+    font-family: 'Ubuntu', sans-serif;
+    margin-top: 50px;
+}

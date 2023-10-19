@@ -7,6 +7,7 @@ let hNextPage = 1;
 let hCurrentPage = 0;
 const count = 6;
 let hotelHasPage = false;
+const defaultGateway = "http://localhost:8080/hotel-service/";
 
 export class HotelController {
     constructor() {
@@ -122,7 +123,7 @@ export class HotelController {
             const hotelId = parseInt($(event.target).closest('li').find('h2').text());
 
             $.ajax({
-                url: "http://localhost:8081/nexttravel/api/v1/hotel/get?hotelId=" + hotelId,
+                url: defaultGateway + "nexttravel/api/v1/hotel/get?hotelId=" + hotelId,
                 method: "GET",
                 processData: false,
                 contentType: false,
@@ -189,7 +190,8 @@ export class HotelController {
        if(category) {
 
            $.ajax({
-               url: "http://localhost:8081/nexttravel/api/v1/hotel/getAllWithCategory?page=" + page + "&count=" + count + "&category=" + category,
+               url: defaultGateway + "nexttravel/api/v1/hotel/getAllWithCategory?page=" +
+                   page + "&count=" + count + "&category=" + category,
                method: "GET",
                processData: false,
                contentType: false,
@@ -283,7 +285,7 @@ export class HotelController {
         formHotelData.append('hotel', hotel);
 
         $.ajax({
-            url: "http://localhost:8081/nexttravel/api/v1/hotel",
+            url:  defaultGateway + "nexttravel/api/v1/hotel",
             method: "POST",
             processData: false,
             contentType: false,
@@ -322,7 +324,7 @@ export class HotelController {
     handleLoadAllData(page, count) {
 
         $.ajax({
-            url: "http://localhost:8081/nexttravel/api/v1/hotel/getAll?page="+ page + "&count="+ count,
+            url: defaultGateway + "nexttravel/api/v1/hotel/getAll?page="+ page + "&count="+ count,
             method: "GET",
             processData: false,
             contentType: false,
@@ -419,6 +421,9 @@ export class HotelController {
 
         $('#updateHotelBtn').css({'display' : 'none'});
         $('#saveHotelBtn').css({'display' : 'block'});
+
+        hNextPage = 1;
+        hCurrentPage = 0;
     }
 
     handleHotelViewEditOptions() {
@@ -463,7 +468,7 @@ export class HotelController {
     handleHotelEdit(hotelId) {
 
         $.ajax({
-            url: "http://localhost:8081/nexttravel/api/v1/hotel/get?hotelId=" + hotelId,
+            url: defaultGateway + "nexttravel/api/v1/hotel/get?hotelId=" + hotelId,
             method: "GET",
             processData: false,
             contentType: false,
@@ -485,7 +490,7 @@ export class HotelController {
     handleHotelDelete(hotelId) {
 
         $.ajax({
-            url: "http://localhost:8081/nexttravel/api/v1/hotel?hotelId=" + hotelId,
+            url: defaultGateway + "nexttravel/api/v1/hotel?hotelId=" + hotelId,
             method: "DELETE",
             processData: false,
             contentType: false,
@@ -556,7 +561,7 @@ export class HotelController {
         formHotelData.append('hotel', hotel);
 
         $.ajax({
-            url: "http://localhost:8081/nexttravel/api/v1/hotel",
+            url: defaultGateway + "nexttravel/api/v1/hotel",
             method: "PUT",
             processData: false,
             contentType: false,

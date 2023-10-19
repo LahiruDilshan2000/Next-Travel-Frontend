@@ -8,6 +8,7 @@ let uNextPage = 1;
 let uCurrentPage = 0;
 const count = 10;
 let userHasPage = false;
+const defaultGateway = "http://localhost:8080/user-service/";
 
 export class UsersController {
     constructor() {
@@ -125,7 +126,7 @@ export class UsersController {
     handleLoadAllData(page, count) {
 
         $.ajax({
-            url: "http://localhost:8081/nexttravel/api/v1/user/getAll?page=" + page + "&count=" + count,
+            url: defaultGateway + "nexttravel/api/v1/user/getAll?page=" + page + "&count=" + count,
             method: "GET",
             processData: false,
             contentType: false,
@@ -165,7 +166,7 @@ export class UsersController {
         userFormData.append('user', user);
 
         $.ajax({
-            url: "http://localhost:8081/nexttravel/api/v1/user",
+            url: defaultGateway + "nexttravel/api/v1/user",
             method: "POST",
             processData: false,
             contentType: false,
@@ -174,7 +175,7 @@ export class UsersController {
             success: (resp) => {
                 if (resp.code === 200) {
                     console.log(resp.message);
-                    this.handleLoadAllData();
+                    this.handleLoadAllData(0, count);
                     this.handleReset();
                     $('#addUserForm').click();
                 }
@@ -248,6 +249,9 @@ export class UsersController {
         $('#saveUserBtn').css({'display': 'block'});
         $('#updateUserBtn').css({'display': 'none'});
         $('#deleteUserBtn').css({'display': 'none'});
+
+        uNextPage = 1;
+        uCurrentPage = 0;
     }
 
     handleUserEditeEvent() {
@@ -256,7 +260,7 @@ export class UsersController {
             nic = $(event.target).closest('li').find('h3:nth-child(4)').text();
 
             $.ajax({
-                url: "http://localhost:8081/nexttravel/api/v1/user/get?nic=" + nic,
+                url: defaultGateway + "nexttravel/api/v1/user/get?nic=" + nic,
                 method: "GET",
                 processData: false,
                 contentType: false,
@@ -316,7 +320,7 @@ export class UsersController {
         userFormData.append('user', user);
 
         $.ajax({
-            url: "http://localhost:8081/nexttravel/api/v1/user",
+            url: defaultGateway + "nexttravel/api/v1/user",
             method: "PUT",
             processData: false,
             contentType: false,
@@ -340,7 +344,7 @@ export class UsersController {
     handleDeleteUser(userId) {
 
         $.ajax({
-            url: "http://localhost:8081/nexttravel/api/v1/user?userId=" + userId,
+            url: defaultGateway + "nexttravel/api/v1/user?userId=" + userId,
             method: "DELETE",
             processData: false,
             contentType: false,

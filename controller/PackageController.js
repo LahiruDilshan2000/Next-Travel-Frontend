@@ -1,4 +1,6 @@
-const travelArea = [];
+import {Package} from "../model/Package.js";
+
+let travelArea = [];
 let hotelId = null;
 let vehicleId = null;
 let oldHotelChild = null;
@@ -8,13 +10,17 @@ let vCurrentPage = 0;
 let hNextPage = 1;
 let hCurrentPage = 0;
 const count = 4;
-let array = ['#travel-area', '#other-details-container', '#hotel-container', '#vehicle-container'];
+const array = ['#travel-area', '#vehicle-container', '#hotel-container', '#other-details-container', "#details-div3"];
+let nextPage = 1;
+let currentPage = 0;
 let hotel = undefined;
-const roomArray = [];
+let roomArray = [];
 let hotelHasPage = false;
 let vehicleHasPage = false;
 let vehicleCategory = undefined;
 let hotelCategory = undefined;
+let pkgCategory = undefined;
+const defaultGateway = "http://localhost:8080/package-service/";
 
 export class PackageController {
     constructor() {
@@ -34,10 +40,10 @@ export class PackageController {
             this.handleAddSelectVehicleStyle(event);
         });
         $('#nextBtn').on('click', () => {
-            this.handleValidation();
+            this.handleNext();
         });
         $('#backBtn').on('click', () => {
-            this.handlePreviousContainer();
+            this.handlePrevious();
         });
         $('#closeBtn').on('click', () => {
             $('#addPackage-container').click();
@@ -81,6 +87,7 @@ export class PackageController {
         });
         $('#endDateTxt').on('change', () => {
             this.handleTotalFree();
+            this.handleSetFreeGuide();
         });
         $('#noOfAdultsTxt').on('keyup', () => {
             this.handleCountHeadCount($('#noOfAdultsTxt').val(), $('#noOfChildrenTxt').val());
@@ -96,20 +103,203 @@ export class PackageController {
             this.handleRemoveRoom(event);
             this.handleTotalFree();
         });
+        $('#btnPlace').on('click', () => {
+            this.handleSavePackage();
+        });
         this.handleDefaultData();
+        //this.handleTest();
     }
 
-    handleTest2(){
+    handleNext() {
+
+        if (nextPage !== 4) {
+            if (this.handleValidation()) {
+                nextPage++;
+                currentPage++;
+            }
+        } else {
+            if (this.handleAnotherValidation()) {
+                this.handleShowContainer(array[nextPage])
+                nextPage++;
+                currentPage++;
+                $("#nextBtn").css({'display': 'none'});
+            }
+            ;
+        }
+    }
+
+    handleAnotherValidation() {
+
+        if (roomArray.length === 0) {
+            alert('Please add the rooms for package !');
+            return false;
+        }
+        if (!/^[0-9]+$/.test($('#noOfAdultsTxt').val())) {
+            alert("Adult count invalid or empty !");
+            return false;
+        }
+        if (!/^[0-9]+$/.test($('#noOfChildrenTxt').val())) {
+            alert("Children count invalid or empty !");
+            return false;
+        }
+        if (!/^(075|077|071|074|078|076|070|072)([0-9]{7})$/.test($('#pkgContactTxt').val())) {
+            alert("Invalid contact !");
+            return false;
+        }
+        if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/.test($('#pkgEmailTxt').val())) {
+            alert("Invalid email !");
+            return false;
+        }
+        this.handleSetLastPrice();
+        return true;
+
+    }
+
+    handleSetLastPrice() {
+
+        $('#orderIdLbl').text(this.handleGetOrderId());
+
+        let tot = parseInt($('#totalLbl').text());
+        let days = this.handleGetDateCount();
+        console.log(days + 'day')
+
+        const vehicle = this.HandleGetVehicle(vehicleId);
+
+        tot += (vehicle.freeForDay * days);
+
+        let guide = "NoGuide";
+
+        if ($('#guideCmb').val() !== 'No guide') {
+            guide = this.handleGetGuide($('#guideCmb').val());
+        }
+        if (guide !== "NoGuide") {
+            tot += (guide.manDayValue * days);
+        }
+        $('#totLbl').text(tot);
+    }
+
+    handleGetGuide(guideId) {
+
+        let guide = undefined;
+        $.ajax({
+            url: defaultGateway + "nexttravel/api/v1/package/getGuideById?guideId=" + guideId,
+            method: "GET",
+            async: false,
+            success: (resp) => {
+                if (resp.code === 200) {
+                    guide = resp.data;
+                    console.log(resp.message);
+                }
+            },
+            error: (ob) => {
+                console.log(ob)
+                alert(ob.responseJSON.message);
+            },
+        });
+        return guide;
+    }
+
+    HandleGetVehicle(vehicleId) {
+
+        let vehicle = undefined;
+        $.ajax({
+            url: defaultGateway + "nexttravel/api/v1/package/getVehicleById?vehicleId=" + vehicleId,
+            method: "GET",
+            async: false,
+            success: (resp) => {
+                if (resp.code === 200) {
+                    vehicle = resp.data;
+                    console.log(resp.message);
+                }
+            },
+            error: (ob) => {
+                console.log(ob)
+                alert(ob.responseJSON.message);
+            },
+        });
+        return vehicle;
+
+    }
+
+    handleSavePackage() {
+
+        let pkg = JSON.stringify(new Package(
+            $('#orderIdLbl').text(),
+            pkgCategory,
+            "2000021818",
+            vehicleId,
+            hotelId,
+            hotel.hotelName,
+            travelArea,
+            $('#pkgContactTxt').val(),
+            $('#pkgEmailTxt').val(),
+            parseInt($('#totLbl').text()),
+            0,
+            $('#startDateTxt').val(),
+            $('#endDateTxt').val(),
+            new Date().toISOString(),
+            roomArray,
+            parseInt($('#noOfAdultsTxt').val()),
+            parseInt($('#noOfChildrenTxt').val()),
+            parseInt($('#headCountLbl').text()),
+            $('#withPetCmb').val(),
+            $('#guideCmb').val(),
+        ));
+
+        console.log(pkg)
 
         $.ajax({
-            url: "http://localhost:8081/nexttravel/api/v1/vehicle/getAllWithCategory?page=" + 0 + "&count=" + 4 + "&category=" + "Economy",
+            url: defaultGateway + "nexttravel/api/v1/package",
+            method: "POST",
+            async: true,
+            contentType: "application/json",
+            data: pkg,
+            success: (resp) => {
+                if (resp.code === 200) {
+                    console.log(resp.message);
+                    alert(resp.message);
+                    this.handleReset();
+                }
+            },
+            error: (ob) => {
+                console.log(ob)
+                alert(ob.responseJSON.message);
+            },
+        });
+    }
+
+    handleGetOrderId() {
+
+        let id = 0;
+        $.ajax({
+            url: defaultGateway + "nexttravel/api/v1/package/getNextPk",
             method: "GET",
-            processData: false,
-            contentType: false,
+            async: false,
+            success: (resp) => {
+                if (resp.code === 200) {
+                    console.log(resp.message);
+                    id = resp.data;
+                }
+            },
+            error: (ob) => {
+                console.log(ob)
+                alert(ob.responseJSON.message);
+            },
+        });
+        return id;
+    }
+
+    handleSetFreeGuide() {
+
+        const x = $("#startDateTxt").val();
+        const y = $("#endDateTxt").val();
+        $.ajax({
+            url: defaultGateway + "nexttravel/api/v1/package/getFreeGuide?startDate=" + x + "&endDate=" + y,
+            method: "GET",
             async: true,
             success: (resp) => {
                 if (resp.code === 200) {
-                    //this.handleHotelDetails(resp.data);
+                    this.handleAddGuide(resp.data);
                     console.log(resp.message);
                 }
             },
@@ -120,24 +310,14 @@ export class PackageController {
         });
     }
 
-    handleTest(){
+    handleAddGuide(data) {
 
-        $.ajax({
-            url: "http://localhost:8081/nexttravel/api/v1/hotel/getAllWithCategory?page=" + 0 + "&count=" + 4 + "&category=" + 4,
-            method: "GET",
-            processData: false,
-            contentType: false,
-            async: true,
-            success: (resp) => {
-                if (resp.code === 200) {
-                    //this.handleHotelDetails(resp.data);
-                    console.log(resp.message);
-                }
-            },
-            error: (ob) => {
-                console.log(ob)
-                alert(ob.responseJSON.message);
-            },
+        console.log(data)
+        $("#guideCmb option").remove();
+        $("#guideCmb").append("<option value=\"No guide\" selected>No Guide</option>");
+
+        data.map(value => {
+            $("#guideCmb").append("<option value=" + value.guideId + ">" + value.name + "</option>");
         });
     }
 
@@ -152,16 +332,22 @@ export class PackageController {
         end.attr("value", endValue);
     }
 
+    handleGetDateCount() {
+
+        const start = new Date($('#startDateTxt').val());
+        const end = new Date($('#endDateTxt').val());
+
+        return Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+    }
+
     handleTotalFree() {
 
         console.log(roomArray.length)
         if (roomArray.length !== 0) {
 
             let tot = 0;
-            const start = new Date($('#startDateTxt').val());
-            const end = new Date($('#endDateTxt').val());
 
-            const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+            const days = this.handleGetDateCount();
 
             roomArray.map(value => {
                 tot += value.qty * parseInt(value.price) * days;
@@ -219,43 +405,81 @@ export class PackageController {
 
     handleValidation() {
 
-        travelArea.length === 0 ? alert('Please select our travel area !') :
-            vehicleId === null && array[0] === '#vehicle-container' ?
-                (this.handleGetVehicleList(0, count, vehicleCategory),
-                    this.handleNextContainer()) :
-                vehicleId === null && array[0] === '#hotel-container' ? alert('Please select your vehicle !') :
-                    vehicleId !== null && array[0] === '#hotel-container' ?
-                        (this.handleGetHotelList(0, count, hotelCategory),
-                            this.handleNextContainer()) :
-                        hotelId === null && array[0] === '#other-details-container' ? alert('Please select your hotel !') :
-                            vehicleId !== null && array[0] === '#other-details-container' ?
-                                (this.handleGetMoreDetails(),
-                                    this.handleNextContainer()) :
-                                this.handleNextContainer();
-
+        if (travelArea.length === 0) {
+            alert('Please select our travel area !');
+            return false;
+        }
+        if (travelArea.length !== 0 && array[nextPage] === '#vehicle-container') {
+            this.handleGetVehicleList(0, count, vehicleCategory);
+            this.handleShowContainer(array[nextPage]);
+            return true;
+        }
+        if (vehicleId === null && array[nextPage] === '#hotel-container') {
+            alert('Please select your vehicle !');
+            return false;
+        }
+        if (vehicleId !== null && array[nextPage] === '#hotel-container') {
+            this.handleGetHotelList(0, count, hotelCategory);
+            this.handleShowContainer(array[nextPage]);
+            return true;
+        }
+        if (hotelId === null && array[nextPage] === '#other-details-container') {
+            alert('Please select your hotel !')
+            return false;
+        }
+        if (hotelId !== null && array[nextPage] === '#other-details-container') {
+            this.handleGetMoreDetails();
+            this.handleShowContainer(array[nextPage]);
+            return true;
+        }
     }
 
-    handleReset(){
-        console.log("wad")
-        array = ['#travel-area', '#other-details-container', '#hotel-container', '#vehicle-container'];
-        hotelId = null;
-        vehicleId = null;
+    handleReset() {
+
         $('#withPetCmb').prop("disabled", false);
         document.body.style.overflow = 'auto';
+
+        travelArea = [];
+        hotelId = null;
+        vehicleId = null;
+        oldHotelChild = null;
+        oldVehicleChild = null;
+        vNextPage = 1;
+        vCurrentPage = 0;
+        hNextPage = 1;
+        hCurrentPage = 0;
+        nextPage = 1;
+        currentPage = 0;
+        hotel = undefined;
+        roomArray = [];
+        hotelHasPage = false;
+        vehicleHasPage = false;
+        vehicleCategory = undefined;
+        hotelCategory = undefined;
+        pkgCategory = undefined;
+
+        $("#addPackage-container").css({
+            "top": "100vh",
+            'background': 'none'
+        });
+        $("#nextBtn").css({'display': 'block'});
+
+        const t = $("#travel-area > ul li i");
+        t.css({'rotate': '0deg'}) && t.removeClass('fa-check') && t.addClass('fa-plus');
     }
 
-    handleNextContainer() {
+    handlePrevious() {
 
-        this.handleShowContainer(array[0]);
-        array.unshift(array.pop());
-    }
-
-    handlePreviousContainer() {
-
-        if (array[array.length - 2] !== '#other-details-container'){
-            this.handleShowContainer(array[array.length - 2]);
-            array.push(array.shift());
-            this.handleReset();
+        if (currentPage === 4) {
+            $("#nextBtn").css({'display': 'block'});
+        }
+        if (currentPage === 3) {
+            $('#withPetCmb').prop("disabled", false);
+        }
+        if (currentPage !== 0) {
+            nextPage--;
+            currentPage--;
+            this.handleShowContainer(array[currentPage]);
         }
     }
 
@@ -271,10 +495,11 @@ export class PackageController {
 
     handleGetDetails(event) {
 
+        pkgCategory = $(event.target).closest('li').find('h3').text();
         hotelCategory = parseInt($(event.target).closest('li').find('h2:nth-child(5)').text());
         vehicleCategory = $(event.target).closest('li').find('h2:nth-child(6)').text();
         this.handleHideAllContainer();
-        this.handleNextContainer('#travel-area');
+        this.handleShowContainer(array[0]);
     }
 
     handleShowContainer(id) {
@@ -380,7 +605,7 @@ export class PackageController {
     handleGetHotel(hotelId) {
 
         $.ajax({
-            url: "http://localhost:8081/nexttravel/api/v1/hotel/get?hotelId=" + hotelId,
+            url: defaultGateway + "nexttravel/api/v1/package/getHotelById?hotelId=" + hotelId,
             method: "GET",
             processData: false,
             contentType: false,
@@ -421,9 +646,9 @@ export class PackageController {
 
     handleGetHotelList(page, count, category) {
 
-        console.log(category)
         $.ajax({
-            url: "http://localhost:8081/nexttravel/api/v1/hotel/getAllWithCategory?page=" + page + "&count=" + count + "&category=" + category,
+            url: defaultGateway + "nexttravel/api/v1/package/getHotels?page=" +
+                page + "&count=" + count + "&category=" + category,
             method: "GET",
             processData: false,
             contentType: false,
@@ -482,7 +707,7 @@ export class PackageController {
                 }
             });
             hotelHasPage = true;
-        }else {
+        } else {
             hotelHasPage = false;
         }
     }
@@ -510,7 +735,7 @@ export class PackageController {
 
         if (hNextPage !== 0) {
             this.handleGetHotelList(hNextPage, count, hotelCategory);
-            if (hotelHasPage){
+            if (hotelHasPage) {
                 hCurrentPage++;
                 hNextPage++;
             }
@@ -529,14 +754,14 @@ export class PackageController {
     handleGetVehicleList(page, count, category) {
 
         $.ajax({
-            url: "http://localhost:8081/nexttravel/api/v1/vehicle/getAllWithCategory?page=" + page + "&count=" + count + "&category=" + category,
+            url: defaultGateway + "nexttravel/api/v1/package/getVehicles?page=" +
+                page + "&count=" + count + "&category=" + category,
             method: "GET",
             processData: false,
             contentType: false,
             async: false,
             success: (resp) => {
                 if (resp.code === 200) {
-                    console.log(resp.data.length)
                     this.handleLoadVehicles(resp.data);
                     console.log(resp.message);
                 }
@@ -550,7 +775,7 @@ export class PackageController {
 
     handleLoadVehicles(data) {
 
-        if(data.length !== 0) {
+        if (data.length !== 0) {
 
 
             $('#pkgVehicle li').remove();
@@ -577,7 +802,7 @@ export class PackageController {
             });
 
             vehicleHasPage = true;
-        }else {
+        } else {
             vehicleHasPage = false;
         }
     }
@@ -603,7 +828,7 @@ export class PackageController {
     handleNextVehicleList() {
         if (vNextPage !== 0) {
             this.handleGetVehicleList(vNextPage, count, vehicleCategory);
-            if(vehicleHasPage){
+            if (vehicleHasPage) {
                 vCurrentPage++;
                 vNextPage++;
             }

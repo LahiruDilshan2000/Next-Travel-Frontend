@@ -9,6 +9,7 @@ let gNextPage = 1;
 let gCurrentPage = 0;
 const count = 10;
 let guideHasPage = false;
+const defaultGateway = "http://localhost:8080/guide-service/";
 
 export class GuideController {
     constructor() {
@@ -113,7 +114,7 @@ export class GuideController {
             guideId = parseInt($(event.target).closest('li').find('h3:nth-child(2)').text());
 
             $.ajax({
-                url: "http://localhost:8081/nexttravel/api/v1/guide/get?guideId=" + guideId,
+                url: defaultGateway + "nexttravel/api/v1/guide/get?guideId=" + guideId,
                 method: "GET",
                 processData: false,
                 contentType: false,
@@ -183,7 +184,7 @@ export class GuideController {
         formGuideData.append('guide', guide);
 
         $.ajax({
-            url: "http://localhost:8081/nexttravel/api/v1/guide",
+            url: defaultGateway + "nexttravel/api/v1/guide",
             method: "POST",
             processData: false,
             contentType: false,
@@ -206,7 +207,7 @@ export class GuideController {
     handleLoadAllData(page, count) {
 
         $.ajax({
-            url: "http://localhost:8081/nexttravel/api/v1/guide/getAll?page="+ page + "&count=" + count,
+            url: defaultGateway + "nexttravel/api/v1/guide/getAll?page="+ page + "&count=" + count,
             method: "GET",
             processData: false,
             contentType: false,
@@ -317,7 +318,7 @@ export class GuideController {
         formGuideData.append('guide', guide);
 
         $.ajax({
-            url: "http://localhost:8081/nexttravel/api/v1/guide",
+            url: defaultGateway + "nexttravel/api/v1/guide",
             method: "PUT",
             processData: false,
             contentType: false,
@@ -340,7 +341,7 @@ export class GuideController {
     handleDeleteGuide(guideId) {
 
         $.ajax({
-            url: "http://localhost:8081/nexttravel/api/v1/guide?guideId=" + guideId,
+            url: defaultGateway + "nexttravel/api/v1/guide?guideId=" + guideId,
             method: "DELETE",
             processData: false,
             contentType: false,
@@ -394,6 +395,9 @@ export class GuideController {
         $("#deleteGuideBtn").css({
             "display": "none"
         });
+
+        gNextPage = 1;
+        gCurrentPage = 0;
     }
 }
 
