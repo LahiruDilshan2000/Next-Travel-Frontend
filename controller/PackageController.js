@@ -124,7 +124,6 @@ export class PackageController {
                 currentPage++;
                 $("#nextBtn").css({'display': 'none'});
             }
-            ;
         }
     }
 
@@ -157,25 +156,28 @@ export class PackageController {
 
     handleSetLastPrice() {
 
-        $('#orderIdLbl').text(this.handleGetOrderId());
+        if ($('#nextBtn').is(':visible') || $('#backBtn').is(':visible')) {
 
-        let tot = parseInt($('#totalLbl').text());
-        let days = this.handleGetDateCount();
-        console.log(days + 'day')
+            $('#orderIdLbl').text(this.handleGetOrderId());
 
-        const vehicle = this.HandleGetVehicle(vehicleId);
+            let tot = parseInt($('#totalLbl').text());
+            let days = this.handleGetDateCount();
+            console.log(days + 'day')
 
-        tot += (vehicle.freeForDay * days);
+            const vehicle = this.HandleGetVehicle(vehicleId);
 
-        let guide = "NoGuide";
+            tot += (vehicle.freeForDay * days);
 
-        if ($('#guideCmb').val() !== 'No guide') {
-            guide = this.handleGetGuide($('#guideCmb').val());
+            let guide = "NoGuide";
+
+            if ($('#guideCmb').val() !== 'No guide') {
+                guide = this.handleGetGuide($('#guideCmb').val());
+            }
+            if (guide !== "NoGuide") {
+                tot += (guide.manDayValue * days);
+            }
+            $('#totLbl').text(tot);
         }
-        if (guide !== "NoGuide") {
-            tot += (guide.manDayValue * days);
-        }
-        $('#totLbl').text(tot);
     }
 
     handleGetGuide(guideId) {
@@ -223,49 +225,51 @@ export class PackageController {
 
     handleSavePackage() {
 
-        let pkg = JSON.stringify(new Package(
-            $('#orderIdLbl').text(),
-            pkgCategory,
-            "2000021818",
-            vehicleId,
-            hotelId,
-            hotel.hotelName,
-            travelArea,
-            $('#pkgContactTxt').val(),
-            $('#pkgEmailTxt').val(),
-            parseInt($('#totLbl').text()),
-            0,
-            $('#startDateTxt').val(),
-            $('#endDateTxt').val(),
-            new Date().toISOString(),
-            roomArray,
-            parseInt($('#noOfAdultsTxt').val()),
-            parseInt($('#noOfChildrenTxt').val()),
-            parseInt($('#headCountLbl').text()),
-            $('#withPetCmb').val(),
-            $('#guideCmb').val(),
-        ));
+        if ($('#nextBtn').is(':visible') || $('#backBtn').is(':visible')) {
+            let pkg = JSON.stringify(new Package(
+                $('#orderIdLbl').text(),
+                pkgCategory,
+                "2000021818",
+                vehicleId,
+                hotelId,
+                hotel.hotelName,
+                travelArea,
+                $('#pkgContactTxt').val(),
+                $('#pkgEmailTxt').val(),
+                parseInt($('#totLbl').text()),
+                0,
+                $('#startDateTxt').val(),
+                $('#endDateTxt').val(),
+                new Date().toISOString(),
+                roomArray,
+                parseInt($('#noOfAdultsTxt').val()),
+                parseInt($('#noOfChildrenTxt').val()),
+                parseInt($('#headCountLbl').text()),
+                $('#withPetCmb').val(),
+                $('#guideCmb').val(),
+            ));
 
-        console.log(pkg)
+            console.log(pkg)
 
-        $.ajax({
-            url: defaultGateway + "nexttravel/api/v1/package",
-            method: "POST",
-            async: true,
-            contentType: "application/json",
-            data: pkg,
-            success: (resp) => {
-                if (resp.code === 200) {
-                    console.log(resp.message);
-                    alert(resp.message);
-                    this.handleReset();
-                }
-            },
-            error: (ob) => {
-                console.log(ob)
-                alert(ob.responseJSON.message);
-            },
-        });
+            $.ajax({
+                url: defaultGateway + "nexttravel/api/v1/package",
+                method: "POST",
+                async: true,
+                contentType: "application/json",
+                data: pkg,
+                success: (resp) => {
+                    if (resp.code === 200) {
+                        console.log(resp.message);
+                        alert(resp.message);
+                        this.handleReset();
+                    }
+                },
+                error: (ob) => {
+                    console.log(ob)
+                    alert(ob.responseJSON.message);
+                },
+            });
+        }
     }
 
     handleGetOrderId() {
@@ -291,23 +295,25 @@ export class PackageController {
 
     handleSetFreeGuide() {
 
-        const x = $("#startDateTxt").val();
-        const y = $("#endDateTxt").val();
-        $.ajax({
-            url: defaultGateway + "nexttravel/api/v1/package/getFreeGuide?startDate=" + x + "&endDate=" + y,
-            method: "GET",
-            async: true,
-            success: (resp) => {
-                if (resp.code === 200) {
-                    this.handleAddGuide(resp.data);
-                    console.log(resp.message);
-                }
-            },
-            error: (ob) => {
-                console.log(ob)
-                alert(ob.responseJSON.message);
-            },
-        });
+        if ($('#nextBtn').is(':visible') || $('#backBtn').is(':visible')) {
+            const x = $("#startDateTxt").val();
+            const y = $("#endDateTxt").val();
+            $.ajax({
+                url: defaultGateway + "nexttravel/api/v1/package/getFreeGuide?startDate=" + x + "&endDate=" + y,
+                method: "GET",
+                async: true,
+                success: (resp) => {
+                    if (resp.code === 200) {
+                        this.handleAddGuide(resp.data);
+                        console.log(resp.message);
+                    }
+                },
+                error: (ob) => {
+                    console.log(ob)
+                    alert(ob.responseJSON.message);
+                },
+            });
+        }
     }
 
     handleAddGuide(data) {
@@ -323,13 +329,15 @@ export class PackageController {
 
     handleSetEndMinDate() {
 
-        let endValue = new Date($('#startDateTxt').val());
-        const end = $('#endDateTxt');
-        endValue.setDate(endValue.getDate() + 1);
+        if ($('#nextBtn').is(':visible') || $('#backBtn').is(':visible')) {
+            let endValue = new Date($('#startDateTxt').val());
+            const end = $('#endDateTxt');
+            endValue.setDate(endValue.getDate() + 1);
 
-        endValue = endValue.toISOString().split('T')[0];
-        end.attr("min", endValue);
-        end.attr("value", endValue);
+            endValue = endValue.toISOString().split('T')[0];
+            end.attr("min", endValue);
+            end.attr("value", endValue);
+        }
     }
 
     handleGetDateCount() {
@@ -342,42 +350,46 @@ export class PackageController {
 
     handleTotalFree() {
 
-        console.log(roomArray.length)
-        if (roomArray.length !== 0) {
+        if ($('#nextBtn').is(':visible') || $('#backBtn').is(':visible')) {
+            if (roomArray.length !== 0) {
 
-            let tot = 0;
+                let tot = 0;
 
-            const days = this.handleGetDateCount();
+                const days = this.handleGetDateCount();
 
-            roomArray.map(value => {
-                tot += value.qty * parseInt(value.price) * days;
-            });
+                roomArray.map(value => {
+                    tot += value.qty * parseInt(value.price) * days;
+                });
 
-            $('#totalLbl').text(tot);
+                $('#totalLbl').text(tot);
 
-        } else {
-            $('#totalLbl').text(0.00);
+            } else {
+                $('#totalLbl').text(0.00);
+            }
         }
     }
 
     handleAddRoom() {
 
-        const x = $('#roomQtyTxt').val();
-        const cmbVal = $('#CategoryCmb').val();
+        if ($('#nextBtn').is(':visible') || $('#backBtn').is(':visible')) {
 
-        if (x && cmbVal !== 'default') {
-            for (let i = 0; i < roomArray.length; i++) {
-                if (roomArray[i].roomType === cmbVal) {
-                    roomArray[i].qty += parseInt(x);
-                    return;
+            const x = $('#roomQtyTxt').val();
+            const cmbVal = $('#CategoryCmb').val();
+
+            if (x && cmbVal !== 'default') {
+                for (let i = 0; i < roomArray.length; i++) {
+                    if (roomArray[i].roomType === cmbVal) {
+                        roomArray[i].qty += parseInt(x);
+                        return;
+                    }
                 }
+                const r = {
+                    roomType: cmbVal,
+                    qty: parseInt(x),
+                    price: $('#priceLbl').text()
+                }
+                roomArray.push(r);
             }
-            const r = {
-                roomType: cmbVal,
-                qty: parseInt(x),
-                price: $('#priceLbl').text()
-            }
-            roomArray.push(r);
         }
     }
 
@@ -392,21 +404,23 @@ export class PackageController {
 
     handleSetRoomPrice(hotel) {
 
-        const x = $('#CategoryCmb').val();
-        const y = $('#priceLbl');
+        if ($('#nextBtn').is(':visible') || $('#backBtn').is(':visible')) {
 
-        x === "Full Luxury Double" ? y.text(hotel.fullDPrice) :
-            x === "Half Luxury Double" ? y.text(hotel.halfDPrice) :
-                x === "Full Luxury Triple" ? y.text(hotel.fullTPrice) :
-                    x === "Half Luxury Triple" ? y.text(hotel.halfTPrice) :
-                        y.text(0);
+            const x = $('#CategoryCmb').val();
+            const y = $('#priceLbl');
 
+            x === "Full Luxury Double" ? y.text(hotel.fullDPrice) :
+                x === "Half Luxury Double" ? y.text(hotel.halfDPrice) :
+                    x === "Full Luxury Triple" ? y.text(hotel.fullTPrice) :
+                        x === "Half Luxury Triple" ? y.text(hotel.halfTPrice) :
+                            y.text(0);
+        }
     }
 
     handleValidation() {
 
         if (travelArea.length === 0) {
-            alert('Please select our travel area !');
+            alert('Please select your travel area !');
             return false;
         }
         if (travelArea.length !== 0 && array[nextPage] === '#vehicle-container') {
@@ -428,8 +442,9 @@ export class PackageController {
             return false;
         }
         if (hotelId !== null && array[nextPage] === '#other-details-container') {
-            this.handleGetMoreDetails();
+            this.handleGetHotel(hotelId);
             this.handleShowContainer(array[nextPage]);
+            $("#customerCmb").css({'display': 'none'});
             return true;
         }
     }
@@ -491,6 +506,9 @@ export class PackageController {
                 'display': 'none'
             });
         });
+        $('#addPackageContainer').css({
+            'display': 'none'
+        });
     }
 
     handleGetDetails(event) {
@@ -521,25 +539,28 @@ export class PackageController {
 
     handleViewCart() {
 
-        $('#showR li').remove();
+        if ($('#nextBtn').is(':visible') || $('#backBtn').is(':visible')) {
 
-        roomArray.map((value, index) => {
+            $('#showR li').remove();
 
-            let li = "<li>\n" +
-                "                    <h2>1</h2>\n" +
-                "                    <p>10</p>\n" +
-                "                    <p>10</p>\n" +
-                "                    <i class=\"fa-solid fa-delete-left\"></i>\n" +
-                "                </li>";
-            $('#showR').append(li);
-            $('#showR li:last-child h2').text(index);
-            $('#showR li:last-child p:nth-child(2)').text(value.roomType);
-            $('#showR li:last-child p:nth-child(3)').text(value.qty);
+            roomArray.map((value, index) => {
 
-        });
-        $('#roomFilter').css({
-            'display': 'block'
-        });
+                let li = "<li>\n" +
+                    "                    <h2>1</h2>\n" +
+                    "                    <p>10</p>\n" +
+                    "                    <p>10</p>\n" +
+                    "                    <i class=\"fa-solid fa-delete-left\"></i>\n" +
+                    "                </li>";
+                $('#showR').append(li);
+                $('#showR li:last-child h2').text(index);
+                $('#showR li:last-child p:nth-child(2)').text(value.roomType);
+                $('#showR li:last-child p:nth-child(3)').text(value.qty);
+
+            });
+            $('#roomFilter').css({
+                'display': 'block'
+            });
+        }
     }
 
     handleDefaultData() {
@@ -569,6 +590,11 @@ export class PackageController {
             });
         }, 400);
         document.body.style.overflow = 'hidden';
+
+        $('#backBtn').css({'display': 'block',});
+        $('#nextBtn').css({'display': 'block',});
+        $('#backPkgBtn').css({'display': 'none',});
+        $('#nextPkgBtn').css({'display': 'none',});
     }
 
     handleRemoveAddEvent(event) {
@@ -584,24 +610,21 @@ export class PackageController {
 
     handleAddSelectAreaStyle(event) {
 
-        const child = $(event.target).closest('li').val();
-        const area = $(event.target).closest('li').find('p').text();
+            const child = $(event.target).closest('li').val();
+            const area = $(event.target).closest('li').find('p').text();
 
-        const t = $("#travel-area > ul li:nth-child(" + child + ") i");
-        t.hasClass('fa-plus') ?
-            t.css({'rotate': '360deg'}) && t.removeClass('fa-plus') && t.addClass('fa-check') :
-            t.css({'rotate': '0deg'}) && t.removeClass('fa-check') && t.addClass('fa-plus');
+            const t = $("#travel-area > ul li:nth-child(" + child + ") i");
+            t.hasClass('fa-plus') ?
+                t.css({'rotate': '360deg'}) && t.removeClass('fa-plus') && t.addClass('fa-check') :
+                t.css({'rotate': '0deg'}) && t.removeClass('fa-check') && t.addClass('fa-plus');
 
-        const index = travelArea.indexOf(area);
-        index === -1 ? travelArea.push(area) : travelArea.splice(index);
+        if ($('#nextBtn').is(':visible')) {
+
+            const index = travelArea.indexOf(area);
+            index === -1 ? travelArea.push(area) : travelArea.splice(index, 1);
+        }
 
     }
-
-    handleGetMoreDetails() {
-
-        this.handleGetHotel(hotelId);
-    }
-
     handleGetHotel(hotelId) {
 
         $.ajax({
@@ -715,8 +738,6 @@ export class PackageController {
     handleAddSelectHotel(event) {
 
         const child = $(event.target).closest('li').find('p').text();
-        hotelId = $(event.target).closest('li').find('h2').text();
-
 
         const t = $("#hotel-container > ul li:nth-child(" + child + ") i:nth-child(7)");
 
@@ -729,25 +750,39 @@ export class PackageController {
             x.css({'rotate': '0deg'}) && x.removeClass('fa-check') && x.addClass('fa-plus');
         }
         oldHotelChild = child;
+
+        if ($('#nextBtn').is(':visible') || $('#backBtn').is(':visible')) {
+            const newId = $(event.target).closest('li').find('h2').text();
+
+            if (newId === hotelId){
+                hotelId = null;
+            }else {
+                hotelId = newId;
+            }
+        }
     }
 
     handleNextHotelList() {
 
-        if (hNextPage !== 0) {
-            this.handleGetHotelList(hNextPage, count, hotelCategory);
-            if (hotelHasPage) {
-                hCurrentPage++;
-                hNextPage++;
+        if ($('#nextBtn').is(':visible') || $('#backBtn').is(':visible')) {
+            if (hNextPage !== 0) {
+                this.handleGetHotelList(hNextPage, count, hotelCategory);
+                if (hotelHasPage) {
+                    hCurrentPage++;
+                    hNextPage++;
+                }
             }
         }
     }
 
     handlePreviousHotelList() {
 
-        if (hCurrentPage !== 0) {
-            hCurrentPage--;
-            hNextPage--;
-            this.handleGetHotelList(hCurrentPage, count, hotelCategory);
+        if ($('#nextBtn').is(':visible') || $('#backBtn').is(':visible')) {
+            if (hCurrentPage !== 0) {
+                hCurrentPage--;
+                hNextPage--;
+                this.handleGetHotelList(hCurrentPage, count, hotelCategory);
+            }
         }
     }
 
@@ -810,7 +845,6 @@ export class PackageController {
     handleAddSelectVehicleStyle(event) {
 
         const child = $(event.target).closest('li').find('p').text();
-        vehicleId = $(event.target).closest('li').find('h2').text();
 
         const t = $("#vehicle-container > ul li:nth-child(" + child + ") i");
 
@@ -823,31 +857,49 @@ export class PackageController {
             x.css({'rotate': '0deg'}) && x.removeClass('fa-check') && x.addClass('fa-plus');
         }
         oldVehicleChild = child;
+        if ($('#nextBtn').is(':visible') || $('#backBtn').is(':visible')) {
+
+            const newId = $(event.target).closest('li').find('h2').text();
+
+            if (newId === vehicleId){
+                vehicleId = null;
+            }else {
+                vehicleId = newId;
+            }
+        }
     }
 
     handleNextVehicleList() {
-        if (vNextPage !== 0) {
-            this.handleGetVehicleList(vNextPage, count, vehicleCategory);
-            if (vehicleHasPage) {
-                vCurrentPage++;
-                vNextPage++;
+
+        if ($('#nextBtn').is(':visible') || $('#backBtn').is(':visible')) {
+            if (vNextPage !== 0) {
+                this.handleGetVehicleList(vNextPage, count, vehicleCategory);
+                if (vehicleHasPage) {
+                    vCurrentPage++;
+                    vNextPage++;
+                }
             }
         }
     }
 
     handlePreviousVehicleList() {
-        if (vCurrentPage !== 0) {
-            vCurrentPage--;
-            vNextPage--;
-            this.handleGetVehicleList(vCurrentPage, count, vehicleCategory);
+
+        if ($('#nextBtn').is(':visible') || $('#backBtn').is(':visible')) {
+            if (vCurrentPage !== 0) {
+                vCurrentPage--;
+                vNextPage--;
+                this.handleGetVehicleList(vCurrentPage, count, vehicleCategory);
+            }
         }
     }
 
     handleRemoveRoom(event) {
 
-        const index = parseInt($(event.target).closest('li').find('h2').text());
-        roomArray.splice(index, 1);
-        this.handleViewCart();
+        if ($('#nextBtn').is(':visible') || $('#backBtn').is(':visible')) {
+            const index = parseInt($(event.target).closest('li').find('h2').text());
+            roomArray.splice(index, 1);
+            this.handleViewCart();
+        }
     }
 }
 

@@ -9,11 +9,13 @@
     <link rel="stylesheet" href="assets/styles/MainNavStyles.css">
     <link rel="stylesheet" href="assets/styles/VehicleStyles.css">
     <link rel="stylesheet" href="assets/styles/PackageStyle.css">
+    <link rel="stylesheet" href="assets/styles/TravelAreaStyles.css">
     <link rel="stylesheet" href="assets/styles/HotelStyle.css">
     <link rel="stylesheet" href="assets/styles/GuidStyle.css">
     <link rel="stylesheet" href="assets/styles/DriverStyles.css">
     <link rel="stylesheet" href="assets/styles/UsersStyles.css">
     <link rel="stylesheet" href="assets/styles/FinancialStyles.css">
+    <link rel="stylesheet" href="assets/styles/PackageStyles.css">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -130,14 +132,59 @@
         <h3>Open in 24 hours </h3>
         <nav class="mainNavBar">
             <ul>
-                <li id="packageNavBtn">Packages</li>
+                <li id="packageNavBtn">Booking</li>
+                <li id="travelAreaNavBtn">Travel Area</li>
                 <li id="hotelNavBtn">Hotels</li>
                 <li id="vehicleNavBtn">Vehicles</li>
                 <li id="guideNavBtn">Guide</li>
                 <li id="userNavBtn">User</li>
+                <li id="editPackageNavBtn">Package</li>
                 <li id="financialNavBtn">Financial</li>
             </ul>
         </nav>
+    </section>
+    <!---------------------------------------------------------------------------------->
+    <section class="travelArea" id="travelAreaContainer">
+
+    </section>
+    <!---------------------------------------------------------------------------------->
+    <section class="editPackage" id="editPackageContainer">
+        <div class="package-list">
+            <i class="fa-solid fa-plus" id="addPackageBtn"></i>
+            <div class="package-list-header">
+                <h3>Order ID</h3>
+                <h3>Cus ID</h3>
+                <h3>Category</h3>
+                <h3>Email</h3>
+                <h3>Date</h3>
+                <h3>Free</h3>
+                <h3>Paid Value</h3>
+                <h3>Option</h3>
+            </div>
+            <ul id="packageUl">
+                <li>
+                    <h3>null</h3>
+                    <h3>null</h3>
+                    <h3>null</h3>
+                    <h3>null</h3>
+                    <h3>null</h3>
+                    <h3>null</h3>
+                    <h3>null</h3>
+                    <h3>null</h3>
+                    <div class="btn-div">
+                        <button type="button">Edit</button>
+                        <button type="button">Delete</button>
+                    </div>
+                </li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
+        <div class="next-hotel-div">
+            <i class="fa-solid fa-chevron-left" id="previousAddPackageBtn"></i>
+            <i class="fa-solid fa-chevron-right" id="nextAddPackageBtn"></i>
+        </div>
     </section>
     <!---------------------------------------------------------------------------------->
     <section class="package" id="packageContainer">
@@ -222,6 +269,83 @@
                 <i class="fa-solid fa-xmark" id="closeBtn"></i>
             </div>
             <div class="div-container">
+                <!--            -->
+                <section class="package" id="addPackageContainer">
+                    <div class="pkg-container">
+                        <div class="pkg-text">
+                            <h2>Select your travel package</h2>
+                            <p>Select the package category you want to enjoy !</p>
+                        </div>
+                        <ul class="pkg-list-container">
+                            <li value="1">
+                                <img src="assets/images/deep-dive-luxury-travel-1024x683-1.webp" alt="">
+                                <h3>Super Luxury</h3>
+                                <div class="star-selector">
+                                    <div class="hotelView-stars">
+                                        <i class="fa-solid fa-star show"></i>
+                                        <i class="fa-solid fa-star show"></i>
+                                        <i class="fa-solid fa-star show"></i>
+                                        <i class="fa-solid fa-star show"></i>
+                                        <i class="fa-solid fa-star show"></i>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-plus add" id></i>
+                                <h2>5</h2>
+                                <h2>Super Luxury</h2>
+                            </li>
+                            <li value="2">
+                                <img src="assets/images/anse-source-dargent-taken-at-sunset-from-a-drone-royalty-free-image-1677701213.jpg"
+                                     alt="">
+                                <h3>Luxury</h3>
+                                <div class="star-selector">
+                                    <div class="hotelView-stars">
+                                        <i class="fa-solid fa-star show"></i>
+                                        <i class="fa-solid fa-star show"></i>
+                                        <i class="fa-solid fa-star show"></i>
+                                        <i class="fa-solid fa-star show"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-plus add"></i>
+                                <h2>4</h2>
+                                <h2>Luxury</h2>
+                            </li>
+                            <li value="3">
+                                <img src="assets/images/SI-P18-4-06-KSN-1.png" alt="">
+                                <h3>Mid Leve</h3>
+                                <div class="star-selector">
+                                    <div class="hotelView-stars">
+                                        <i class="fa-solid fa-star show"></i>
+                                        <i class="fa-solid fa-star show"></i>
+                                        <i class="fa-solid fa-star show"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-plus add"></i>
+                                <h2>3</h2>
+                                <h2>Mid-Range</h2>
+                            </li>
+                            <li value="4">
+                                <img src="assets/images/3106390037552f181eb0do_20220714165408.jpg" alt="">
+                                <h3>Regular</h3>
+                                <div class="star-selector">
+                                    <div class="hotelView-stars">
+                                        <i class="fa-solid fa-star show"></i>
+                                        <i class="fa-solid fa-star show"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-plus add"></i>
+                                <h2>2</h2>
+                                <h2>Economy</h2>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+                <!--            -->
                 <div id="travel-area">
                     <ul>
                         <li value="1">
@@ -334,14 +458,6 @@
                             <div class="form-group col-md-12">
                                 <label>Please select additional details</label>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label>Start date</label>
-                                <input type="date" class="form-control" id="startDateTxt">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label>End date</label>
-                                <input type="date" class="form-control" id="endDateTxt">
-                            </div>
                             <div class="form-group col-md-4">
                                 <label>Room category</label>
                                 <select id="CategoryCmb" class="form-select">
@@ -379,27 +495,41 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-6">
+                                <label>Start date</label>
+                                <input type="date" class="form-control" id="startDateTxt">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>End date</label>
+                                <input type="date" class="form-control" id="endDateTxt">
+                            </div>
+                            <div class="form-group col-md-3">
                                 <label>No of adults</label>
                                 <input type="text" class="form-control" id="noOfAdultsTxt" placeholder="2">
                             </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3">
                                 <label>No of children</label>
                                 <input type="text" class="form-control" id="noOfChildrenTxt" placeholder="4">
                             </div>
-                            <div class="form-group col-md-4">
-                                <label>Total head count</label>
+                            <div class="form-group col-md-3">
+                                <label>Total count</label>
                                 <label id="headCountLbl">0</label>
+                            </div>
+                            <div class="form-group col-md-3" id="customerCmb">
+                                <label>Customer Name</label>
+                                <select id="pkgCustomerCmb" class="form-select">
+                                    <option value="default" selected>Select</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Email</label>
+                                <input type="email" class="form-control" id="pkgEmailTxt" placeholder="info@mail.com">
                             </div>
                             <div class="form-group col-md-3">
                                 <label>Contact</label>
                                 <input type="tel" class="form-control" id="pkgContactTxt" placeholder="07x xxxxxxx">
                             </div>
-                            <div class="form-group col-md-3">
-                                <label>Email</label>
-                                <input type="email" class="form-control" id="pkgEmailTxt" placeholder="info@mail.com">
-                            </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-2">
                                 <label>With pets or </label>
                                 <select id="withPetCmb" class="form-select">
                                     <option value="No pets" selected>No pets</option>
@@ -427,6 +557,9 @@
             <div id="button-div">
                 <button type="button" id="backBtn">Back</button>
                 <button type="button" id="nextBtn">Next</button>
+                <button type="button" id="backPkgBtn">Back</button>
+                <button type="button" id="nextPkgBtn">Next</button>
+                <button type="button" id="nextUpdatePkgBtn">Next</button>
             </div>
         </div>
     </section>
@@ -1036,5 +1169,7 @@
 <script src="controller/VehicleController.js" type="module"></script>
 <script src="controller/GuideController.js" type="module"></script>
 <script src="controller/PackageController.js" type="module"></script>
+<script src="controller/LoginController.js" type="module"></script>
+<script src="controller/EditPackageController.js" type="module"></script>
 </body>
 </html>

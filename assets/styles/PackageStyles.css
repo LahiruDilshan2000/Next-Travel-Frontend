@@ -1,0 +1,176 @@
+.editPackage{
+    height: 100vh;
+    padding: 20px 150px;
+}
+#addPackageContainer{
+    display: none;
+}
+.editPackage .package-list{
+    width: 100%;
+    position: relative;
+}
+.package-list-header{
+    width: 100%;
+    height: 60px;
+    box-shadow: -1px 1px 15px rgba(0, 0, 0, 0.1);
+    margin: 30px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(0, 0, 0, 0.01);
+}
+.editPackage .package-list ul{
+    padding: 0;
+}
+.editPackage .package-list ul li{
+    width: 100%;
+    height: 50px;
+    list-style: none;
+    margin: 30px 20px;
+    border-radius: 15px;
+    box-shadow: -1px 1px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+    transition: all 0.5s;
+    padding-left: 15px;
+}
+.editPackage .package-list ul li:hover{
+    box-shadow: -1px 1px 15px rgba(0, 0, 0, 0.25);
+}
+.editPackage .package-list ul li h3{
+    font-size: 14px;
+    font-weight: 400;
+    font-family: 'Ubuntu', sans-serif;
+    color: rgba(0, 0, 0, 0.5);
+    margin: 0;
+}
+.editPackage .package-list ul li img{
+    width: 40px;
+    aspect-ratio: 1/1;
+    border-radius: 90%;
+    object-fit: cover;
+}
+.editPackage .package-list ul li button{
+    width: 70px;
+    height: 100%;
+    background: rgba(255, 0, 0, 0.6);
+    color: white;
+    border: none;
+    transition: all 0.5s ease-in-out;
+    font-size: 13px;
+    letter-spacing: 1px;
+}
+.editPackage .package-list ul li button:hover{
+    background: rgba(255, 0, 0, 1);
+}
+.package-list-header h3{
+    font-size: 15px;
+    font-weight: 400;
+    margin: 0 20px;
+    letter-spacing: 2px;
+}
+.editPackage .package-list .fa-plus{
+    width: 40px;
+    font-size: 20px;
+    aspect-ratio: 1/1;
+    border-radius: 90%;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 0;
+    top: -70px;
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.6);
+    transition: all 0.5s;
+}
+.editPackage .package-list .fa-plus:hover{
+    color: orangered;
+}
+.addPackageBtn{
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    backdrop-filter: blur(1px);
+    align-items: center;
+    justify-content: center;
+    display: none;
+}
+#addPackageContainer > div > ul li{
+    width: 250px;
+    height: 300px;
+}
+#addPackageContainer > div > ul li h3{
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+    color: rgba(0, 0, 0, 0.6);
+    margin: 10px 15px;
+
+}
+#addPackageContainer > div > ul li > div > div i.show{
+    color: orange;
+}
+
+#addPackageContainer > div > ul li .star-selector{
+    display: flex;
+    padding-left: 10px;
+}
+
+#addPackageContainer > div > ul li .star-selector .hotelView-stars{
+    margin: 0px;
+    flex-direction: row;
+    justify-content: center;
+    display: flex;
+}
+#addPackageContainer > div > ul li .star-selector .hotelView-stars i{
+    margin: 5px;
+    font-size: 15px;
+}
+#addPackageContainer > div > ul li img{
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+#addPackageContainer > div > ul li h2{
+    display: none;
+}
+#addPackageContainer{
+    height: 80vh;
+}
+#addPackageContainer > div > ul li .fa-solid.fa-plus{
+    width: 35px;
+}
+#addPackageContainer > div > ul li .fa-solid.fa-plus:hover{
+    color: white;
+    background:rgba(0, 0, 0, 0.3);
+}
+#backPkgBtn:hover{
+   background: rgba(0, 0, 0, 0.35)!important;
+}
+#backPkgBtn, #nextPkgBtn{
+    display: none;
+}
+#customerCmb{
+    display: none;
+}
+.btn-div{
+    display: flex;
+    height: 100%;
+}
+.btn-div button{
+    width: 50px!important;
+    height: 100%!important;
+    font-size: 11px!important;
+}
+.btn-div button:first-child{
+    background: dodgerblue!important;
+}
+#nextUpdatePkgBtn{
+    background: #3dd5f3!important;
+    display: none;
+}

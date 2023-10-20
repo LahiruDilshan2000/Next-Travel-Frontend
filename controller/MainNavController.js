@@ -18,6 +18,12 @@ export class MainNavController {
         $('#financialNavBtn').on('click', () => {
             this.handleNavContainer("#financialContainer", "#financialNavBtn");
         });
+        $('#travelAreaNavBtn').on('click', () => {
+            this.handleNavContainer("#travelAreaContainer", "#travelAreaNavBtn");
+        });
+        $('#editPackageNavBtn').on('click', () => {
+            this.handleNavContainer("#editPackageContainer", "#editPackageNavBtn");
+        });
         this.handleNavContainer("#packageContainer", "#packageNavBtn");
     }
 
@@ -36,7 +42,9 @@ export class MainNavController {
             '#packageContainer',
             '#guideContainer',
             '#usersContainer',
-            '#financialContainer'];
+            '#financialContainer',
+            '#travelAreaContainer',
+            '#editPackageContainer'];
 
         arr.map(id => {
             $(id).css({

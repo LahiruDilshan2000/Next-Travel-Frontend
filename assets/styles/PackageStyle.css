@@ -425,7 +425,7 @@
 .details-div2 > div div select, .details-div2 > div div input[type='date']{
     color: rgba(0, 0, 0, 0.6);
 }
-#other-details-container > div.details-div2 > div > div:nth-child(7){
+#other-details-container > div.details-div2 > div > div:nth-child(5){
     display: flex;
     justify-content: end;
     padding: 0 20px;
@@ -445,11 +445,11 @@
     background: #0d6efd;
     color: white;
 }
-#other-details-container > div.details-div2 > div > div:nth-child(8){
+#other-details-container > div.details-div2 > div > div:nth-child(6){
     display: flex;
     justify-content: end;
 }
-#other-details-container > div.details-div2 > div > div:nth-child(8) > i{
+#other-details-container > div.details-div2 > div > div:nth-child(6) > i{
     width: 39px;
     aspect-ratio: 1/1;
     background: rgba(0, 0, 0, 0.1);
@@ -461,7 +461,7 @@
     cursor: pointer;
     transition: all 0.5s;
 }
-#other-details-container > div.details-div2 > div > div:nth-child(8) > i:hover{
+#other-details-container > div.details-div2 > div > div:nth-child(6) > i:hover{
     background: #6f42c1;
     color: white;
 }
@@ -485,7 +485,7 @@
     background: rgba(0, 0, 0, 0.4)!important;
     color: white!important;
 }
-#other-details-container > div.details-div2 > div > div:nth-child(8){
+#other-details-container > div.details-div2 > div > div:nth-child(6){
     position: relative;
 }
 #roomFilter{
@@ -598,4 +598,9 @@
 #orderIdLbl{
     font-family: 'Ubuntu', sans-serif;
     margin-top: 50px;
+}
+#addPackageContainer > div > ul > li > i.fa-check{
+    background: #0d6efd;
+    color: white;
+    width: 35px;
 }
