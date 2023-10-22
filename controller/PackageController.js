@@ -113,7 +113,6 @@ export class PackageController {
             this.handleSavePackage();
         });
         this.handleDefaultData();
-        //this.handleTest();
     }
 
     handleNext() {

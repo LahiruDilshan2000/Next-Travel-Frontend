@@ -8,7 +8,7 @@ let uNextPage = 1;
 let uCurrentPage = 0;
 const count = 10;
 let userHasPage = false;
-const defaultGateway = "http://localhost:8080/nexttravel/api/v1/user";
+const defaultGateway = "http://localhost:8080/nexttravel/api/v1/auth";
 
 export class UsersController {
     constructor() {
@@ -40,7 +40,6 @@ export class UsersController {
             this.handlePreviousUserList();
         });
         this.handleNavContainer(".user-list", "#usersNavBtn");
-        this.handleLoadAllData(0, count);
         this.handleUserEditeEvent();
     }
 
@@ -131,10 +130,8 @@ export class UsersController {
 
             const token = user.token;
             $.ajax({
-                url: defaultGateway + "/getAll?page=" + page + "&count=" + count,
+                url: defaultGateway + "/user/getAll?page=" + page + "&count=" + count,
                 method: "GET",
-                processData: false,
-                contentType: false,
                 async: false,
                 headers: {
                     'Authorization': 'Bearer ' + token,
@@ -175,7 +172,7 @@ export class UsersController {
         userFormData.append('user', user);
 
         $.ajax({
-            url: defaultGateway,
+            url: defaultGateway + "/register",
             method: "POST",
             processData: false,
             contentType: false,
@@ -197,6 +194,7 @@ export class UsersController {
     }
 
     handleGetObject() {
+
         return JSON.stringify(new User(
             userId,
             $('#nameTxt').val(),
@@ -204,7 +202,7 @@ export class UsersController {
             $('#addressTxt').val(),
             $('#emailTxt').val(),
             $('#passwordTxt').val(),
-            "USER",
+            null,
             null
         ));
     }
@@ -230,7 +228,7 @@ export class UsersController {
                 $('#userUl').append(li);
                 $('#userUl li:last-child img').attr('src', `data:image/png;base64,${value.userImage}`);
                 $('#userUl li:last-child h3:nth-child(2)').text(value.userId);
-                $('#userUl li:last-child h3:nth-child(3)').text(value.username);
+                $('#userUl li:last-child h3:nth-child(3)').text(value.userName);
                 $('#userUl li:last-child h3:nth-child(4)').text(value.nic);
                 $('#userUl li:last-child h3:nth-child(5)').text(value.address);
                 $('#userUl li:last-child h3:nth-child(6)').text(value.email);
@@ -275,7 +273,7 @@ export class UsersController {
                 const token = user.token;
 
                 $.ajax({
-                    url: defaultGateway + "/get?nic=" + nic,
+                    url: defaultGateway + "/user/get?nic=" + nic,
                     method: "GET",
                     processData: false,
                     contentType: false,
@@ -302,7 +300,7 @@ export class UsersController {
 
         userId = data.userId;
         $("#userImage").attr('src', `data:image/png;base64,${data.userImage}`);
-        $("#nameTxt").val(data.username);
+        $("#nameTxt").val(data.userName);
         $("#nicTxt").val(data.nic);
         $("#addressTxt").val(data.address);
         $("#emailTxt").val(data.email);
@@ -331,11 +329,11 @@ export class UsersController {
 
     handleUpdateUser() {
 
-        const user = JSON.parse(localStorage.getItem("USER"));
+        const userLog = JSON.parse(localStorage.getItem("USER"));
 
-        if (user) {
+        if (userLog) {
 
-            const token = user.token;
+            const token = userLog.token;
 
             const user = this.handleGetObject();
 
@@ -345,7 +343,7 @@ export class UsersController {
             userFormData.append('user', user);
 
             $.ajax({
-                url: defaultGateway,
+                url: defaultGateway + "/user",
                 method: "PUT",
                 processData: false,
                 contentType: false,
@@ -379,7 +377,7 @@ export class UsersController {
             const token = user.token;
 
             $.ajax({
-                url: defaultGateway + "?userId=" + userId,
+                url: defaultGateway + "/user?userId=" + userId,
                 method: "DELETE",
                 processData: false,
                 contentType: false,
@@ -403,6 +401,7 @@ export class UsersController {
         }
     }
 }
-
-
+export function loadUser() {
+    this.handleLoadAllData(0, count);
+}
 new UsersController();

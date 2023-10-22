@@ -110,7 +110,6 @@ export class EditPackageController {
         $('#nextUpdatePkgBtn').on('click', () => {
             this.handleNextUpdate();
         });
-        this.handleLoadAll(0, count);
         this.handlePackageEditeEvent();
     }
 
@@ -1226,7 +1225,7 @@ export class EditPackageController {
         $("#pkgCustomerCmb").append("<option value=\"default\" selected>Select</option>");
 
         data.map(value => {
-            $("#pkgCustomerCmb").append("<option value=" + value.nic + ">" + value.username + "</option>");
+            $("#pkgCustomerCmb").append("<option value=" + value.nic + ">" + value.userName + "</option>");
         });
     }
 
@@ -1497,6 +1496,10 @@ export class EditPackageController {
             this.handleReset();
         }
     }
+}
+
+export function loadPackage() {
+    this.handleLoadAll(0, count);
 }
 
 new EditPackageController();

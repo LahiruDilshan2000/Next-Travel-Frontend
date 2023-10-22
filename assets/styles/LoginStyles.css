@@ -195,6 +195,7 @@ input[type=text]:hover, input[type=password]:hover, input[type=email]:hover {
     aspect-ratio: 1/1;
     border-radius: 90%;
     margin-bottom: 20px;
+    object-fit: cover;
 }
 #profile h3{
     font-size: 30px;
@@ -240,4 +241,5 @@ input[type=text]:hover, input[type=password]:hover, input[type=email]:hover {
 }
 #navImg{
     border-radius: 90%;
+    object-fit: cover;
 }

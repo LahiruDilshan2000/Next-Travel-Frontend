@@ -52,7 +52,6 @@ export class GuideController {
         $("#previousAddGuideBtn").on('click', () => {
             this.handlePreviousUserList();
         });
-        this.handleLoadAllData(0, count);
         this.handleGuideEditeEvent();
     }
 
@@ -448,6 +447,9 @@ export class GuideController {
         gNextPage = 1;
         gCurrentPage = 0;
     }
+}
+export function loadGuide() {
+    this.handleLoadAllData(0, count);
 }
 
 new GuideController();
