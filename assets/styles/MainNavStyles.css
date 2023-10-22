@@ -60,3 +60,6 @@
     color: red!important;
     /*border-bottom: 2px solid red;*/
 }
+#guideNavBtn, #userNavBtn, #editPackageNavBtn, #financialNavBtn{
+    display: none;
+}

@@ -8,7 +8,7 @@ let uNextPage = 1;
 let uCurrentPage = 0;
 const count = 10;
 let userHasPage = false;
-const defaultGateway = "http://localhost:8080/user-service/";
+const defaultGateway = "http://localhost:8080/nexttravel/api/v1/user";
 
 export class UsersController {
     constructor() {
@@ -125,23 +125,32 @@ export class UsersController {
 
     handleLoadAllData(page, count) {
 
-        $.ajax({
-            url: defaultGateway + "nexttravel/api/v1/user/getAll?page=" + page + "&count=" + count,
-            method: "GET",
-            processData: false,
-            contentType: false,
-            async: false,
-            success: (resp) => {
-                if (resp.code === 200) {
-                    this.handleLoadUser(resp.data);
-                    console.log(resp.message);
-                }
-            },
-            error: (ob) => {
-                console.log(ob)
-                alert(ob.responseJSON.message);
-            },
-        });
+        const user = JSON.parse(localStorage.getItem("USER"));
+
+        if (user) {
+
+            const token = user.token;
+            $.ajax({
+                url: defaultGateway + "/getAll?page=" + page + "&count=" + count,
+                method: "GET",
+                processData: false,
+                contentType: false,
+                async: false,
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                },
+                success: (resp) => {
+                    if (resp.code === 200) {
+                        this.handleLoadUser(resp.data);
+                        console.log(resp.message);
+                    }
+                },
+                error: (ob) => {
+                    console.log(ob)
+                    alert(ob.responseJSON.message);
+                },
+            });
+        }
     }
 
     handleValidation(fun) {
@@ -166,7 +175,7 @@ export class UsersController {
         userFormData.append('user', user);
 
         $.ajax({
-            url: defaultGateway + "nexttravel/api/v1/user",
+            url: defaultGateway,
             method: "POST",
             processData: false,
             contentType: false,
@@ -221,7 +230,7 @@ export class UsersController {
                 $('#userUl').append(li);
                 $('#userUl li:last-child img').attr('src', `data:image/png;base64,${value.userImage}`);
                 $('#userUl li:last-child h3:nth-child(2)').text(value.userId);
-                $('#userUl li:last-child h3:nth-child(3)').text(value.userName);
+                $('#userUl li:last-child h3:nth-child(3)').text(value.username);
                 $('#userUl li:last-child h3:nth-child(4)').text(value.nic);
                 $('#userUl li:last-child h3:nth-child(5)').text(value.address);
                 $('#userUl li:last-child h3:nth-child(6)').text(value.email);
@@ -259,23 +268,33 @@ export class UsersController {
         $('#userUl').on('click', 'button', (event) => {
             nic = $(event.target).closest('li').find('h3:nth-child(4)').text();
 
-            $.ajax({
-                url: defaultGateway + "nexttravel/api/v1/user/get?nic=" + nic,
-                method: "GET",
-                processData: false,
-                contentType: false,
-                async: true,
-                success: (resp) => {
-                    if (resp.code === 200) {
-                        this.handleEditDetails(resp.data);
-                        console.log(resp.message);
-                    }
-                },
-                error: (ob) => {
-                    console.log(ob)
-                    alert(ob.responseJSON.message);
-                },
-            });
+            const user = JSON.parse(localStorage.getItem("USER"));
+
+            if (user) {
+
+                const token = user.token;
+
+                $.ajax({
+                    url: defaultGateway + "/get?nic=" + nic,
+                    method: "GET",
+                    processData: false,
+                    contentType: false,
+                    async: true,
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                    },
+                    success: (resp) => {
+                        if (resp.code === 200) {
+                            this.handleEditDetails(resp.data);
+                            console.log(resp.message);
+                        }
+                    },
+                    error: (ob) => {
+                        console.log(ob)
+                        alert(ob.responseJSON.message);
+                    },
+                });
+            }
         });
     }
 
@@ -283,7 +302,7 @@ export class UsersController {
 
         userId = data.userId;
         $("#userImage").attr('src', `data:image/png;base64,${data.userImage}`);
-        $("#nameTxt").val(data.userName);
+        $("#nameTxt").val(data.username);
         $("#nicTxt").val(data.nic);
         $("#addressTxt").val(data.address);
         $("#emailTxt").val(data.email);
@@ -312,56 +331,76 @@ export class UsersController {
 
     handleUpdateUser() {
 
-        const user = this.handleGetObject();
+        const user = JSON.parse(localStorage.getItem("USER"));
 
-        const userFormData = new FormData();
+        if (user) {
 
-        userFormData.append('file', userImg);
-        userFormData.append('user', user);
+            const token = user.token;
 
-        $.ajax({
-            url: defaultGateway + "nexttravel/api/v1/user",
-            method: "PUT",
-            processData: false,
-            contentType: false,
-            async: true,
-            data: userFormData,
-            success: (resp) => {
-                if (resp.code === 200) {
-                    console.log(resp.message);
-                    this.handleLoadAllData(0,count);
-                    this.handleReset();
-                    $('#addUserForm').click();
-                }
-            },
-            error: (ob) => {
-                console.log(ob)
-                alert(ob.responseJSON.message);
-            },
-        });
+            const user = this.handleGetObject();
+
+            const userFormData = new FormData();
+
+            userFormData.append('file', userImg);
+            userFormData.append('user', user);
+
+            $.ajax({
+                url: defaultGateway,
+                method: "PUT",
+                processData: false,
+                contentType: false,
+                async: true,
+                data: userFormData,
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                },
+                success: (resp) => {
+                    if (resp.code === 200) {
+                        console.log(resp.message);
+                        this.handleLoadAllData(0, count);
+                        this.handleReset();
+                        $('#addUserForm').click();
+                    }
+                },
+                error: (ob) => {
+                    console.log(ob)
+                    alert(ob.responseJSON.message);
+                },
+            });
+        }
     }
 
     handleDeleteUser(userId) {
 
-        $.ajax({
-            url: defaultGateway + "nexttravel/api/v1/user?userId=" + userId,
-            method: "DELETE",
-            processData: false,
-            contentType: false,
-            async: true,
-            success: (resp) => {
-                if (resp.code === 200) {
-                    console.log(resp.message);
-                    this.handleLoadAllData(0, count);
-                    this.handleReset();
-                    $('#addUserForm').click();
-                }
-            },
-            error: (ob) => {
-                console.log(ob)
-                alert(ob.responseJSON.message);
-            },
-        });
+        const user = JSON.parse(localStorage.getItem("USER"));
+
+        if (user) {
+
+            const token = user.token;
+
+            $.ajax({
+                url: defaultGateway + "?userId=" + userId,
+                method: "DELETE",
+                processData: false,
+                contentType: false,
+                async: true,
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                },
+                success: (resp) => {
+                    if (resp.code === 200) {
+                        console.log(resp.message);
+                        this.handleLoadAllData(0, count);
+                        this.handleReset();
+                        $('#addUserForm').click();
+                    }
+                },
+                error: (ob) => {
+                    console.log(ob)
+                    alert(ob.responseJSON.message);
+                },
+            });
+        }
     }
 }
 

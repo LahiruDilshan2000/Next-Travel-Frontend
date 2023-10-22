@@ -20,7 +20,9 @@ let vehicleHasPage = false;
 let vehicleCategory = undefined;
 let hotelCategory = undefined;
 let pkgCategory = undefined;
-const defaultGateway = "http://localhost:8080/package-service/";
+let vehicleList = null;
+let hotelList = null;
+const defaultGateway = "http://localhost:8080/nexttravel/api/v1/package";
 
 export class PackageController {
     constructor() {
@@ -83,11 +85,15 @@ export class PackageController {
         });
         $('#startDateTxt').on('change', () => {
             this.handleSetEndMinDate();
-            this.handleTotalFree();
+            this.handleDefaultData();
+            this.handleSetLastPrice();
         });
         $('#endDateTxt').on('change', () => {
-            this.handleTotalFree();
             this.handleSetFreeGuide();
+            this.handleSetLastPrice();
+        });
+        $('#guideCmb').on('change', () => {
+            this.handleSetLastPrice();
         });
         $('#noOfAdultsTxt').on('keyup', () => {
             this.handleCountHeadCount($('#noOfAdultsTxt').val(), $('#noOfChildrenTxt').val());
@@ -97,7 +103,7 @@ export class PackageController {
         });
         $('#qtyAddBtn').on('click', () => {
             this.handleAddRoom();
-            this.handleTotalFree();
+            this.handleSetLastPrice();
         });
         $('#showR').on('click', 'i', (event) => {
             this.handleRemoveRoom(event);
@@ -160,9 +166,12 @@ export class PackageController {
 
             $('#orderIdLbl').text(this.handleGetOrderId());
 
-            let tot = parseInt($('#totalLbl').text());
+            let tot = 0;
             let days = this.handleGetDateCount();
-            console.log(days + 'day')
+
+            roomArray.map(value => {
+                tot += ((value.price * days) * value.qty);
+            });
 
             const vehicle = this.HandleGetVehicle(vehicleId);
 
@@ -177,135 +186,151 @@ export class PackageController {
                 tot += (guide.manDayValue * days);
             }
             $('#totLbl').text(tot);
+            $('#totalLbl').text(tot);
         }
     }
 
     handleGetGuide(guideId) {
 
-        let guide = undefined;
-        $.ajax({
-            url: defaultGateway + "nexttravel/api/v1/package/getGuideById?guideId=" + guideId,
-            method: "GET",
-            async: false,
-            success: (resp) => {
-                if (resp.code === 200) {
-                    guide = resp.data;
-                    console.log(resp.message);
-                }
-            },
-            error: (ob) => {
-                console.log(ob)
-                alert(ob.responseJSON.message);
-            },
-        });
-        return guide;
+        const user = JSON.parse(localStorage.getItem("USER"));
+
+        if (user) {
+
+            const token = user.token;
+
+            let guide = undefined;
+            $.ajax({
+                url: defaultGateway + "/getGuideById?guideId=" + guideId,
+                method: "GET",
+                async: false,
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                },
+                success: (resp) => {
+                    if (resp.code === 200) {
+                        guide = resp.data;
+                        console.log(resp.message);
+                    }
+                },
+                error: (ob) => {
+                    console.log(ob)
+                    alert(ob.responseJSON.message);
+                },
+            });
+            return guide;
+        }
     }
 
     HandleGetVehicle(vehicleId) {
 
-        let vehicle = undefined;
-        $.ajax({
-            url: defaultGateway + "nexttravel/api/v1/package/getVehicleById?vehicleId=" + vehicleId,
-            method: "GET",
-            async: false,
-            success: (resp) => {
-                if (resp.code === 200) {
-                    vehicle = resp.data;
-                    console.log(resp.message);
-                }
-            },
-            error: (ob) => {
-                console.log(ob)
-                alert(ob.responseJSON.message);
-            },
-        });
-        return vehicle;
+        const user = JSON.parse(localStorage.getItem("USER"));
+
+        if (user) {
+
+            const token = user.token;
+
+            let vehicle = undefined;
+            $.ajax({
+                url: defaultGateway + "/getVehicleById?vehicleId=" + vehicleId,
+                method: "GET",
+                async: false,
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                },
+                success: (resp) => {
+                    if (resp.code === 200) {
+                        vehicle = resp.data;
+                        console.log(resp.message);
+                    }
+                },
+                error: (ob) => {
+                    console.log(ob)
+                    alert(ob.responseJSON.message);
+                },
+            });
+            return vehicle;
+        }
 
     }
 
     handleSavePackage() {
 
         if ($('#nextBtn').is(':visible') || $('#backBtn').is(':visible')) {
-            let pkg = JSON.stringify(new Package(
-                $('#orderIdLbl').text(),
-                pkgCategory,
-                "2000021818",
-                vehicleId,
-                hotelId,
-                hotel.hotelName,
-                travelArea,
-                $('#pkgContactTxt').val(),
-                $('#pkgEmailTxt').val(),
-                parseInt($('#totLbl').text()),
-                0,
-                $('#startDateTxt').val(),
-                $('#endDateTxt').val(),
-                new Date().toISOString(),
-                roomArray,
-                parseInt($('#noOfAdultsTxt').val()),
-                parseInt($('#noOfChildrenTxt').val()),
-                parseInt($('#headCountLbl').text()),
-                $('#withPetCmb').val(),
-                $('#guideCmb').val(),
-            ));
 
-            console.log(pkg)
+            const user = JSON.parse(localStorage.getItem("USER"));
 
-            $.ajax({
-                url: defaultGateway + "nexttravel/api/v1/package",
-                method: "POST",
-                async: true,
-                contentType: "application/json",
-                data: pkg,
-                success: (resp) => {
-                    if (resp.code === 200) {
-                        console.log(resp.message);
-                        alert(resp.message);
-                        this.handleReset();
-                    }
-                },
-                error: (ob) => {
-                    console.log(ob)
-                    alert(ob.responseJSON.message);
-                },
-            });
+            if (user) {
+
+                const token = user.token;
+                let pkg = JSON.stringify(new Package(
+                    $('#orderIdLbl').text(),
+                    pkgCategory,
+                    user.nic,
+                    vehicleId,
+                    hotelId,
+                    hotel.hotelName,
+                    travelArea,
+                    $('#pkgContactTxt').val(),
+                    $('#pkgEmailTxt').val(),
+                    parseInt($('#totLbl').text()),
+                    0,
+                    $('#startDateTxt').val(),
+                    $('#endDateTxt').val(),
+                    new Date().toISOString(),
+                    roomArray,
+                    parseInt($('#noOfAdultsTxt').val()),
+                    parseInt($('#noOfChildrenTxt').val()),
+                    parseInt($('#headCountLbl').text()),
+                    $('#withPetCmb').val(),
+                    $('#guideCmb').val(),
+                ));
+
+                console.log(pkg)
+
+                $.ajax({
+                    url: defaultGateway,
+                    method: "POST",
+                    async: true,
+                    contentType: "application/json",
+                    data: pkg,
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                    },
+                    success: (resp) => {
+                        if (resp.code === 200) {
+                            console.log(resp.message);
+                            alert(resp.message);
+                            this.handleReset();
+                        }
+                    },
+                    error: (ob) => {
+                        console.log(ob)
+                        alert(ob.responseJSON.message);
+                    },
+                });
+            }
         }
     }
 
     handleGetOrderId() {
 
-        let id = 0;
-        $.ajax({
-            url: defaultGateway + "nexttravel/api/v1/package/getNextPk",
-            method: "GET",
-            async: false,
-            success: (resp) => {
-                if (resp.code === 200) {
-                    console.log(resp.message);
-                    id = resp.data;
-                }
-            },
-            error: (ob) => {
-                console.log(ob)
-                alert(ob.responseJSON.message);
-            },
-        });
-        return id;
-    }
+        const user = JSON.parse(localStorage.getItem("USER"));
 
-    handleSetFreeGuide() {
+        if (user) {
 
-        if ($('#nextBtn').is(':visible') || $('#backBtn').is(':visible')) {
-            const x = $("#startDateTxt").val();
-            const y = $("#endDateTxt").val();
+            const token = user.token;
+            let id = 0;
             $.ajax({
-                url: defaultGateway + "nexttravel/api/v1/package/getFreeGuide?startDate=" + x + "&endDate=" + y,
+                url: defaultGateway + "/getNextPk",
                 method: "GET",
-                async: true,
+                async: false,
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                },
                 success: (resp) => {
                     if (resp.code === 200) {
-                        this.handleAddGuide(resp.data);
                         console.log(resp.message);
+                        id = resp.data;
                     }
                 },
                 error: (ob) => {
@@ -313,6 +338,40 @@ export class PackageController {
                     alert(ob.responseJSON.message);
                 },
             });
+            return id;
+        }
+    }
+
+    handleSetFreeGuide() {
+
+        if ($('#nextBtn').is(':visible') || $('#backBtn').is(':visible')) {
+
+            const user = JSON.parse(localStorage.getItem("USER"));
+
+            if (user) {
+
+                const token = user.token;
+                const x = $("#startDateTxt").val();
+                const y = $("#endDateTxt").val();
+                $.ajax({
+                    url: defaultGateway + "/getFreeGuide?startDate=" + x + "&endDate=" + y,
+                    method: "GET",
+                    async: true,
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                    },
+                    success: (resp) => {
+                        if (resp.code === 200) {
+                            this.handleAddGuide(resp.data);
+                            console.log(resp.message);
+                        }
+                    },
+                    error: (ob) => {
+                        console.log(ob)
+                        alert(ob.responseJSON.message);
+                    },
+                });
+            }
         }
     }
 
@@ -472,6 +531,19 @@ export class PackageController {
         vehicleCategory = undefined;
         hotelCategory = undefined;
         pkgCategory = undefined;
+        vehicleList = null;
+        hotelList = null;
+
+        $('#totalLbl').text('0');
+        $('#noOfAdultsTxt').val('');
+        $('#noOfChildrenTxt').val('');
+        $('#pkgContactTxt').val('');
+        $('#pkgEmailTxt').val('');
+        $('#headCountLbl').text('0');
+        $('#guideCmb').val('');
+        $('#roomQtyTxt').val('');
+        $('#priceLbl').text('0');
+        this.handleDefaultData();
 
         $("#addPackage-container").css({
             "top": "100vh",
@@ -513,11 +585,15 @@ export class PackageController {
 
     handleGetDetails(event) {
 
-        pkgCategory = $(event.target).closest('li').find('h3').text();
-        hotelCategory = parseInt($(event.target).closest('li').find('h2:nth-child(5)').text());
-        vehicleCategory = $(event.target).closest('li').find('h2:nth-child(6)').text();
-        this.handleHideAllContainer();
-        this.handleShowContainer(array[0]);
+        if (localStorage.getItem("USER")) {
+            pkgCategory = $(event.target).closest('li').find('h3').text();
+            hotelCategory = parseInt($(event.target).closest('li').find('h2:nth-child(5)').text());
+            vehicleCategory = $(event.target).closest('li').find('h2:nth-child(6)').text();
+            this.handleHideAllContainer();
+            this.handleShowContainer(array[0]);
+        }else {
+            alert("Please login first");
+        }
     }
 
     handleShowContainer(id) {
@@ -581,30 +657,34 @@ export class PackageController {
 
     handleAddItemEvent() {
 
-        $('#addPackage-container').css({
-            'top': '0',
-        });
-        setTimeout(() => {
+        if(localStorage.getItem("USER")) {
             $('#addPackage-container').css({
-                'background': 'rgba(0, 0, 0, 0.5)'
+                'top': '0',
             });
-        }, 400);
-        document.body.style.overflow = 'hidden';
+            setTimeout(() => {
+                $('#addPackage-container').css({
+                    'background': 'rgba(0, 0, 0, 0.5)'
+                });
+            }, 400);
+            document.body.style.overflow = 'hidden';
 
-        $('#backBtn').css({'display': 'block',});
-        $('#nextBtn').css({'display': 'block',});
-        $('#backPkgBtn').css({'display': 'none',});
-        $('#nextPkgBtn').css({'display': 'none',});
+            $('#backBtn').css({'display': 'block',});
+            $('#nextBtn').css({'display': 'block',});
+            $('#backPkgBtn').css({'display': 'none',});
+            $('#nextPkgBtn').css({'display': 'none',});
+        }
     }
 
     handleRemoveAddEvent(event) {
 
-        if (event.target.className === 'addPackage-container') {
-            $("#addPackage-container").css({
-                "top": "100vh",
-                'background': 'none'
-            });
-            this.handleReset();
+        if ($('#nextBtn').is(':visible') || $('#backBtn').is(':visible')) {
+            if (event.target.className === 'addPackage-container') {
+                $("#addPackage-container").css({
+                    "top": "100vh",
+                    'background': 'none'
+                });
+                this.handleReset();
+            }
         }
     }
 
@@ -627,23 +707,32 @@ export class PackageController {
     }
     handleGetHotel(hotelId) {
 
-        $.ajax({
-            url: defaultGateway + "nexttravel/api/v1/package/getHotelById?hotelId=" + hotelId,
-            method: "GET",
-            processData: false,
-            contentType: false,
-            async: true,
-            success: (resp) => {
-                if (resp.code === 200) {
-                    this.handleHotelDetails(resp.data);
-                    console.log(resp.message);
-                }
-            },
-            error: (ob) => {
-                console.log(ob)
-                alert(ob.responseJSON.message);
-            },
-        });
+        const user = JSON.parse(localStorage.getItem("USER"));
+
+        if (user) {
+
+            const token = user.token;
+            $.ajax({
+                url: defaultGateway + "/getHotelById?hotelId=" + hotelId,
+                method: "GET",
+                processData: false,
+                contentType: false,
+                async: true,
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                },
+                success: (resp) => {
+                    if (resp.code === 200) {
+                        this.handleHotelDetails(resp.data);
+                        console.log(resp.message);
+                    }
+                },
+                error: (ob) => {
+                    console.log(ob)
+                    alert(ob.responseJSON.message);
+                },
+            });
+        }
     }
 
     handleHotelDetails(data) {
@@ -669,25 +758,35 @@ export class PackageController {
 
     handleGetHotelList(page, count, category) {
 
-        $.ajax({
-            url: defaultGateway + "nexttravel/api/v1/package/getHotels?page=" +
-                page + "&count=" + count + "&category=" + category,
-            method: "GET",
-            processData: false,
-            contentType: false,
-            async: false,
-            success: (resp) => {
-                if (resp.code === 200) {
-                    this.handleLoadHotels(resp.data);
-                    console.log(resp.message);
+        const user = JSON.parse(localStorage.getItem("USER"));
 
-                }
-            },
-            error: (ob) => {
-                console.log(ob)
-                alert(ob.responseJSON.message);
-            },
-        });
+        if (user) {
+
+            const token = user.token;
+            $.ajax({
+                url: defaultGateway + "/getHotels?page=" +
+                    page + "&count=" + count + "&category=" + category,
+                method: "GET",
+                processData: false,
+                contentType: false,
+                async: false,
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                },
+                success: (resp) => {
+                    if (resp.code === 200) {
+                        hotelList = resp.data;
+                        this.handleLoadHotels(resp.data);
+                        console.log(resp.message);
+
+                    }
+                },
+                error: (ob) => {
+                    console.log(ob)
+                    alert(ob.responseJSON.message);
+                },
+            });
+        }
     }
 
     handleLoadHotels(data) {
@@ -767,6 +866,7 @@ export class PackageController {
         if ($('#nextBtn').is(':visible') || $('#backBtn').is(':visible')) {
             if (hNextPage !== 0) {
                 this.handleGetHotelList(hNextPage, count, hotelCategory);
+                this.handleSetOldHotel();
                 if (hotelHasPage) {
                     hCurrentPage++;
                     hNextPage++;
@@ -782,30 +882,41 @@ export class PackageController {
                 hCurrentPage--;
                 hNextPage--;
                 this.handleGetHotelList(hCurrentPage, count, hotelCategory);
+                this.handleSetOldHotel();
             }
         }
     }
 
     handleGetVehicleList(page, count, category) {
 
-        $.ajax({
-            url: defaultGateway + "nexttravel/api/v1/package/getVehicles?page=" +
-                page + "&count=" + count + "&category=" + category,
-            method: "GET",
-            processData: false,
-            contentType: false,
-            async: false,
-            success: (resp) => {
-                if (resp.code === 200) {
-                    this.handleLoadVehicles(resp.data);
-                    console.log(resp.message);
-                }
-            },
-            error: (ob) => {
-                console.log(ob)
-                alert(ob.responseJSON.message);
-            },
-        });
+        const user = JSON.parse(localStorage.getItem("USER"));
+
+        if (user) {
+
+            const token = user.token;
+            $.ajax({
+                url: defaultGateway + "/getVehicles?page=" +
+                    page + "&count=" + count + "&category=" + category,
+                method: "GET",
+                processData: false,
+                contentType: false,
+                async: false,
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                },
+                success: (resp) => {
+                    if (resp.code === 200) {
+                        vehicleList = resp.data;
+                        this.handleLoadVehicles(resp.data);
+                        console.log(resp.message);
+                    }
+                },
+                error: (ob) => {
+                    console.log(ob)
+                    alert(ob.responseJSON.message);
+                },
+            });
+        }
     }
 
     handleLoadVehicles(data) {
@@ -874,6 +985,7 @@ export class PackageController {
         if ($('#nextBtn').is(':visible') || $('#backBtn').is(':visible')) {
             if (vNextPage !== 0) {
                 this.handleGetVehicleList(vNextPage, count, vehicleCategory);
+                this.handleSetOldVehicle();
                 if (vehicleHasPage) {
                     vCurrentPage++;
                     vNextPage++;
@@ -889,6 +1001,7 @@ export class PackageController {
                 vCurrentPage--;
                 vNextPage--;
                 this.handleGetVehicleList(vCurrentPage, count, vehicleCategory);
+                this.handleSetOldVehicle();
             }
         }
     }
@@ -900,6 +1013,26 @@ export class PackageController {
             roomArray.splice(index, 1);
             this.handleViewCart();
         }
+    }
+
+    handleSetOldVehicle() {
+
+        vehicleList.map((value, index) => {
+            if (parseInt(vehicleId) === value.vehicleId) {
+                const t = $("#vehicle-container > ul li:nth-child(" + (index + 1) + ") i");
+                t.css({'rotate': '360deg'}) && t.removeClass('fa-plus') && t.addClass('fa-check');
+            }
+        });
+    }
+
+    handleSetOldHotel() {
+
+        hotelList.map((value, index) => {
+            if (parseInt(hotelId) === value.hotelId) {
+                const t = $("#hotel-container > ul li:nth-child(" + (index + 1) + ") i:nth-child(7)");
+                t.css({'rotate': '360deg'}) && t.removeClass('fa-plus') && t.addClass('fa-check');
+            }
+        });
     }
 }
 

@@ -10,7 +10,7 @@ let vNextPage = 1;
 let vCurrentPage = 0;
 const count = 8;
 let vehicleHasPage = false;
-const defaultGateway = "http://localhost:8080/vehicle-service/";
+const defaultGateway = "http://localhost:8080/nexttravel/api/v1/vehicle";
 
 export class VehicleController {
     constructor() {
@@ -175,12 +175,8 @@ export class VehicleController {
     }
     handleSearchVehicleBySeatCapacityAndFelAndTransmission(page, count, seatCapacity, fuelAndTrans){
 
-        console.log(page)
-        console.log(count)
-        console.log(seatCapacity)
-        console.log(fuelAndTrans)
         $.ajax({
-            url: defaultGateway + "nexttravel/api/v1/vehicle/getAllWithSeatAndFulWithTrans?page=" +
+            url: defaultGateway + "/getAllWithSeatAndFulWithTrans?page=" +
                 page + "&count=" + count + "&seatCapacity=" + seatCapacity + "&fuelAndTrans=" + fuelAndTrans,
             method: "GET",
             processData: false,
@@ -203,7 +199,7 @@ export class VehicleController {
     handleSearchVehicleBySeatCapacity(page, count, seatCapacity){
 
         $.ajax({
-            url: defaultGateway + "nexttravel/api/v1/vehicle/getAllWithSeatCapacity?page=" +
+            url: defaultGateway + "/getAllWithSeatCapacity?page=" +
                 page + "&count=" + count + "&seatCapacity=" + seatCapacity,
             method: "GET",
             processData: false,
@@ -226,7 +222,7 @@ export class VehicleController {
     handleSearchVehicleByFelAndTransmission(page, count, fuelAndTrans){
 
         $.ajax({
-            url: defaultGateway + "nexttravel/api/v1/vehicle/getAllWithFuelAndTransmission?page=" +
+            url: defaultGateway + "/getAllWithFuelAndTransmission?page=" +
                 page + "&count=" + count + "&fuelAndTrans=" + fuelAndTrans,
             method: "GET",
             processData: false,
@@ -311,41 +307,49 @@ export class VehicleController {
 
     handleSaveVehicle() {
 
-        const vehicle = this.handleGetObject();
+        const user = JSON.parse(localStorage.getItem("USER"));
 
-        const formVehicleData = new FormData();
+        if (user) {
 
-        imageFileList.map(value => {
-            formVehicleData.append('imageList', value);
-        });
+            const token = user.token;
+            const vehicle = this.handleGetObject();
+            const formVehicleData = new FormData();
 
-        formVehicleData.append('vehicle', vehicle);
+            imageFileList.map(value => {
+                formVehicleData.append('imageList', value);
+            });
 
-        $.ajax({
-            url: defaultGateway + "nexttravel/api/v1/vehicle",
-            method: "POST",
-            processData: false,
-            contentType: false,
-            async: true,
-            data: formVehicleData,
-            success: (resp) => {
-                if (resp.code === 200) {
-                    console.log(resp.message);
-                    this.handleLoadAllData(0, count);
-                    this.handleReset();
-                }
-            },
-            error: (ob) => {
-                console.log(ob)
-                alert(ob.responseJSON.message);
-            },
-        });
+            formVehicleData.append('vehicle', vehicle);
+
+            $.ajax({
+                url: defaultGateway,
+                method: "POST",
+                processData: false,
+                contentType: false,
+                async: true,
+                data: formVehicleData,
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                },
+                success: (resp) => {
+                    if (resp.code === 200) {
+                        console.log(resp.message);
+                        this.handleLoadAllData(0, count);
+                        this.handleReset();
+                    }
+                },
+                error: (ob) => {
+                    console.log(ob)
+                    alert(ob.responseJSON.message);
+                },
+            });
+        }
     }
 
     handleLoadAllData(page, count) {
 
         $.ajax({
-            url: defaultGateway + "nexttravel/api/v1/vehicle/getAll?page=" + page + "&count=" + count,
+            url: defaultGateway + "/getAll?page=" + page + "&count=" + count,
             method: "GET",
             processData: false,
             contentType: false,
@@ -396,7 +400,7 @@ export class VehicleController {
             vehicleId = parseInt($(event.target).closest('li').find('h2').text());
 
             $.ajax({
-                url: defaultGateway + "nexttravel/api/v1/vehicle/get?vehicleId=" + vehicleId,
+                url: defaultGateway + "/get?vehicleId=" + vehicleId,
                 method: "GET",
                 processData: false,
                 contentType: false,
@@ -503,47 +507,31 @@ export class VehicleController {
 
     handleUpdateVehicle() {
 
-        const vehicle = this.handleGetObject();
+        const user = JSON.parse(localStorage.getItem("USER"));
 
-        const formVehicleData = new FormData();
+        if (user) {
 
-        imageFileList.map(value => {
-            formVehicleData.append('imageList', value);
-        });
+            const token = user.token;
+            const vehicle = this.handleGetObject();
+            const formVehicleData = new FormData();
 
-        formVehicleData.append('vehicle', vehicle);
+            imageFileList.map(value => {
+                formVehicleData.append('imageList', value);
+            });
 
-        $.ajax({
-            url: defaultGateway + "nexttravel/api/v1/vehicle",
-            method: "PUT",
-            processData: false,
-            contentType: false,
-            async: true,
-            data: formVehicleData,
-            success: (resp) => {
-                if (resp.code === 200) {
-                    console.log(resp.message);
-                    this.handleLoadAllData(0, count);
-                    this.handleReset();
-                }
-            },
-            error: (ob) => {
-                console.log(ob)
-                alert(ob.responseJSON.message);
-            },
-        });
-    }
+            formVehicleData.append('vehicle', vehicle);
 
-    handleVehicleDelete(vehicleId) {
-
-        if (vehicleId) {
             $.ajax({
-                url: defaultGateway + "nexttravel/api/v1/vehicle?vehicleId=" + vehicleId,
-                method: "DELETE",
-                dataType: "json",
+                url: defaultGateway,
+                method: "PUT",
+                processData: false,
+                contentType: false,
                 async: true,
+                data: formVehicleData,
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                },
                 success: (resp) => {
-                    console.log(resp)
                     if (resp.code === 200) {
                         console.log(resp.message);
                         this.handleLoadAllData(0, count);
@@ -555,6 +543,40 @@ export class VehicleController {
                     alert(ob.responseJSON.message);
                 },
             });
+        }
+    }
+
+    handleVehicleDelete(vehicleId) {
+
+        const user = JSON.parse(localStorage.getItem("USER"));
+
+        if (user) {
+
+            const token = user.token;
+
+            if (vehicleId) {
+                $.ajax({
+                    url: defaultGateway + "?vehicleId=" + vehicleId,
+                    method: "DELETE",
+                    dataType: "json",
+                    async: true,
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                    },
+                    success: (resp) => {
+                        console.log(resp)
+                        if (resp.code === 200) {
+                            console.log(resp.message);
+                            this.handleLoadAllData(0, count);
+                            this.handleReset();
+                        }
+                    },
+                    error: (ob) => {
+                        console.log(ob)
+                        alert(ob.responseJSON.message);
+                    },
+                });
+            }
         }
     }
 
@@ -644,6 +666,21 @@ export class VehicleController {
 
         $("#vehicleView div.form-group.col-md-2 > i").removeClass('remove');
     }
+
+    handleHideEditButton(){
+        $('#vehicleView div.form-group.col-md-2 > i').css({'display' : 'none'});
+        $('#vehicleAddBtn').css({'display' : 'none'});
+    }
+    handleShowEditButton(){
+        $('#vehicleView div.form-group.col-md-2 > i').css({'display' : 'block'});
+        $('#vehicleAddBtn').css({'display' : 'flex'});
+    }
+}
+export function handleHideVehicleEdit() {
+    vehicleController.handleHideEditButton();
+}
+export function handleShowVehicleEdit() {
+    vehicleController.handleShowEditButton();
 }
 
-new VehicleController();
+let vehicleController = new VehicleController();

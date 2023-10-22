@@ -7,7 +7,7 @@ let hNextPage = 1;
 let hCurrentPage = 0;
 const count = 6;
 let hotelHasPage = false;
-const defaultGateway = "http://localhost:8080/hotel-service/";
+const defaultGateway = "http://localhost:8080/nexttravel/api/v1/hotel";
 
 export class HotelController {
     constructor() {
@@ -123,7 +123,7 @@ export class HotelController {
             const hotelId = parseInt($(event.target).closest('li').find('h2').text());
 
             $.ajax({
-                url: defaultGateway + "nexttravel/api/v1/hotel/get?hotelId=" + hotelId,
+                url: defaultGateway + "/get?hotelId=" + hotelId,
                 method: "GET",
                 processData: false,
                 contentType: false,
@@ -190,7 +190,7 @@ export class HotelController {
        if(category) {
 
            $.ajax({
-               url: defaultGateway + "nexttravel/api/v1/hotel/getAllWithCategory?page=" +
+               url: defaultGateway + "/getAllWithCategory?page=" +
                    page + "&count=" + count + "&category=" + category,
                method: "GET",
                processData: false,
@@ -277,32 +277,42 @@ export class HotelController {
 
     handleSaveHotel() {
 
-        const hotel = this.handleGetHotelObject();
+        const user = JSON.parse(localStorage.getItem("USER"));
 
-        const formHotelData = new FormData();
+        if (user) {
 
-        formHotelData.append('file', hotelImageFile);
-        formHotelData.append('hotel', hotel);
+            const token = user.token;
 
-        $.ajax({
-            url:  defaultGateway + "nexttravel/api/v1/hotel",
-            method: "POST",
-            processData: false,
-            contentType: false,
-            async: true,
-            data: formHotelData,
-            success: (resp) => {
-                if (resp.code === 200) {
-                    console.log(resp.message);
-                    this.handleLoadAllData(0, count);
-                    this.handleReset();
-                }
-            },
-            error: (ob) => {
-                console.log(ob)
-                alert(ob.responseJSON.message);
-            },
-        });
+            const hotel = this.handleGetHotelObject();
+
+            const formHotelData = new FormData();
+
+            formHotelData.append('file', hotelImageFile);
+            formHotelData.append('hotel', hotel);
+
+            $.ajax({
+                url: defaultGateway,
+                method: "POST",
+                processData: false,
+                contentType: false,
+                async: true,
+                data: formHotelData,
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                },
+                success: (resp) => {
+                    if (resp.code === 200) {
+                        console.log(resp.message);
+                        this.handleLoadAllData(0, count);
+                        this.handleReset();
+                    }
+                },
+                error: (ob) => {
+                    console.log(ob)
+                    alert(ob.responseJSON.message);
+                },
+            });
+        }
     }
 
     handleAddHotelContainer() {
@@ -324,7 +334,7 @@ export class HotelController {
     handleLoadAllData(page, count) {
 
         $.ajax({
-            url: defaultGateway + "nexttravel/api/v1/hotel/getAll?page="+ page + "&count="+ count,
+            url: defaultGateway + "/getAll?page="+ page + "&count="+ count,
             method: "GET",
             processData: false,
             contentType: false,
@@ -468,7 +478,7 @@ export class HotelController {
     handleHotelEdit(hotelId) {
 
         $.ajax({
-            url: defaultGateway + "nexttravel/api/v1/hotel/get?hotelId=" + hotelId,
+            url: defaultGateway + "/get?hotelId=" + hotelId,
             method: "GET",
             processData: false,
             contentType: false,
@@ -489,24 +499,34 @@ export class HotelController {
 
     handleHotelDelete(hotelId) {
 
-        $.ajax({
-            url: defaultGateway + "nexttravel/api/v1/hotel?hotelId=" + hotelId,
-            method: "DELETE",
-            processData: false,
-            contentType: false,
-            async: true,
-            success: (resp) => {
-                if (resp.code === 200) {
-                    console.log(resp.message);
-                    this.handleLoadAllData(0, count);
-                    this.handleReset();
-                }
-            },
-            error: (ob) => {
-                console.log(ob)
-                alert(ob.responseJSON.message);
-            },
-        });
+        const user = JSON.parse(localStorage.getItem("USER"));
+
+        if (user) {
+
+            const token = user.token;
+
+            $.ajax({
+                url: defaultGateway + "?hotelId=" + hotelId,
+                method: "DELETE",
+                processData: false,
+                contentType: false,
+                async: true,
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                },
+                success: (resp) => {
+                    if (resp.code === 200) {
+                        console.log(resp.message);
+                        this.handleLoadAllData(0, count);
+                        this.handleReset();
+                    }
+                },
+                error: (ob) => {
+                    console.log(ob)
+                    alert(ob.responseJSON.message);
+                },
+            });
+        }
     }
 
     handleEditDetails(data) {
@@ -554,32 +574,57 @@ export class HotelController {
 
     handleUpdateHotel() {
 
-        const hotel = this.handleGetHotelObject();
-        const formHotelData = new FormData();
+        const user = JSON.parse(localStorage.getItem("USER"));
 
-        formHotelData.append('file', hotelImageFile);
-        formHotelData.append('hotel', hotel);
+        if (user) {
 
-        $.ajax({
-            url: defaultGateway + "nexttravel/api/v1/hotel",
-            method: "PUT",
-            processData: false,
-            contentType: false,
-            async: true,
-            data: formHotelData,
-            success: (resp) => {
-                if (resp.code === 200) {
-                    console.log(resp.message);
-                    this.handleLoadAllData(0, count);
-                    this.handleReset();
-                }
-            },
-            error: (ob) => {
-                console.log(ob)
-                alert(ob.responseJSON.message);
-            },
-        });
+            const token = user.token;
+            const hotel = this.handleGetHotelObject();
+            const formHotelData = new FormData();
+
+            formHotelData.append('file', hotelImageFile);
+            formHotelData.append('hotel', hotel);
+
+            $.ajax({
+                url: defaultGateway,
+                method: "PUT",
+                processData: false,
+                contentType: false,
+                async: true,
+                data: formHotelData,
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                },
+                success: (resp) => {
+                    if (resp.code === 200) {
+                        console.log(resp.message);
+                        this.handleLoadAllData(0, count);
+                        this.handleReset();
+                    }
+                },
+                error: (ob) => {
+                    console.log(ob)
+                    alert(ob.responseJSON.message);
+                },
+            });
+        }
+    }
+
+    handleHideEditButton(){
+        $('#hotelView div.form-group.col-md-2 i').css({'display' : 'none'});
+        $('#addHotelBtn').css({'display' : 'none'});
+    }
+    handleShowEditButton(){
+        $('#hotelView div.form-group.col-md-2 i').css({'display' : 'block'});
+        $('#addHotelBtn').css({'display' : 'flex'});
     }
 }
 
-new HotelController();
+export function handleHideHotelEdit() {
+    hotelController.handleHideEditButton();
+}
+export function handleShowHotelEdit() {
+    hotelController.handleShowEditButton();
+}
+
+let hotelController = new HotelController();

@@ -44,8 +44,28 @@
 </head>
 <body>
 <main>
-    <!--<section class="log">
+    <section class="log">
+        <form class="profile" id="profile">
+            <i class="fa-solid fa-xmark"></i>
+            <h3>My Profile</h3>
+            <p>You can update user profile</p>
+            <img src="assets/images/google.png" class="img" id="profileImg">
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label id="emailLbl">Email@gmail.com</label>
+                </div>
+                <div class="form-group col-md-12">
+                    <input type="text" class="form-control" id="profileUsername" placeholder="New user name">
+                </div>
+                <div class="form-group col-md-12">
+                    <input type="password" class="form-control" placeholder="New password">
+                </div>
+                <button type="button" id="updateProfileBtn">Update</button>
+                <p>Come back later .<span id="signOutBtn">Sign out .</span></p>
+            </div>
+        </form>
         <form class="signUp" id="signUp">
+            <i class="fa-solid fa-xmark"></i>
             <h2>Log in your account</h2>
             <img src="assets/images/google.png" class="img" id="imgSignIn">
             <span class="line">
@@ -67,6 +87,7 @@
 
         </form>
         <form class="signIn" enctype="multipart/form-data">
+            <i class="fa-solid fa-xmark"></i>
             <h2>Creat an account</h2>
             <div>
                 <label>User name</label>
@@ -99,7 +120,7 @@
             </span>
             <p>Already have an account ? <span id="spanSignUp">Sign up</span></p>
         </form>
-    </section>-->
+    </section>
 
     <!---------------------------------------------------------------------------------->
     <section class="intro">
@@ -116,13 +137,11 @@
     </section>
     <!---------------------------------------------------------------------------------->
     <header>
-        <nav>
+        <nav id="loginBtn">
             <div>
                 <div class="toggle"></div>
-                <img src="assets/images/defaultUser.jpg" alt="">
+                <img src="assets/images/defaultUser.jpg" alt="" id="navImg">
             </div>
-            <button type="button" id="loginBtn"><i class="fa-solid fa-arrow-right-to-bracket"></i></button>
-            <button type="button" id="logoutBtn"><i class="fa-solid fa-power-off"></i></button>
         </nav>
     </header>
     <!---------------------------------------------------------------------------------->
@@ -1162,7 +1181,6 @@
     <!---------------------------------------------------------------------------------->
 </main>
 <script src="assets/lib/jquery-3.6.4.min.js"></script>
-<script src="controller/UserController.js" type="module"></script>
 <script src="controller/MainNavController.js" type="module"></script>
 <script src="controller/UsersController.js" type="module"></script>
 <script src="controller/HotelController.js" type="module"></script>

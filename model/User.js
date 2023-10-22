@@ -1,6 +1,6 @@
 export class User {
     constructor(userId,
-                userName,
+                username,
                 nic,
                 address,
                 email,
@@ -8,7 +8,7 @@ export class User {
                 role,
                 userImage) {
         this.userId = userId;
-        this.userName = userName;
+        this.username = username;
         this.nic = nic;
         this.address = address;
         this.email = email;

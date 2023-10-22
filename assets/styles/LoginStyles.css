@@ -11,7 +11,10 @@ main{
     height: 100vh;
     background: url("../images/login.jpg");
     background-size: cover;
-    position: relative;
+    position: fixed;
+    top: 0;
+    z-index: 2000;
+    display: none;
 }
 .log form{
     width: 500px;
@@ -28,8 +31,11 @@ main{
 }
 .signUp, .signIn{
     padding: 50px;
-    display: flex;
+    display: block;
     flex-direction: column;
+}
+.signIn{
+    display: none;
 }
 .signUp img{
     border: 1px solid rgba(0, 0, 0, 0.2);
@@ -71,6 +77,7 @@ main{
 .signUp div, .signIn div{
     display: flex;
     flex-direction: column;
+    height: 70px;
 }
 .signUp div{
     margin: 20px 0;
@@ -158,4 +165,79 @@ input[type=file]::file-selector-button:hover {
 }
 input[type=text]:hover, input[type=password]:hover, input[type=email]:hover {
     background: rgba(0, 0, 0, 0.05);
+}
+#imageFile{
+    font-size: 10px;
+}
+
+#signUp i, .signIn i, #profile i{
+    font-size: 30px;
+    position: absolute;
+    right: 35px;
+    top: 15px;
+    color: rgba(0, 0, 0, 0.3);
+    transition: all0 0.8s;
+    cursor: pointer;
+}
+
+#signUp i:hover, .signIn i:hover, #profile i:hover{
+    color: rgba(0, 0, 0, 0.6);
+}
+#profile{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 35px 100px;
+    text-align: center;
+}
+#profile img{
+    width: 150px;
+    aspect-ratio: 1/1;
+    border-radius: 90%;
+    margin-bottom: 20px;
+}
+#profile h3{
+    font-size: 30px;
+    font-family: 'AR One Sans', sans-serif;
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+#profile p{
+    font-size: 15px;
+    color: rgba(0, 0, 0, 0.5);
+    margin-bottom: 20px;
+}
+#profile > div > div:nth-child(1){
+    text-align: center;
+    font-size: 15px;
+    color: rgba(0, 0, 0, 0.5);
+    margin-bottom: 20px;
+}
+#updateProfileBtn{
+    width: 100%;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    height: 40px;
+    color: rgba(0, 0, 0, 0.7);
+    transition: all 0.5s;
+    background: rgba(0, 0, 0, 0.1);
+    margin: 15px 8px 10px 8px;
+}
+#updateProfileBtn:hover{
+    background: #6f42c1;
+    color: white;
+}
+#profile > div > p{
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.8);
+    margin-left: 10px;
+}
+#profile > div > p > span{
+    color: red;
+    cursor: pointer;
+}
+#navImg{
+    border-radius: 90%;
 }

@@ -9,7 +9,7 @@ let gNextPage = 1;
 let gCurrentPage = 0;
 const count = 10;
 let guideHasPage = false;
-const defaultGateway = "http://localhost:8080/guide-service/";
+const defaultGateway = "http://localhost:8080/nexttravel/api/v1/guide";
 
 export class GuideController {
     constructor() {
@@ -113,23 +113,33 @@ export class GuideController {
         $('#guideUl').on('click', 'button', (event) => {
             guideId = parseInt($(event.target).closest('li').find('h3:nth-child(2)').text());
 
-            $.ajax({
-                url: defaultGateway + "nexttravel/api/v1/guide/get?guideId=" + guideId,
-                method: "GET",
-                processData: false,
-                contentType: false,
-                async: true,
-                success: (resp) => {
-                    if (resp.code === 200) {
-                        this.handleEditDetails(resp.data);
-                        console.log(resp.message);
-                    }
-                },
-                error: (ob) => {
-                    console.log(ob)
-                    alert(ob.responseJSON.message);
-                },
-            });
+            const user = JSON.parse(localStorage.getItem("USER"));
+
+            if (user) {
+
+                const token = user.token;
+
+                $.ajax({
+                    url: defaultGateway + "/get?guideId=" + guideId,
+                    method: "GET",
+                    processData: false,
+                    contentType: false,
+                    async: true,
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                    },
+                    success: (resp) => {
+                        if (resp.code === 200) {
+                            this.handleEditDetails(resp.data);
+                            console.log(resp.message);
+                        }
+                    },
+                    error: (ob) => {
+                        console.log(ob)
+                        alert(ob.responseJSON.message);
+                    },
+                });
+            }
         });
     }
 
@@ -173,56 +183,76 @@ export class GuideController {
 
     handleSaveGuide() {
 
-        const guide = this.handleGetGuideObject();
+        const user = JSON.parse(localStorage.getItem("USER"));
 
-        const formGuideData = new FormData();
+        if (user) {
 
-        imageFileList.map(value => {
-            formGuideData.append('imageList', value);
-        });
+            const token = user.token;
 
-        formGuideData.append('guide', guide);
+            const guide = this.handleGetGuideObject();
 
-        $.ajax({
-            url: defaultGateway + "nexttravel/api/v1/guide",
-            method: "POST",
-            processData: false,
-            contentType: false,
-            async: true,
-            data: formGuideData,
-            success: (resp) => {
-                if (resp.code === 200) {
-                    console.log(resp.message);
-                    this.handleLoadAllData(0, count);
-                    this.handleReset();
-                }
-            },
-            error: (ob) => {
-                console.log(ob)
-                alert(ob.responseJSON.message);
-            },
-        });
+            const formGuideData = new FormData();
+
+            imageFileList.map(value => {
+                formGuideData.append('imageList', value);
+            });
+
+            formGuideData.append('guide', guide);
+
+            $.ajax({
+                url: defaultGateway,
+                method: "POST",
+                processData: false,
+                contentType: false,
+                async: true,
+                data: formGuideData,
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                },
+                success: (resp) => {
+                    if (resp.code === 200) {
+                        console.log(resp.message);
+                        this.handleLoadAllData(0, count);
+                        this.handleReset();
+                    }
+                },
+                error: (ob) => {
+                    console.log(ob)
+                    alert(ob.responseJSON.message);
+                },
+            });
+        }
     }
 
     handleLoadAllData(page, count) {
 
-        $.ajax({
-            url: defaultGateway + "nexttravel/api/v1/guide/getAll?page="+ page + "&count=" + count,
-            method: "GET",
-            processData: false,
-            contentType: false,
-            async: false,
-            success: (resp) => {
-                if (resp.code === 200) {
-                    this.handleLoadGuide(resp.data);
-                    console.log(resp.message);
-                }
-            },
-            error: (ob) => {
-                console.log(ob)
-                alert(ob.responseJSON.message);
-            },
-        });
+        const user = JSON.parse(localStorage.getItem("USER"));
+
+        if (user) {
+
+            const token = user.token;
+
+            $.ajax({
+                url: defaultGateway + "/getAll?page=" + page + "&count=" + count,
+                method: "GET",
+                processData: false,
+                contentType: false,
+                async: false,
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                },
+                success: (resp) => {
+                    if (resp.code === 200) {
+                        this.handleLoadGuide(resp.data);
+                        console.log(resp.message);
+                    }
+                },
+                error: (ob) => {
+                    console.log(ob)
+                    alert(ob.responseJSON.message);
+                },
+            });
+        }
     }
 
     handleLoadGuide(data) {
@@ -307,57 +337,76 @@ export class GuideController {
 
     handleUpdateGuide() {
 
-        const guide = this.handleGetGuideObject();
+        const user = JSON.parse(localStorage.getItem("USER"));
 
-        const formGuideData = new FormData();
+        if (user) {
 
-        imageFileList.map(value => {
-            formGuideData.append('imageList', value);
-        });
+            const token = user.token;
 
-        formGuideData.append('guide', guide);
+            const guide = this.handleGetGuideObject();
+            const formGuideData = new FormData();
 
-        $.ajax({
-            url: defaultGateway + "nexttravel/api/v1/guide",
-            method: "PUT",
-            processData: false,
-            contentType: false,
-            async: true,
-            data: formGuideData,
-            success: (resp) => {
-                if (resp.code === 200) {
-                    console.log(resp.message);
-                    this.handleLoadAllData(0, count);
-                    this.handleReset();
-                }
-            },
-            error: (ob) => {
-                console.log(ob)
-                alert(ob.responseJSON.message);
-            },
-        });
+            imageFileList.map(value => {
+                formGuideData.append('imageList', value);
+            });
+
+            formGuideData.append('guide', guide);
+
+            $.ajax({
+                url: defaultGateway,
+                method: "PUT",
+                processData: false,
+                contentType: false,
+                async: true,
+                data: formGuideData,
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                },
+                success: (resp) => {
+                    if (resp.code === 200) {
+                        console.log(resp.message);
+                        this.handleLoadAllData(0, count);
+                        this.handleReset();
+                    }
+                },
+                error: (ob) => {
+                    console.log(ob)
+                    alert(ob.responseJSON.message);
+                },
+            });
+        }
     }
 
     handleDeleteGuide(guideId) {
 
-        $.ajax({
-            url: defaultGateway + "nexttravel/api/v1/guide?guideId=" + guideId,
-            method: "DELETE",
-            processData: false,
-            contentType: false,
-            async: true,
-            success: (resp) => {
-                if (resp.code === 200) {
-                    console.log(resp.message);
-                    this.handleLoadAllData(0, count);
-                    this.handleReset();
-                }
-            },
-            error: (ob) => {
-                console.log(ob)
-                alert(ob.responseJSON.message);
-            },
-        });
+        const user = JSON.parse(localStorage.getItem("USER"));
+
+        if (user) {
+
+            const token = user.token;
+
+            $.ajax({
+                url: defaultGateway + "?guideId=" + guideId,
+                method: "DELETE",
+                processData: false,
+                contentType: false,
+                async: true,
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                },
+                success: (resp) => {
+                    if (resp.code === 200) {
+                        console.log(resp.message);
+                        this.handleLoadAllData(0, count);
+                        this.handleReset();
+                    }
+                },
+                error: (ob) => {
+                    console.log(ob)
+                    alert(ob.responseJSON.message);
+                },
+            });
+        }
     }
 
     handleReset() {
