@@ -47,6 +47,9 @@ export class EditPackageController {
         $("#nextAddPackageBtn").on('click', () => {
             this.handleNextPackageList();
         });
+        $('#addPackage-container').on('click', (event) => {
+            this.handleRemoveAddForm(event);
+        });
         $("#previousAddPackageBtn").on('click', () => {
             this.handlePreviousPackageList();
         });
@@ -76,7 +79,7 @@ export class EditPackageController {
             this.handlePrevious();
         });
         $('#closeBtn').on('click', () => {
-            this.handleRemoveAddForm();
+            $('#addPackage-container').click();
         });
         $('#qtyAddBtn').on('click', () => {
             this.handleAddRoom();
@@ -115,7 +118,7 @@ export class EditPackageController {
 
     handleSetEndMinDate() {
 
-        if ($('#nextPkgBtn').is(':visible') || $('#backPkgBtn').is(':visible')) {
+        if ($('#nextPkgBtn').is(':visible')) {
             let endValue = new Date($('#startDateTxt').val());
             const end = $('#endDateTxt');
             endValue.setDate(endValue.getDate() + 1);
@@ -128,7 +131,7 @@ export class EditPackageController {
 
     handleAddRoom() {
 
-        if ($('#nextPkgBtn').is(':visible') || $('#backPkgBtn').is(':visible')) {
+        if ($('#nextPkgBtn').is(':visible')) {
 
             const x = $('#roomQtyTxt').val();
             const cmbVal = $('#CategoryCmb').val();
@@ -173,7 +176,7 @@ export class EditPackageController {
 
     handleSetRoomPrice(hotel) {
 
-        if ($('#nextPkgBtn').is(':visible') || $('#backPkgBtn').is(':visible')) {
+        if ($('#nextPkgBtn').is(':visible')) {
 
             const x = $('#CategoryCmb').val();
             const y = $('#priceLbl');
@@ -205,7 +208,7 @@ export class EditPackageController {
 
     handleNextHotelList() {
 
-        if ($('#nextPkgBtn').is(':visible') || $('#backPkgBtn').is(':visible')) {
+        if ($('#nextPkgBtn').is(':visible')) {
             if (hNextPage !== 0) {
                 this.handleGetHotelList(hNextPage, vCount, hotelCategory);
                 this.handleSetOldHotel();
@@ -219,7 +222,7 @@ export class EditPackageController {
 
     handlePreviousHotelList() {
 
-        if ($('#nextPkgBtn').is(':visible') || $('#backPkgBtn').is(':visible')) {
+        if ($('#nextPkgBtn').is(':visible')) {
             if (hCurrentPage !== 0) {
                 hCurrentPage--;
                 hNextPage--;
@@ -231,7 +234,7 @@ export class EditPackageController {
 
     handleNextVehicleList() {
 
-        if ($('#nextPkgBtn').is(':visible') || $('#backPkgBtn').is(':visible')) {
+        if ($('#nextPkgBtn').is(':visible')) {
             if (vNextPage !== 0) {
                 this.handleGetVehicleList(vNextPage, vCount, vehicleCategory);
                 this.handleSetOldVehicle();
@@ -245,7 +248,7 @@ export class EditPackageController {
 
     handlePreviousVehicleList() {
 
-        if ($('#nextPkgBtn').is(':visible') || $('#backPkgBtn').is(':visible')) {
+        if ($('#nextPkgBtn').is(':visible')) {
             if (vCurrentPage !== 0) {
                 vCurrentPage--;
                 vNextPage--;
@@ -257,7 +260,7 @@ export class EditPackageController {
 
     handleAddSelectHotel(event) {
 
-        if ($('#nextPkgBtn').is(':visible') || $('#backPkgBtn').is(':visible')) {
+        if ($('#nextPkgBtn').is(':visible')) {
 
             const newId = $(event.target).closest('li').find('h2').text();
 
@@ -272,7 +275,7 @@ export class EditPackageController {
 
     handleAddSelectVehicleStyle(event) {
 
-        if ($('#nextPkgBtn').is(':visible') || $('#backPkgBtn').is(':visible')) {
+        if ($('#nextPkgBtn').is(':visible')) {
 
             const newId = $(event.target).closest('li').find('h2').text();
 
@@ -347,8 +350,16 @@ export class EditPackageController {
 
     handleReset() {
 
+        const element = document.getElementById("recentOrder").getBoundingClientRect();
+        console.log(element.left === -1600)
+        if (element.left !== -0) {
+            console.log("yes")
+            document.body.style.overflow = 'auto';
+        } else {
+            console.log("dwadawd")
+        }
+
         $('#withPetCmb').prop("disabled", false);
-        document.body.style.overflow = 'auto';
 
         pNextPage = 1;
         pCurrentPage = 0;
@@ -413,13 +424,11 @@ export class EditPackageController {
         endValue = endValue.toISOString().split('T')[0];
         end.attr("min", endValue);
         end.attr("value", endValue);
-        console.log(endValue);
-        console.log($("#endDateTxt").val());
     }
 
     handleSetFreeGuide() {
 
-        if ($('#nextPkgBtn').is(':visible') || $('#backPkgBtn').is(':visible')) {
+        if ($('#nextPkgBtn').is(':visible')) {
 
             const user = JSON.parse(localStorage.getItem("USER"));
 
@@ -544,10 +553,9 @@ export class EditPackageController {
         }, 400);
         document.body.style.overflow = 'hidden';
 
-        $('#backBtn').css({'display': 'none',});
-        $('#nextBtn').css({'display': 'none',});
-        $('#backPkgBtn').css({'display': 'block',});
-        $('#nextPkgBtn').css({'display': 'block',});
+        this.handleHideAllButtons();
+        this.handleShowAddButton();
+
     }
 
     handleNext() {
@@ -591,6 +599,7 @@ export class EditPackageController {
         }
         if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/.test($('#pkgEmailTxt').val())) {
             alert("Invalid email !");
+            $('#orderIdLbl').text(this.handleGetOrderId());
             return false;
         }
         this.handleSetLastPrice();
@@ -671,9 +680,7 @@ export class EditPackageController {
 
     handleSetLastPrice() {
 
-        if ($('#nextPkgBtn').is(':visible') || $('#backPkgBtn').is(':visible')) {
-
-            $('#orderIdLbl').text(this.handleGetOrderId());
+        if ($('#nextPkgBtn').is(':visible')) {
 
             let tot = 0;
             let days = this.handleGetDateCount();
@@ -1087,8 +1094,8 @@ export class EditPackageController {
         vehicleId = updatePackage.vehicleId;
         hotelId = updatePackage.hotelId;
         this.handleAddItemEvent();
-        $('#nextPkgBtn').css({'display': 'none'});
-        $('#nextUpdatePkgBtn').css({'display': 'block'});
+        this.handleHideAllButtons();
+        this.handleShowUpdateButton();
 
         if (data.packageCategory === "Super Luxury") {
             const t = $("#addPackageContainer > div > ul > li:nth-child(1) > i");
@@ -1267,11 +1274,11 @@ export class EditPackageController {
             this.handleValidationOfUpdate();
             return;
         }
-        if (nextPage === 4) {
-            $('#nextUpdatePkgBtn').text("Update");
-        }
         if (nextPage !== 5) {
             if (this.handleUpdatedValidation()) {
+                if (nextPage === 4) {
+                    $('#nextUpdatePkgBtn').text("Update");
+                }
                 nextPage++;
                 currentPage++;
             }
@@ -1364,7 +1371,7 @@ export class EditPackageController {
             return true;
         }
         if (travelArea.length === 0) {
-            alert('Please select our travel area !');
+            alert('Please select your travel area !');
             return false;
         }
         if (travelArea.length !== 0 && array[nextPage] === '#vehicle-container') {
@@ -1398,6 +1405,9 @@ export class EditPackageController {
                 roomArray = updatePackage.roomDetailList;
                 $("#totalLbl").text(updatePackage.packageValue);
             }
+            else {
+                roomArray = [];
+            }
             $("#pkgCustomerCmb").val(updatePackage.userNic);
             $("#pkgEmailTxt").val(updatePackage.email);
             $("#startDateTxt").val(new Date(updatePackage.startDate).toISOString().split('T')[0]);
@@ -1408,8 +1418,6 @@ export class EditPackageController {
             $("#pkgContactTxt").val(updatePackage.contact);
             this.handleSetFreeGuide();
             $("#guideCmb").val(updatePackage.guideId);
-            console.log($("#guideCmb").val())
-            console.log(updatePackage.guideId)
             return true;
         }
     }
@@ -1487,19 +1495,44 @@ export class EditPackageController {
         });
     }
 
-    handleRemoveAddForm() {
-        if ($('#nextPkgBtn').is(':visible') || $('#backPkgBtn').is(':visible')) {
-            $("#addPackage-container").css({
-                "top": "100vh",
-                'background': 'none'
-            });
-            this.handleReset();
+    handleRemoveAddForm(event) {
+
+        if ($('#nextPkgBtn').is(':visible') || $('#nextUpdatePkgBtn').is(':visible')) {
+            if (event.target.className === 'addPackage-container') {
+                $("#addPackage-container").css({
+                    "top": "100vh",
+                    'background': 'none'
+                });
+                this.handleReset();
+            }
         }
+    }
+
+    handleShowAddButton(){
+
+        $('#nextPkgBtn').css({'display':'block'});
+        $('#backPkgBtn').css({'display':'block'});
+    }
+
+    handleShowUpdateButton(){
+
+        $('#nextUpdatePkgBtn').css({'display':'block'}).text('Next');
+        $('#backPkgBtn').css({'display':'block'});
+    }
+
+    handleHideAllButtons(){
+
+        $('#backBtn').css({'display':'none'});
+        $('#nextBtn').css({'display':'none'});
+        $('#backPkgBtn').css({'display':'none'});
+        $('#nextPkgBtn').css({'display':'none'});
+        $('#nextUpdatePkgBtn').css({'display':'none'});
+        $('#nextUserUpdatePkgBtn').css({'display':'none'});
     }
 }
 
 export function loadPackage() {
-    this.handleLoadAll(0, count);
+    editPackageController.handleLoadAll(0, count);
 }
 
-new EditPackageController();
+let editPackageController = new EditPackageController();

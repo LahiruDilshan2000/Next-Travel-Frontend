@@ -143,7 +143,7 @@ export class UsersController {
                     }
                 },
                 error: (ob) => {
-                    console.log(ob)
+                    console.log(ob);
                     alert(ob.responseJSON.message);
                 },
             });
@@ -402,6 +402,6 @@ export class UsersController {
     }
 }
 export function loadUser() {
-    this.handleLoadAllData(0, count);
+    usersController.handleLoadAllData(0, count);
 }
-new UsersController();
+let usersController = new UsersController();

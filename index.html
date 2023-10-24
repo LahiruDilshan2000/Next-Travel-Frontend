@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="assets/styles/UsersStyles.css">
     <link rel="stylesheet" href="assets/styles/FinancialStyles.css">
     <link rel="stylesheet" href="assets/styles/PackageStyles.css">
+    <link rel="stylesheet" href="assets/styles/RecentBooking.css">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -46,7 +47,7 @@
 <main>
     <section class="log">
         <form class="profile" id="profile">
-            <i class="fa-solid fa-xmark"></i>
+            <i class="fa-solid fa-xmark backLogin"></i>
             <h3>My Profile</h3>
             <p>You can update user profile</p>
             <img src="assets/images/google.png" class="img" id="profileImg">
@@ -65,7 +66,7 @@
             </div>
         </form>
         <form class="signUp" id="signUp">
-            <i class="fa-solid fa-xmark"></i>
+            <i class="fa-solid fa-xmark backLogin"></i>
             <h2>Log in your account</h2>
             <img src="assets/images/google.png" class="img" id="imgSignIn">
             <span class="line">
@@ -87,7 +88,7 @@
 
         </form>
         <form class="signIn" enctype="multipart/form-data">
-            <i class="fa-solid fa-xmark"></i>
+            <i class="fa-solid fa-xmark backLogin"></i>
             <h2>Creat an account</h2>
             <div>
                 <label>User name</label>
@@ -137,6 +138,7 @@
     </section>
     <!---------------------------------------------------------------------------------->
     <header>
+        <i class="fa-solid fa-cart-shopping" id="viewCart"></i>
         <nav id="loginBtn">
             <div>
                 <div class="toggle"></div>
@@ -144,6 +146,44 @@
             </div>
         </nav>
     </header>
+    <!---------------------------------------------------------------------------------->
+    <section class="recentOrder" id="recentOrder">
+        <div>
+            <h2>User Recent Booking</h2>
+            <p>You can update your package within 48 hours after booking</p>
+            <ul id="bookingList">
+                <li>
+                    <i class="fa-solid fa-dollar-sign"></i>
+                    <p>0</p>
+                    <h3>MD-0000012</h3>
+                    <h3>Luxury</h3>
+                    <h3>45000</h3>
+                    <h3>0</h3>
+                    <i class="fa-solid fa-pen"></i>
+                </li>
+                <li>
+                    <i class="fa-solid fa-dollar-sign"></i>
+                    <h3>MD-0000012</h3>
+                    <h3>Luxury</h3>
+                    <h3>45000</h3>
+                    <h3>0</h3>
+                    <i class="fa-solid fa-pen"></i>
+                </li>
+                <li>
+                    <i class="fa-solid fa-dollar-sign"></i>
+                    <h3>MD-0000012</h3>
+                    <h3>Luxury</h3>
+                    <h3>45000</h3>
+                    <h3>0</h3>
+                    <i class="fa-solid fa-pen"></i>
+                </li>
+            </ul>
+            <div class="next-hotel-div">
+                <i class="fa-solid fa-chevron-left" id="previousOrderBtn"></i>
+                <i class="fa-solid fa-chevron-right" id="nextOrderBtn"></i>
+            </div>
+        </div>
+    </section>
     <!---------------------------------------------------------------------------------->
     <section class="mainNav">
         <h1>Next travel</h1>
@@ -579,6 +619,7 @@
                 <button type="button" id="backPkgBtn">Back</button>
                 <button type="button" id="nextPkgBtn">Next</button>
                 <button type="button" id="nextUpdatePkgBtn">Next</button>
+                <button type="button" id="nextUserUpdatePkgBtn">Next</button>
             </div>
         </div>
     </section>
@@ -1189,5 +1230,6 @@
 <script src="controller/PackageController.js" type="module"></script>
 <script src="controller/LoginController.js" type="module"></script>
 <script src="controller/EditPackageController.js" type="module"></script>
+<script src="controller/UpdatePackageController.js" type="module"></script>
 </body>
 </html>

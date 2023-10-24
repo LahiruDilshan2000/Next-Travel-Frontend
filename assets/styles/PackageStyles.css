@@ -173,3 +173,6 @@
 #nextUpdatePkgBtn{
     display: none;
 }
+#nextBtn, #backBtn{
+    display: none;
+}

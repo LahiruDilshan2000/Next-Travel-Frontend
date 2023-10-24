@@ -63,3 +63,25 @@
 #guideNavBtn, #userNavBtn, #editPackageNavBtn, #financialNavBtn{
     display: none;
 }
+#viewCart{
+    width: 50px;
+    height: 45px;
+    position: absolute;
+    left: 20px;
+    top: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    font-size: 15px;
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.5);
+    transition: all 0.5s;
+}
+#viewCart:hover{
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.28);
+    color: rgba(0, 0, 0, 1);
+}

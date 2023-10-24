@@ -1,13 +1,16 @@
 import {User} from "../model/User.js";
 import {handleHideHotelEdit, handleShowHotelEdit} from "./HotelController.js";
 import {handleHideVehicleEdit, handleShowVehicleEdit} from "./VehicleController.js";
+import {loadGuide} from "./GuideController.js";
+import {loadUser} from "./UsersController.js";
+import {loadPackage} from "./EditPackageController.js";
 
 
 const defaultGateway = "http://localhost:8080/nexttravel/api/v1/auth";
 
 export class LoginController {
     constructor() {
-        $('.fa-xmark').on('click', () => {
+        $('.backLogin').on('click', () => {
             this.handleRemoveLog();
         });
         $('#loginBtn').on('click', () => {
@@ -31,12 +34,14 @@ export class LoginController {
         $('#signOutBtn').on('click', () => {
             this.handleSignOut();
         });
+
         this.handleRemoveLog();
     }
 
     handleRemoveLog() {
 
         const user = JSON.parse(localStorage.getItem("USER"));
+        console.log(user)
         if (user === null || user.role === "USER"){
             handleHideHotelEdit();
             handleHideVehicleEdit();
@@ -56,6 +61,7 @@ export class LoginController {
         if (user !== null && user.role === "ADMIN_PACKAGE"){
             handleHideHotelEdit();
             handleHideVehicleEdit();
+            loadPackage();
             this.handleHideAllNav();
             this.handleShowNavBtn('#editPackageNavBtn');
             this.handleShowNavBtn('#financialNavBtn');
@@ -63,6 +69,7 @@ export class LoginController {
         if (user !== null && user.role === "ADMIN_USER"){
             handleHideHotelEdit();
             handleHideVehicleEdit();
+            loadUser();
             this.handleHideAllNav();
             this.handleShowNavBtn('#userNavBtn');
             this.handleShowNavBtn('#financialNavBtn');
@@ -70,6 +77,7 @@ export class LoginController {
         if (user !== null && user.role === "ADMIN_GUIDE"){
             handleHideHotelEdit();
             handleHideVehicleEdit();
+            loadGuide();
             this.handleHideAllNav();
             this.handleShowNavBtn('#guideNavBtn');
             this.handleShowNavBtn('#financialNavBtn');
@@ -265,5 +273,8 @@ export class LoginController {
     }
 
 }
+export function reLogin(){
+    loginController.handleRemoveLog();
+}
 
-new LoginController();
+let loginController = new LoginController();

@@ -133,9 +133,16 @@ export class GuideController {
                             console.log(resp.message);
                         }
                     },
-                    error: (ob) => {
-                        console.log(ob)
-                        alert(ob.responseJSON.message);
+                    error: (ob,x, y) => {
+                        console.log(x.responseJSON.message)
+                        console.log(y.responseJSON.message)
+                        if (ob === null || ob === undefined){
+                            alert("session expire");
+                        }else {
+                            console.log(ob)
+                            console.log("aaaaaa")
+                            alert(ob.responseJSON.message);
+                        }
                     },
                 });
             }
@@ -225,6 +232,7 @@ export class GuideController {
 
     handleLoadAllData(page, count) {
 
+        console.log("wadawd")
         const user = JSON.parse(localStorage.getItem("USER"));
 
         if (user) {
@@ -246,9 +254,18 @@ export class GuideController {
                         console.log(resp.message);
                     }
                 },
-                error: (ob) => {
+                error: (ob,x, y) => {
                     console.log(ob)
-                    alert(ob.responseJSON.message);
+                    console.log(x)
+                    console.log(y)
+                    if (ob.responseJSON.message === undefined){
+
+                        alert("session expire");
+                        localStorage.removeItem("USER");
+                       // reLogin();
+                    }else {
+                        alert(ob.responseJSON.message);
+                    }
                 },
             });
         }
@@ -449,7 +466,8 @@ export class GuideController {
     }
 }
 export function loadGuide() {
-    this.handleLoadAllData(0, count);
+    console.log("------------")
+    guideController.handleLoadAllData(0, count);
 }
 
-new GuideController();
+let guideController = new GuideController();
