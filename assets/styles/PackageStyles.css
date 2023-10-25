@@ -176,3 +176,53 @@
 #nextBtn, #backBtn{
     display: none;
 }
+#view-package{
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    right: -1600px;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    transition: all 0.5s;
+}
+.package-container{
+    width: 400px;
+    height: 100%;
+    background: white;
+    box-shadow: 0 1px 20px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+}
+.package-container img{
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+#view-package > div > div{
+    padding: 20px;
+}
+#viewOrderIdLbl{
+    color: rgba(0, 0, 0, 0.7);
+    font-size: 30px!important;
+    margin-bottom: 20px;
+}
+#view-package > div > div > div:nth-child(1){
+    background: white;
+}
+#view-package > div > div div > p{
+    font-family: 'AR One Sans', sans-serif;
+    font-size: 15px;
+    color: rgba(0, 0, 0, 0.8);
+}
+#view-package > div > div div label{
+    font-family: 'Ubuntu', sans-serif;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 14px;
+    margin: 0;
+}
+#view-package > div > div  div{
+    margin: 0 0 5px 0;
+    background: rgba(0, 0, 0, 0.04);
+}

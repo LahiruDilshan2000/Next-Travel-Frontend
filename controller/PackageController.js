@@ -271,7 +271,7 @@ export class PackageController {
                     $('#pkgContactTxt').val(),
                     $('#pkgEmailTxt').val(),
                     parseInt($('#totLbl').text()),
-                    0,
+                    "Not payed",
                     $('#startDateTxt').val(),
                     $('#endDateTxt').val(),
                     new Date().toISOString(),

@@ -307,7 +307,7 @@ export class EditPackageController {
                     $('#pkgContactTxt').val(),
                     $('#pkgEmailTxt').val(),
                     parseInt($('#totLbl').text()),
-                    0,
+                    "Not payed",
                     $('#startDateTxt').val(),
                     $('#endDateTxt').val(),
                     new Date().toISOString(),
@@ -1023,6 +1023,12 @@ export class EditPackageController {
         $('#packageUl').on('click', 'button:nth-child(1)', (event) => {
             packageId = $(event.target).closest('li').find('h3:nth-child(1)').text();
 
+            const x = document.getElementById('showPayment');
+            if (x.offsetHeight === 300){
+                $('#showPayment').css({'height':'0', 'width':'0', 'padding':'0'});
+                return;
+            }
+
             const user = JSON.parse(localStorage.getItem("USER"));
 
             if (user) {
@@ -1055,6 +1061,12 @@ export class EditPackageController {
 
         $('#packageUl').on('click', 'button:nth-child(2)', (event) => {
             packageId = $(event.target).closest('li').find('h3:nth-child(1)').text();
+
+            const x = document.getElementById('showPayment');
+            if (x.offsetHeight === 300){
+                $('#showPayment').css({'height':'0', 'width':'0', 'padding':'0'});
+                return;
+            }
 
             const user = JSON.parse(localStorage.getItem("USER"));
 
@@ -1178,8 +1190,8 @@ export class EditPackageController {
                     "                    <h3>null</h3>\n" +
                     "                    <h3>null</h3>\n" +
                     "                    <div class=\"btn-div\">\n" +
-                    "                       <button type=\"button\">Edit</button>\n" +
-                    "                       <button type=\"button\">Delete</button>\n" +
+                    "                       <button class=\"button\" type=\"button\">Edit</button>\n" +
+                    "                       <button class=\"button\" type=\"button\">Delete</button>\n" +
                     "                    </div>\n" +
                     "                </li>";
 
@@ -1322,7 +1334,7 @@ export class EditPackageController {
                 $('#pkgContactTxt').val(),
                 $('#pkgEmailTxt').val(),
                 parseInt($('#totalLbl').text()),
-                0,
+                "Not payed",
                 $('#startDateTxt').val(),
                 $('#endDateTxt').val(),
                 new Date(updatePackage.bookedDate).toISOString(),

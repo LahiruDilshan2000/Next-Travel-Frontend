@@ -207,8 +207,62 @@
 
     </section>
     <!---------------------------------------------------------------------------------->
+    <section class="addSlip" id="addSlip">
+        <div class="slip-container">
+            <img src="assets/images/defaultimage.jpg" id="slipImg">
+            <input type="file" id="slipFile">
+            <button type="button" id="submitPaymentBtn">Submit</button>
+        </div>
+    </section>
+    <!---------------------------------------------------------------------------------->
+    <section class="confirm-Slip" id="confirm-Slip">
+        <div class="confirm-Slip-container">
+            <img src="assets/images/defaultimage.jpg" alt="" id="slipConfirmImg">
+            <div>
+                <button type="button" id="rejectBtn">Reject</button>
+                <button type="button" id="confirmBtn">Confirm</button>
+            </div>
+        </div>
+    </section>
+    <!---------------------------------------------------------------------------------->
     <section class="editPackage" id="editPackageContainer">
         <div class="package-list">
+            <i class="fa-regular fa-bell" id="bellIcon"></i>
+            <div id="Notification">
+                <p id="updateCount">0</p>
+            </div>
+            <div id="showPayment">
+                <ul id="paymentUl">
+                    <li>
+                        <P>MD-00001</P>
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </li>
+                    <li>
+                        <P>MD-00001</P>
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </li>
+                    <li>
+                        <P>MD-00001</P>
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </li>
+                    <li>
+                        <P>MD-00001</P>
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </li>
+                    <li>
+                        <P>MD-00001</P>
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </li>
+                    <li>
+                        <P>MD-00001</P>
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </li>
+                    <li>
+                        <P>MD-00001</P>
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </li>
+                </ul>
+            </div>
             <i class="fa-solid fa-plus" id="addPackageBtn"></i>
             <div class="package-list-header">
                 <h3>Order ID</h3>
@@ -288,7 +342,7 @@
                 </li>
                 <li>
                     <img src="assets/images/SI-P18-4-06-KSN-1.png" alt="">
-                    <h3>Mid Leve</h3>
+                    <h3>Mid Level</h3>
                     <div class="star-selector">
                         <div class="hotelView-stars">
                             <i class="fa-solid fa-star show"></i>
@@ -620,6 +674,57 @@
                 <button type="button" id="nextPkgBtn">Next</button>
                 <button type="button" id="nextUpdatePkgBtn">Next</button>
                 <button type="button" id="nextUserUpdatePkgBtn">Next</button>
+            </div>
+        </div>
+    </section>
+    <!---------------------------------------------------------------------------------->
+    <section class="view-package" id="view-package">
+        <div class="package-container">
+            <img src="assets/images/defaultimage.jpg" alt="img" id="viewPackageImg">
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <h3 id="viewOrderIdLbl">MD-00001</h3>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Hotel</label>
+                    <p id="viewHotelNameLbl">Hotel Hilton</p>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Vehicle</label>
+                    <p id="viewVehicleNameLbl">KDH</p>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>User email</label>
+                    <p id="viewUserEmailLbl">User@info.com</p>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>User nic</label>
+                    <p id="viewUserNicLbl">2000021818</p>
+                </div>
+                <div class="form-group col-md-12">
+                    <label>Travel area</label>
+                    <p id="viewTravelAreaLbl">Kandy, Mathale, Jaffna</p>
+                </div>
+                <div class="form-group col-md-4">
+                    <label>Guide name</label>
+                    <p id="viewGuideLbl">No guide</p>
+                </div>
+                <div class="form-group col-md-4">
+                    <label>Room qty</label>
+                    <p id="viewRoomQtyLbl">3</p>
+                </div>
+                <div class="form-group col-md-4">
+                    <label>Head count</label>
+                    <p id="viewHeadCountLbl">5</p>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Package value</label>
+                    <p id="viewPackageValueLbl">45000</p>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Paid value</label>
+                    <p id="viewPaidValueLbl">15000</p>
+                </div>
             </div>
         </div>
     </section>
@@ -1231,5 +1336,6 @@
 <script src="controller/LoginController.js" type="module"></script>
 <script src="controller/EditPackageController.js" type="module"></script>
 <script src="controller/UpdatePackageController.js" type="module"></script>
+<script src="controller/PackageViewController.js" type="module"></script>
 </body>
 </html>

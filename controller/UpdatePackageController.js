@@ -922,6 +922,10 @@ export class UpdatePackageController{
             }else {
                 $('#bookingList li:last-child i:last-child').prop("disabled", false);
             }
+
+            if (value.paidValue === 'Payed' || value.paidValue === 'Pending'){
+                $('#bookingList li:last-child i:first-child').prop("disabled", true);
+            }
         });
             packageHasPage = true;
         } else {

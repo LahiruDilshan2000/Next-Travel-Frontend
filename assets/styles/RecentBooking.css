@@ -9,7 +9,7 @@
 }
 
 .recentOrder > div {
-    width: 40%;
+    width: 30%;
     height: 100%;
     padding: 50px 30px;
     background: white;
@@ -40,7 +40,7 @@
 
 .recentOrder ul li {
     list-style: none;
-    width: 80%;
+    width: 100%;
     height: 45px;
     display: flex;
     align-items: center;
@@ -51,10 +51,16 @@
     padding: 0 10px;
 }
 .recentOrder ul li h3{
-    font-size: 15px;
+    font-size: 12px;
     margin: 0;
     color: rgba(0, 0, 0, 0.5);
     font-family: 'Ubuntu', sans-serif;
+}
+#bookingList > li h3:nth-child(5){
+    color: #0d6efd;
+}
+#bookingList > li h3:nth-child(6){
+    color: red;
 }
 .recentOrder ul li i:last-child{
     width: 30px;
@@ -93,4 +99,188 @@
 }
 #nextUserUpdatePkgBtn{
     display: none;
+}
+#bellIcon{
+    width: 40px;
+    aspect-ratio: 1/1;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: -70px;
+    right: 0;
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 20px;
+}
+#addPackageBtn{
+    right: 60px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+#Notification{
+    width: 20px;
+    aspect-ratio: 1/1;
+    border-radius: 90%;
+    background: red;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 12px;
+    position: absolute;
+    top: -70px;
+    right: -5px;
+
+}
+#Notification p{
+    margin: 0;
+}
+#showPayment{
+    width: 0;
+    height: 0;
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    background: white;
+    padding: 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    transition: all 0.5s;
+}
+#paymentUl{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    overflow-y: scroll;
+    padding: 0;
+}
+#paymentUl li{
+    list-style: none;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    border-radius: 0;
+    background: rgba(47, 47, 47, 0.65);
+    box-shadow: none;
+    justify-content: center;
+    margin: 5px 0;
+}
+#paymentUl li p{
+    font-size: 15px;
+    margin: 0 30px 0 0;
+    color: white;
+}
+#paymentUl li i{
+    cursor: pointer;
+    color: white;
+    width: 30px;
+    aspect-ratio: 1/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+}
+#paymentUl li i:hover{
+    color: black;
+}
+.addSlip{
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: -100vh;
+    z-index: 200;
+    display: flex;
+    justify-content: start;
+    padding: 0 33px;
+    transition: ease-in-out 0.5s;
+}
+.slip-container{
+    width: 400px;
+    height: 400px;
+    background: white;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+#slipFile{
+    display: none;
+}
+.slip-container img{
+    width: 300px;
+    margin-top: 30px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+.slip-container button{
+    width: 300px;
+    height: 40px;
+    margin: 30px 0;
+    border: none;
+    outline: none;
+    color: rgba(0, 0, 0, 0.5);
+    transition: all 0.5s;
+}
+.slip-container button:hover{
+    background: #0d6efd;
+    color: white;
+}
+#packageUl > li h3:nth-child(7){
+    color: red;
+}
+#packageUl > li h3:nth-child(1){
+    color: #0d6efd;
+}
+#confirm-Slip{
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.confirm-Slip-container{
+    width: 400px;
+    height: 400px;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    overflow: hidden;
+}
+.confirm-Slip-container img{
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+.confirm-Slip-container div{
+    width: 100%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    padding: 0 20px;
+}
+.confirm-Slip-container div button{
+    width: 100px;
+    height: 35px;
+    margin: 10px;
+    outline: none;
+    border: none;
+    color: rgba(0, 0, 0, 0.7);
+    transition: all 0.5s;
+    background: rgba(0, 0, 0, 0.2);
+}
+#rejectBtn:hover{
+    background: red;
+    color: white;
+}
+#confirmBtn:hover{
+    background: #0d6efd;
+    color: white;
 }
