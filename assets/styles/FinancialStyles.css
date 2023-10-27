@@ -1,8 +1,118 @@
 .financial{
     height: 100vh;
     padding: 20px 150px;
+    background: linear-gradient(white 60%, #232D3F 60%);
 }
 .financial .financial-list{
     width: 100%;
     position: relative;
+    display: flex;
+    flex-direction: column;
+}
+.label-div-1,div .label-div-2{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.label-div-1 div{
+    width: 270px;
+    height: 170px;
+    border-radius: 20px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    margin: 10px;
+    padding: 20px;
+    position: relative;
+    background: rgba(13, 110, 253, 0.1);
+}
+.label-div-1 div:nth-child(2){
+    background: rgba(128, 0, 128, 0.1);
+}
+.label-div-1 div:nth-child(3){
+    background: rgba(255, 165, 0, 0.09);
+}
+.label-div-1 div:nth-child(4){
+    background: rgba(255, 0, 0, 0.09);
+}
+.label-div-1 div h2{
+    font-family: 'AR One Sans', sans-serif;
+    font-size: 15px;
+    color: rgba(0, 0, 0, 0.5);
+}
+.label-div-1 div h3{
+    font-family: 'Ubuntu', sans-serif;
+    margin: 50px 0 0 0;
+    font-size: 20px;
+    color: rgba(0, 0, 0, 0.5);
+}
+.label-div-1 div p{
+    font-size: 13px;
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: bolder;
+    color: #6a1a21;
+    letter-spacing: 1px;
+}
+.label-div-1 div span{
+    font-size: 30px;
+    color: #0d6efd;
+    padding-left: 10px;
+}
+.label-div-1 div i{
+    position: absolute;
+    right: 40px;
+    top: 20px;
+    font-size: 30px;
+    color: rgba(0, 0, 0, 0.5);
+}
+.label-div-1 div:nth-child(1) i{
+    color: lightseagreen;
+}
+.label-div-1 div:nth-child(2) i{
+    color: #6f42c1;
+}
+.label-div-1 div:nth-child(3) i{
+    color: orange;
+}
+.label-div-1 div:nth-child(4) i{
+    color: red;
+}
+.label-div-2 div:first-child{
+    width: 60%;
+    height: 400px;
+    border-radius: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    margin: 20px;
+    background: white;
+    padding: 20px;
+}
+.label-div-2 div:last-child{
+    width: 30%;
+    height: 400px;
+    border-radius: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    margin: 20px;
+    background: white;
+}
+#financialContainer > div > div.label-div-1 > div.daily-sales > h3{
+    font-size: 30px;
+    color: #0d6efd;
+}
+.monthly-income{
+    padding: 20px;
+}
+.monthly-income h2{
+    font-family: 'AR One Sans', sans-serif;
+    font-size: 18px;
+    color: rgba(0, 0, 0, 0.5);
+    font-weight: bolder;
+}
+.monthly-income h3{
+    margin: 10px;
+    text-align: center;
+    color: #0d6efd;
+    font-size: 40px;
+}
+#myChart{
+    width: 100%;
+    height: 100%;
 }

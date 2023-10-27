@@ -295,6 +295,7 @@ input[type='tel']:hover{
     width: 100%;
     display: flex;
     align-items: center;
+    padding-left: 130px;
 }
 #searchHotelBtn, #restHotel{
     width: 40px;

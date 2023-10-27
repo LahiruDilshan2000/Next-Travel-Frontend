@@ -1126,6 +1126,40 @@
     <!-----------------------------financial----------------------------------------------------->
     <section class="financial" id="financialContainer">
         <div class="financial-list">
+            <div class="label-div-1">
+                <div class="daily-income">
+                    <h2>Daily income</h2>
+                    <i class="fa-solid fa-money-bills"></i>
+                    <h3>Rs <span id="dailyIncomeLbl">120 000</span></h3>
+                    <p>Earning</p>
+                </div>
+                <div class="daily-sales">
+                    <h2>Today sale</h2>
+                    <i class="fa-brands fa-opencart"></i>
+                    <h3 id="saleContLbl">80</h3>
+                </div>
+                <div class="weekly-income">
+                    <h2>Weekly income</h2>
+                    <i class="fa-solid fa-coins"></i>
+                    <h3>Rs <span id="weeklyIncomeLbl">120 000</span></h3>
+                    <p>Earning</p>
+                </div>
+                <div class="annual-income">
+                    <h2>Annual income</h2>
+                    <i class="fa-solid fa-chart-line"></i>
+                    <h3>Rs <span id="annualIncomeLbl">120 000</span></h3>
+                    <p>Earning</p>
+                </div>
+            </div>
+            <div class="label-div-2">
+                <div class="bar-chart">
+                    <canvas id="myChart"></canvas>
+                </div>
+                <div class="monthly-income">
+                    <h2>Monthly income</h2>
+                    <h3>Rs <span id="monthlyIncomeLbl">120 000</span></h3>
+                </div>
+            </div>
         </div>
     </section>
     <!-----------------------------hotel----------------------------------------------------->
@@ -1337,5 +1371,7 @@
 <script src="controller/EditPackageController.js" type="module"></script>
 <script src="controller/UpdatePackageController.js" type="module"></script>
 <script src="controller/PackageViewController.js" type="module"></script>
+<script src="controller/FinancialController.js" type="module"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>

@@ -599,9 +599,9 @@ export class EditPackageController {
         }
         if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/.test($('#pkgEmailTxt').val())) {
             alert("Invalid email !");
-            $('#orderIdLbl').text(this.handleGetOrderId());
             return false;
         }
+        $('#orderIdLbl').text(this.handleGetOrderId());
         this.handleSetLastPrice();
         return true;
 
@@ -770,6 +770,7 @@ export class EditPackageController {
 
     handleGetOrderId() {
 
+        console.log("awdawdawdaw")
         const user = JSON.parse(localStorage.getItem("USER"));
 
         if (user) {
@@ -787,6 +788,7 @@ export class EditPackageController {
                     if (resp.code === 200) {
                         console.log(resp.message);
                         id = resp.data;
+                        console.log(id)
                     }
                 },
                 error: (ob) => {

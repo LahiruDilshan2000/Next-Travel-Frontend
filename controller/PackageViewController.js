@@ -34,7 +34,19 @@ export class PackageViewController{
         $('#submitPaymentBtn').on('click', () => {
             this.handleUploadSlip();
         });
-
+        $('#paymentUl').on('click', 'li i', (event) => {
+            this.handleViewSlip(event);
+        });
+        $('#confirm-Slip').on('click',  (event) => {
+            this.handleHideSlip(event);
+        });
+        $('#confirmBtn').on('click',  () => {
+            this.handlePaymentConfirm(packageId);
+        });
+        $('#rejectBtn').on('click',  () => {
+            this.handlePaymentReject(packageId);
+        });
+        //this.handleGetNotification();
     }
 
     handleRemoveViewEvent(event) {
@@ -276,6 +288,7 @@ export class PackageViewController{
         }
         const user = JSON.parse(localStorage.getItem("USER"));
 
+        $('#addSlip').click();
         if (user) {
 
             const token = user.token;
@@ -283,6 +296,7 @@ export class PackageViewController{
 
             formData.append('slip', file);
             formData.append('packageId', packageId);
+
             $.ajax({
                 url: defaultGateway + "/payment",
                 method: "PUT",
@@ -305,7 +319,155 @@ export class PackageViewController{
                     alert(ob.responseJSON.message);
                 },
             });
-            $('#addSlip').click();
+        }
+    }
+
+    handleViewSlip(event) {
+
+        packageId = $(event.target).closest('li').find('p:nth-child(1)').text();
+
+        const user = JSON.parse(localStorage.getItem("USER"));
+
+        if (user) {
+
+            const token = user.token;
+
+            $.ajax({
+                url: defaultGateway + "/getPendingOne?packageId=" + packageId,
+                method: "GET",
+                async: true,
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                },
+                success: (resp) => {
+                    if (resp.code === 200) {
+                        this.handleShowSlip(resp.data);
+                        console.log(resp.message);
+                    }
+                },
+                error: (ob) => {
+                    console.log(ob)
+                    alert(ob.responseJSON.message);
+                },
+            });
+        }
+    }
+
+    handleShowSlip(data) {
+
+        $('#slipConfirmImg').attr('src', `data:image/png;base64,${data.paymentSlip}`);
+        $('#confirm-Slip').css({'display':'flex'});
+    }
+
+    handleHideSlip(event) {
+
+        if (event.target.className === 'confirm-Slip'){
+            $('#confirm-Slip').css({'display':'none'});
+        }
+    }
+
+    handlePaymentConfirm(packageId) {
+
+        const user = JSON.parse(localStorage.getItem("USER"));
+
+        $('#confirm-Slip').click();
+        if (user) {
+
+            const token = user.token;
+
+            $.ajax({
+                url: defaultGateway + "/confirm?packageId=" + packageId,
+                method: "PUT",
+                async: true,
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                },
+                success: (resp) => {
+                    if (resp.code === 200) {
+                        $('#bellIcon').click();
+                        console.log(resp.message);
+                        alert(resp.message);
+                    }
+                },
+                error: (ob) => {
+                    console.log(ob)
+                    alert(ob.responseJSON.message);
+                },
+            });
+        }
+    }
+
+    handlePaymentReject(packageId) {
+
+        const user = JSON.parse(localStorage.getItem("USER"));
+
+        $('#confirm-Slip').click();
+        if (user) {
+
+            const token = user.token;
+
+            $.ajax({
+                url: defaultGateway + "/reject?packageId=" + packageId,
+                method: "PUT",
+                async: true,
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                },
+                success: (resp) => {
+                    if (resp.code === 200) {
+                        $('#bellIcon').click();
+                        console.log(resp.message);
+                        alert(resp.message);
+                    }
+                },
+                error: (ob) => {
+                    console.log(ob)
+                    alert(ob.responseJSON.message);
+                },
+            });
+        }
+    }
+
+    handleGetNotification() {
+
+        setInterval(( () => {
+            this.handleGetUpdate();
+        }),3000);
+    }
+
+    handleGetUpdate(){
+
+        if ($('#editPackageContainer').is(':visible')) {
+            console.log("awd")
+            const user = JSON.parse(localStorage.getItem("USER"));
+
+            if (user) {
+
+                const token = user.token;
+                $.ajax({
+                    url: defaultGateway + "/getPending",
+                    method: "GET",
+                    processData: false,
+                    contentType: false,
+                    async: false,
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                    },
+                    success: (resp) => {
+                        if (resp.code === 200) {
+                            if (resp.data.length !== 0) {
+                                $('#updateCount').text(resp.data.length);
+                            } else {
+                                $('#updateCount').text('0');
+                            }
+                        }
+                    },
+                    error: (ob) => {
+                        console.log(ob)
+                        alert(ob.responseJSON.message);
+                    },
+                });
+            }
         }
     }
 }

@@ -132,18 +132,18 @@ export class LoginController {
 
     handleCreatAccount() {
 
-        !/^[A-Za-z ]+/.test($('#userName').val()) ? alert("User name invalid or empty !") :
+        /*!/^[A-Za-z ]+/.test($('#userName').val()) ? alert("User name invalid or empty !") :
             !/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/.test($('#createEmail').val()) ? alert("Invalid email !") :
                 !/^[a-zA-Z0-9@]{3,}$/.test($('#creatPassword').val()) ? alert("Invalid password !") :
                     !/^[0-9]{10}$/.test($('#nic').val()) ? alert("Invalid Nic !") :
-                        !$("#imageFile")[0].files[0] ? alert("Please select the image !") : this.handleSaveUser();
+                        !$("#imageFile")[0].files[0] ? alert("Please select the image !") :*/ this.handleSaveUser();
     }
 
     handleSaveUser() {
 
         const user = JSON.stringify(new User(
             null,
-            $('#userName').val(),
+            /*$('#userName').val()*/null,
             $('#nic').val(),
             $('#address').val(),
             $('#createEmail').val(),
@@ -157,8 +157,8 @@ export class LoginController {
         const formData = new FormData();
         const fileInput = $('#imageFile')[0].files[0];
 
-        formData.append('file', fileInput);
-        formData.append('user', user);
+        formData.append('file',  fileInput);
+        formData.append('user',  new Blob([user], { type: "application/json" }));
 
         $.ajax({
             url: defaultGateway + "/register",
@@ -171,14 +171,17 @@ export class LoginController {
                 console.log(resp)
                 if (resp.code == 200) {
                     alert(resp.message);
-                    this.handleReset();
+                    /*this.handleReset();
                     this.handleDefaultLoad();
-                    this.handleLoadFrom('.signUp');
+                    this.handleLoadFrom('.signUp');*/
                 }
             },
             error: (ob) => {
                 console.log(ob)
-                alert(ob.responseJSON.message);
+                ob.responseJSON.forEach( (value, key) => {
+
+                });
+                alert(ob.responseJSON);
             },
         });
     }

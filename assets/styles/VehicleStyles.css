@@ -313,7 +313,7 @@ select:hover{
     width: 100%;
     display: flex;
     align-items: center;
-    padding: 30px 0;
+    padding: 30px 0 30px 80px;
 }
 #searchVehicleBtn, #restVehicle{
     width: 40px;

@@ -923,7 +923,7 @@ export class UpdatePackageController{
                 $('#bookingList li:last-child i:last-child').prop("disabled", false);
             }
 
-            if (value.paidValue === 'Payed' || value.paidValue === 'Pending'){
+            if (parseInt(value.paidValue) === value.packageValue || value.paidValue === 'Pending'){
                 $('#bookingList li:last-child i:first-child').prop("disabled", true);
             }
         });
