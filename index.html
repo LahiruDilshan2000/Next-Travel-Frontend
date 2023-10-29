@@ -226,6 +226,7 @@
     </section>
     <!---------------------------------------------------------------------------------->
     <section class="editPackage" id="editPackageContainer">
+        <input type="text" class="form-control form-group col-md-2" placeholder="search" id="searchPackageTxt">
         <div class="package-list">
             <i class="fa-regular fa-bell" id="bellIcon"></i>
             <div id="Notification">
@@ -460,55 +461,57 @@
                 </section>
                 <!--            -->
                 <div id="travel-area">
+                    <p>Select your travel area</p>
                     <ul>
                         <li value="1">
-                            <img src="assets/images/defaultimage.jpg" alt="">
+                            <img src="assets/images/11b312e4120f5665734f9b980543967c.jpg" alt="">
                             <p>Kandy and Upcountry</p>
                             <i class="fa-solid fa-plus"></i>
                         </li>
                         <li value="2">
-                            <img src="assets/images/defaultimage.jpg" alt="">
+                            <img src="assets/images/Eastern%20Coast.jpg" alt="">
                             <p>Eastern Coast</p>
                             <i class="fa-solid fa-plus"></i>
                         </li>
                         <li value="3">
-                            <img src="assets/images/defaultimage.jpg" alt="">
+                            <img src="assets/images/Capital%20Colombo.jpg" alt="">
                             <p>Capital Colombo</p>
                             <i class="fa-solid fa-plus"></i>
                         </li>
                         <li value="4">
-                            <img src="assets/images/defaultimage.jpg" alt="">
+                            <img src="assets/images/Western%20Coast.jpg" alt="">
                             <p>Western Coast</p>
                             <i class="fa-solid fa-plus"></i>
                         </li>
                         <li value="5">
-                            <img src="assets/images/defaultimage.jpg" alt="">
+                            <img src="assets/images/North%20Peninsula.jpg" alt="">
                             <p>North Peninsula</p>
                             <i class="fa-solid fa-plus"></i>
                         </li>
                         <li value="6">
-                            <img src="assets/images/defaultimage.jpg" alt="">
+                            <img src="assets/images/Down%20South1.jpg" alt="">
                             <p>Down South</p>
                             <i class="fa-solid fa-plus"></i>
                         </li>
                         <li value="7">
-                            <img src="assets/images/defaultimage.jpg" alt="">
+                            <img src="assets/images/Sigiriya%20and%20Dambulla1.jpg" alt="">
                             <p>Sigiriya and Dambulla</p>
                             <i class="fa-solid fa-plus"></i>
                         </li>
                         <li value="8">
-                            <img src="assets/images/defaultimage.jpg" alt="">
+                            <img src="assets/images/Anuradhapura%20and%20Polonnaruwa.jpg" alt="">
                             <p>Anuradhapura and Polonnaruwa</p>
                             <i class="fa-solid fa-plus"></i>
                         </li>
                         <li value="9">
-                            <img src="assets/images/deep-dive-luxury-travel-1024x683-1.webp" alt="">
+                            <img src="assets/images/Matale.jpg" alt="">
                             <p>Matale</p>
                             <i class="fa-solid fa-plus"></i>
                         </li>
                     </ul>
                 </div>
                 <div id="hotel-container">
+                    <p>Select your hotel</p>
                     <ul id="pkgHotel">
                         <li>
                             <img src="assets/images/login.jpg">
@@ -537,6 +540,7 @@
                     </div>
                 </div>
                 <div id="vehicle-container">
+                    <p>Select your vehicle</p>
                     <ul id="pkgVehicle">
                         <li>
                             <img src="assets/images/login.jpg">
@@ -957,6 +961,7 @@
     </section>
     <!------------------------------guide---------------------------------------------------->
     <section class="guide" id="guideContainer">
+        <input type="text" class="form-control form-group col-md-2" placeholder="search" id="searchGuideTxt">
         <div class="guide-list">
             <i class="fa-solid fa-plus" id="addGuideBtn"></i>
             <div class="guide-list-header">
@@ -1062,6 +1067,7 @@
     <!--------------------------------user-------------------------------------------------->
     <section class="users" id="usersContainer">
         <div class="user-list">
+            <input type="text" class="form-control form-group col-md-2" placeholder="search" id="searchUserTxt">
             <i class="fa-solid fa-plus" id="addUserBtn"></i>
             <div class="user-list-header">
                 <h3>Pic</h3>
@@ -1158,6 +1164,8 @@
                 <div class="monthly-income">
                     <h2>Monthly income</h2>
                     <h3>Rs <span id="monthlyIncomeLbl">120 000</span></h3>
+                    <p>Earning for this month</p>
+                    <canvas id="myChart2"></canvas>
                 </div>
             </div>
         </div>
@@ -1373,5 +1381,6 @@
 <script src="controller/PackageViewController.js" type="module"></script>
 <script src="controller/FinancialController.js" type="module"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </body>
 </html>

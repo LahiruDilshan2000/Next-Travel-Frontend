@@ -288,7 +288,7 @@ export class HotelController {
             const formHotelData = new FormData();
 
             formHotelData.append('file', hotelImageFile);
-            formHotelData.append('hotel', hotel);
+            formHotelData.append('hotel', new Blob([hotel], { type: "application/json" }));
 
             $.ajax({
                 url: defaultGateway,
@@ -583,7 +583,7 @@ export class HotelController {
             const formHotelData = new FormData();
 
             formHotelData.append('file', hotelImageFile);
-            formHotelData.append('hotel', hotel);
+            formHotelData.append('hotel', new Blob([hotel], { type: "application/json" }));
 
             $.ajax({
                 url: defaultGateway,

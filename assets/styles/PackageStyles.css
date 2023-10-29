@@ -226,3 +226,6 @@
     margin: 0 0 5px 0;
     background: rgba(0, 0, 0, 0.04);
 }
+#viewCart{
+    display: none;
+}

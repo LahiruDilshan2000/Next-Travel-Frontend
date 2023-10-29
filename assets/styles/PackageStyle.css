@@ -145,14 +145,31 @@
     background: rgba(255, 0, 0, 0.6);
     color: white;
 }
-
 #travel-area{
-    height: 500px;
-    /*display: flex;*/
+    height: 528px;
     display: none;
     align-items: center;
     justify-content: center;
     padding: 10px 20px;
+    flex-direction: column;
+    background: linear-gradient(white 70%, rgba(34, 38, 66, 0.96) 70%);
+}
+#travel-area p{
+    width: 85%;
+    text-align: start;
+    font-size: 20px;
+    font-family: 'AR One Sans', sans-serif;
+    margin-top: 10px;
+    color: rgba(0, 0, 0, 0.5);
+}
+#vehicle-container p, #hotel-container p{
+    width: 85%;
+    text-align: start;
+    font-family: 'AR One Sans', sans-serif;
+    color: rgba(0, 0, 0, 0.5);
+    margin: 0;
+    font-size: 20px;
+
 }
 #button-div{
     height: 80px;
@@ -195,12 +212,14 @@
     transition: all 0.5s;
     overflow: hidden;
     position: relative;
+    background: white;
 }
 #travel-area ul li:hover{
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
 }
 #travel-area ul li img{
     width: 100%;
+    height: 130px;
     object-fit: cover;
 }
 #travel-area ul li p{
@@ -239,15 +258,12 @@
     flex-direction: column;
     align-items: center;
 }
-#vehicle-container{
-    /*display: flex;*/
-}
 #pkgHotel, #pkgVehicle{
     display: flex;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    height: 62vh;
+    height: 60vh;
     background: white;
     margin: 0;
 }

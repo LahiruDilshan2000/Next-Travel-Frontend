@@ -113,6 +113,9 @@ export class EditPackageController {
         $('#nextUpdatePkgBtn').on('click', () => {
             this.handleNextUpdate();
         });
+        $("#searchPackageTxt").on('keyup', () => {
+            this.handleSearch();
+        });
         this.handlePackageEditeEvent();
     }
 
@@ -401,7 +404,7 @@ export class EditPackageController {
         $('#pkgEmailTxt').val('');
         $('#headCountLbl').text('0');
         $('#pkgCustomerCmb').val('');
-        $('#guideCmb').val('');
+        $('#guideCmb').val('No guide');
         $('#roomQtyTxt').val('');
         $('#priceLbl').text('0');
         this.handleDefaultData();
@@ -681,7 +684,7 @@ export class EditPackageController {
     handleSetLastPrice() {
 
         if ($('#nextPkgBtn').is(':visible')) {
-
+            console.log("wadawaaaaaaaaaaaaaa")
             let tot = 0;
             let days = this.handleGetDateCount();
 
@@ -696,6 +699,7 @@ export class EditPackageController {
             let guide = "NoGuide";
 
             if ($('#guideCmb').val() !== 'No guide') {
+                console.log("wdad")
                 guide = this.handleGetGuide($('#guideCmb').val());
             }
             if (guide !== "NoGuide") {
@@ -1542,6 +1546,43 @@ export class EditPackageController {
         $('#nextPkgBtn').css({'display':'none'});
         $('#nextUpdatePkgBtn').css({'display':'none'});
         $('#nextUserUpdatePkgBtn').css({'display':'none'});
+    }
+
+    handleSearch() {
+
+        const user = JSON.parse(localStorage.getItem("USER"));
+
+        const text = $('#searchPackageTxt').val();
+
+        if (user) {
+
+            const token = user.token;
+
+            if (text) {
+                $.ajax({
+                    url: defaultGateway + "/search?text=" + text,
+                    method: "GET",
+                    async: true,
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                    },
+                    success: (resp) => {
+                        console.log(resp)
+                        if (resp.code === 200) {
+                            console.log(resp.message);
+                            console.log(resp.data);
+                            this.handleLoadPackage(resp.data);
+                        }
+                    },
+                    error: (ob) => {
+                        console.log(ob)
+                        alert(ob.responseJSON.message);
+                    },
+                });
+            }else {
+                this.handleLoadAll(0, count)
+            }
+        }
     }
 }
 

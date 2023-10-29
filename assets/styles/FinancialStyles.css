@@ -102,17 +102,34 @@
 }
 .monthly-income h2{
     font-family: 'AR One Sans', sans-serif;
-    font-size: 18px;
+    font-size: 20px;
     color: rgba(0, 0, 0, 0.5);
     font-weight: bolder;
+    margin-top: 20px;
 }
 .monthly-income h3{
-    margin: 10px;
     text-align: center;
-    color: #0d6efd;
-    font-size: 40px;
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 30px;
+    margin: 20px 0 5px 0;
 }
-#myChart{
-    width: 100%;
-    height: 100%;
+.monthly-income h3 span{
+    color: #0d6efd;
+    font-size: 45px;
+    padding-left: 10px;
+}
+#myChart2{
+    margin-top: 40px;
+}
+.monthly-income{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-direction: column;
+    overflow: hidden;
+}
+.monthly-income p{
+    font-size: 14px;
+    font-family: 'AR One Sans', sans-serif;
+    color: rgba(0, 0, 0, 0.5);
 }

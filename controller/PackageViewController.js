@@ -46,7 +46,7 @@ export class PackageViewController{
         $('#rejectBtn').on('click',  () => {
             this.handlePaymentReject(packageId);
         });
-        //this.handleGetNotification();
+        this.handleGetNotification();
     }
 
     handleRemoveViewEvent(event) {

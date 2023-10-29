@@ -52,6 +52,9 @@ export class GuideController {
         $("#previousAddGuideBtn").on('click', () => {
             this.handlePreviousUserList();
         });
+        $("#searchGuideTxt").on('keyup', () => {
+            this.handleSearch();
+        });
         this.handleGuideEditeEvent();
     }
 
@@ -203,7 +206,7 @@ export class GuideController {
                 formGuideData.append('imageList', value);
             });
 
-            formGuideData.append('guide', guide);
+            formGuideData.append('guide', new Blob([guide], { type: "application/json" }));
 
             $.ajax({
                 url: defaultGateway,
@@ -366,7 +369,7 @@ export class GuideController {
                 formGuideData.append('imageList', value);
             });
 
-            formGuideData.append('guide', guide);
+            formGuideData.append('guide', new Blob([guide], { type: "application/json" }));
 
             $.ajax({
                 url: defaultGateway,
@@ -463,6 +466,43 @@ export class GuideController {
 
         gNextPage = 1;
         gCurrentPage = 0;
+    }
+
+    handleSearch() {
+
+        const user = JSON.parse(localStorage.getItem("USER"));
+
+        const text = $('#searchGuideTxt').val();
+
+        if (user) {
+
+            const token = user.token;
+
+            if (text) {
+                $.ajax({
+                    url: defaultGateway + "/search?text=" + text,
+                    method: "GET",
+                    async: true,
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                    },
+                    success: (resp) => {
+                        console.log(resp)
+                        if (resp.code === 200) {
+                            console.log(resp.message);
+                            console.log(resp.data);
+                            this.handleLoadGuide(resp.data);
+                        }
+                    },
+                    error: (ob) => {
+                        console.log(ob)
+                        alert(ob.responseJSON.message);
+                    },
+                });
+            }else {
+                this.handleLoadAllData(0, count)
+            }
+        }
     }
 }
 export function loadGuide() {

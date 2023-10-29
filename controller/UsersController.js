@@ -39,6 +39,9 @@ export class UsersController {
         $("#previousAddUserBtn").on('click', () => {
             this.handlePreviousUserList();
         });
+        $("#searchUserTxt").on('keyup', () => {
+            this.handleSearch();
+        });
         this.handleNavContainer(".user-list", "#usersNavBtn");
         this.handleUserEditeEvent();
     }
@@ -169,7 +172,7 @@ export class UsersController {
         const userFormData = new FormData();
 
         userFormData.append('file', userImg);
-        userFormData.append('user', user);
+        userFormData.append('user', new Blob([user], { type: "application/json" }));
 
         $.ajax({
             url: defaultGateway + "/register",
@@ -340,7 +343,7 @@ export class UsersController {
             const userFormData = new FormData();
 
             userFormData.append('file', userImg);
-            userFormData.append('user', user);
+            userFormData.append('user', new Blob([user], { type: "application/json" }));
 
             $.ajax({
                 url: defaultGateway + "/user",
@@ -398,6 +401,43 @@ export class UsersController {
                     alert(ob.responseJSON.message);
                 },
             });
+        }
+    }
+    handleSearch() {
+
+        const user = JSON.parse(localStorage.getItem("USER"));
+
+        const text = $('#searchUserTxt').val();
+
+        if (user) {
+
+            const token = user.token;
+
+            console.log(text)
+            if (text) {
+                $.ajax({
+                    url: defaultGateway + "/user/search?text=" + text,
+                    method: "GET",
+                    async: true,
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                    },
+                    success: (resp) => {
+                        console.log(resp)
+                        if (resp.code === 200) {
+                            console.log(resp.message);
+                            console.log(resp.data);
+                            this.handleLoadUser(resp.data);
+                        }
+                    },
+                    error: (ob) => {
+                        console.log(ob)
+                        alert(ob.responseJSON.message);
+                    },
+                });
+            }else {
+                this.handleLoadAllData(0, count)
+            }
         }
     }
 }

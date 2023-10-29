@@ -34,28 +34,31 @@ export class LoginController {
         $('#signOutBtn').on('click', () => {
             this.handleSignOut();
         });
-
         this.handleRemoveLog();
     }
 
     handleRemoveLog() {
 
         const user = JSON.parse(localStorage.getItem("USER"));
-        console.log(user)
         if (user === null || user.role === "USER"){
             handleHideHotelEdit();
             handleHideVehicleEdit();
             this.handleHideAllNav();
+            if (user !== null && user.role === "USER"){
+                this.handleShowCart();
+            }
         }
         if (user !== null && user.role === "ADMIN_HOTEL"){
             handleShowHotelEdit();
             handleHideVehicleEdit();
             this.handleHideAllNav();
+            this.handleHideCart();
         }
         if (user !== null && user.role === "ADMIN_VEHICLE"){
             handleShowVehicleEdit()
             handleHideHotelEdit();
             this.handleHideAllNav();
+            this.handleHideCart();
             this.handleShowNavBtn('#financialNavBtn');
         }
         if (user !== null && user.role === "ADMIN_PACKAGE"){
@@ -63,6 +66,7 @@ export class LoginController {
             handleHideVehicleEdit();
             loadPackage();
             this.handleHideAllNav();
+            this.handleHideCart();
             this.handleShowNavBtn('#editPackageNavBtn');
             this.handleShowNavBtn('#financialNavBtn');
         }
@@ -71,6 +75,7 @@ export class LoginController {
             handleHideVehicleEdit();
             loadUser();
             this.handleHideAllNav();
+            this.handleHideCart();
             this.handleShowNavBtn('#userNavBtn');
             this.handleShowNavBtn('#financialNavBtn');
         }
@@ -79,6 +84,7 @@ export class LoginController {
             handleHideVehicleEdit();
             loadGuide();
             this.handleHideAllNav();
+            this.handleHideCart();
             this.handleShowNavBtn('#guideNavBtn');
             this.handleShowNavBtn('#financialNavBtn');
         }
@@ -86,6 +92,13 @@ export class LoginController {
         $('.signIn').css({'display': 'none'});
         document.body.style.overflow = 'auto';
         $('#packageNavBtn').click();
+    }
+
+    handleShowCart(){
+        $('#viewCart').css({'display':'flex'});
+    }
+    handleHideCart(){
+        $('#viewCart').css({'display':'none'});
     }
 
     handleShowNavBtn(id){
@@ -273,6 +286,7 @@ export class LoginController {
         $('#profileImg').attr('src', `assets/images/defaultUser.jpg`);
         $('#navImg').attr('src', `assets/images/defaultUser.jpg`);
         this.handleReset();
+        this.handleHideCart();
     }
 
 }

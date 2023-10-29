@@ -3,6 +3,12 @@ const defaultGateway = "http://localhost:8080/nexttravel/api/v1/financial";
 
 export class FinancialController {
     constructor() {
+        $('#financialNavBtn').on('click', () => {
+            this.handleLoadAll();
+        });
+    }
+
+    handleLoadAll(){
         this.handleGetDailyIncome();
         this.handleGetWeeklyIncome();
         this.handleGetMonthlyIncome();
@@ -155,15 +161,45 @@ export class FinancialController {
                     label: 'Past day summery',
                     data: data,
                     backgroundColor: [
-                        '#ff6384',
-                         '#36a2eb',
-                         '#cc65fe',
-                         '#ffce56',
-                         '#ffce56',
-                         '#ffce56',
-                         '#ffce56'
+                        'rgba(255,99,132,0.56)',
+                         'rgba(54,162,235,0.6)',
+                         'rgba(204,101,254,0.65)',
+                         'rgba(255,206,86,0.61)',
+                         'rgba(95,39,205,0.58)',
+                         'rgba(1,163,164,0.58)',
+                         'rgba(60,64,198,0.55)'
                     ],
-                    borderWidth: 0
+                    borderWidth: 1
+                },
+                ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        const ctx2 = document.getElementById('myChart2');
+
+        new Chart(ctx2, {
+            type: 'doughnut',
+            data: {
+                datasets: [{
+                    label: 'Past day summery',
+                    data: data,
+                    backgroundColor: [
+                        'rgb(255,99,132)',
+                        'rgb(54,162,235)',
+                        'rgba(204,101,254,0.65)',
+                        'rgba(255,206,86,0.61)',
+                        'rgba(95,39,205,0.58)',
+                        'rgba(1,163,164,0.58)',
+                        'rgba(60,64,198,0.55)'
+                    ],
+                    borderWidth: 1
                 },
                 ]
             },

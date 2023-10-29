@@ -319,7 +319,7 @@ export class VehicleController {
                 formVehicleData.append('imageList', value);
             });
 
-            formVehicleData.append('vehicle', vehicle);
+            formVehicleData.append('vehicle', new Blob([vehicle], { type: "application/json" }));
 
             $.ajax({
                 url: defaultGateway,
@@ -519,7 +519,7 @@ export class VehicleController {
                 formVehicleData.append('imageList', value);
             });
 
-            formVehicleData.append('vehicle', vehicle);
+            formVehicleData.append('vehicle', new Blob([vehicle], { type: "application/json" }));
 
             $.ajax({
                 url: defaultGateway,

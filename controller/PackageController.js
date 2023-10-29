@@ -152,10 +152,10 @@ export class PackageController {
         }
         if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/.test($('#pkgEmailTxt').val())) {
             alert("Invalid email !");
-            $('#orderIdLbl').text(this.handleGetOrderId());
             return false;
         }
         this.handleSetLastPrice();
+        $('#orderIdLbl').text(this.handleGetOrderId());
         return true;
 
     }
@@ -590,14 +590,16 @@ export class PackageController {
 
     handleGetDetails(event) {
 
-        if (localStorage.getItem("USER")) {
+        const user = JSON.parse(localStorage.getItem("USER"));
+
+        if (user && user.role === "USER") {
             pkgCategory = $(event.target).closest('li').find('h3').text();
             hotelCategory = parseInt($(event.target).closest('li').find('h2:nth-child(5)').text());
             vehicleCategory = $(event.target).closest('li').find('h2:nth-child(6)').text();
             this.handleHideAllContainer();
             this.handleShowContainer(array[0]);
         }else {
-            alert("Please login first");
+            alert("Please login first user account");
         }
     }
 
@@ -662,7 +664,9 @@ export class PackageController {
 
     handleAddItemEvent() {
 
-        if(localStorage.getItem("USER")) {
+        const user = JSON.parse(localStorage.getItem("USER"));
+
+        if (user && user.role === "USER") {
             $('#addPackage-container').css({
                 'top': '0',
             });
