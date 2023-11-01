@@ -66,17 +66,29 @@ export class UsersController {
 
     handleUserAddEvent() {
         $("#addUserForm").css({
-            "display": "flex"
+            "right": "0"
         });
+        setTimeout(() => {
+            $("#addUserForm").css({
+                "background": "rgba(0, 0, 0, 0.29)"
+            });
+        }, 300);
         document.body.style.overflow = 'hidden';
     }
 
     handleUserViewAddFilterClickEvent(event) {
         if (event.target.className === 'addUser') {
             $("#addUserForm").css({
-                "display": "none"
+                "background": "none"
             });
-            this.handleReset();
+            setTimeout(() => {
+                $("#addUserForm").css({
+                    "right": "-1600px"
+                });
+            }, 300);
+            setTimeout(() => {
+                this.handleReset();
+            }, 380);
         }
     }
 
@@ -155,13 +167,13 @@ export class UsersController {
 
     handleValidation(fun) {
 
-        !/^([A-Za-z ]{3,})$/.test($('#nameTxt').val()) ? alert("User name invalid or empty !") :
-            !/^([A-Za-z0-9]{10,})$/.test($('#nicTxt').val()) ? alert("Nic invalid or empty !") :
-                !/^[A-Za-z ]+$/.test($('#addressTxt').val()) ? alert("Address invalid or empty !") :
-                    !/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/.test($('#emailTxt').val()) ? alert("Email invalid or empty !") :
-                        !/^([A-Za-z0-9@]{4,})$/.test($('#passwordTxt').val()) ? alert("Password invalid or empty !") :
+        !/^([A-Za-z ]{3,})$/.test($('#nameTxt').val()) ? swal("User name invalid or empty !") :
+            !/^([A-Za-z0-9]{10,})$/.test($('#nicTxt').val()) ? swal("Nic invalid or empty !") :
+                !/^[A-Za-z ]+$/.test($('#addressTxt').val()) ? swal("Address invalid or empty !") :
+                    !/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/.test($('#emailTxt').val()) ? swal("Email invalid or empty !") :
+                        !/^([A-Za-z0-9@]{4,})$/.test($('#passwordTxt').val()) ? swal("Password invalid or empty !") :
                             fun === 'update' ? this.handleUpdateUser() :
-                                !$('#userImgFile')[0].files[0] ? alert("Please select the image !") :
+                                !$('#userImgFile')[0].files[0] ? swal("Please select the image !") :
                                     this.handleSaveUser();
     }
 
@@ -172,7 +184,7 @@ export class UsersController {
         const userFormData = new FormData();
 
         userFormData.append('file', userImg);
-        userFormData.append('user', new Blob([user], { type: "application/json" }));
+        userFormData.append('user', new Blob([user], {type: "application/json"}));
 
         $.ajax({
             url: defaultGateway + "/register",
@@ -184,6 +196,7 @@ export class UsersController {
             success: (resp) => {
                 if (resp.code === 200) {
                     console.log(resp.message);
+                    swal("Save user details successful !", "Click the ok !", "success");
                     this.handleLoadAllData(0, count);
                     this.handleReset();
                     $('#addUserForm').click();
@@ -343,7 +356,7 @@ export class UsersController {
             const userFormData = new FormData();
 
             userFormData.append('file', userImg);
-            userFormData.append('user', new Blob([user], { type: "application/json" }));
+            userFormData.append('user', new Blob([user], {type: "application/json"}));
 
             $.ajax({
                 url: defaultGateway + "/user",
@@ -358,6 +371,7 @@ export class UsersController {
                 success: (resp) => {
                     if (resp.code === 200) {
                         console.log(resp.message);
+                        swal("Update successful !", "Click the ok !", "success");
                         this.handleLoadAllData(0, count);
                         this.handleReset();
                         $('#addUserForm').click();
@@ -376,33 +390,51 @@ export class UsersController {
         const user = JSON.parse(localStorage.getItem("USER"));
 
         if (user) {
+            swal({
+                title: "Are you sure?",
+                text: "Do you want to delete this guide details !",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
 
-            const token = user.token;
+                        const token = user.token;
 
-            $.ajax({
-                url: defaultGateway + "/user?userId=" + userId,
-                method: "DELETE",
-                processData: false,
-                contentType: false,
-                async: true,
-                headers: {
-                    'Authorization': 'Bearer ' + token,
-                },
-                success: (resp) => {
-                    if (resp.code === 200) {
-                        console.log(resp.message);
-                        this.handleLoadAllData(0, count);
-                        this.handleReset();
+                        $.ajax({
+                            url: defaultGateway + "/user?userId=" + userId,
+                            method: "DELETE",
+                            processData: false,
+                            contentType: false,
+                            async: true,
+                            headers: {
+                                'Authorization': 'Bearer ' + token,
+                            },
+                            success: (resp) => {
+                                if (resp.code === 200) {
+                                    console.log(resp.message);
+                                    swal("Guide details has been deleted!", {
+                                        icon: "success",
+                                    });
+                                    $('#addUserForm').click();
+                                    this.handleLoadAllData(0, count);
+                                    this.handleReset();
+                                }
+                            },
+                            error: (ob) => {
+                                console.log(ob)
+                                alert(ob.responseJSON.message);
+                            },
+                        });
+                    } else {
                         $('#addUserForm').click();
+                        swal("Your user details is safe!");
                     }
-                },
-                error: (ob) => {
-                    console.log(ob)
-                    alert(ob.responseJSON.message);
-                },
-            });
+                });
         }
     }
+
     handleSearch() {
 
         const user = JSON.parse(localStorage.getItem("USER"));
@@ -435,13 +467,15 @@ export class UsersController {
                         alert(ob.responseJSON.message);
                     },
                 });
-            }else {
+            } else {
                 this.handleLoadAllData(0, count)
             }
         }
     }
 }
+
 export function loadUser() {
     usersController.handleLoadAllData(0, count);
 }
+
 let usersController = new UsersController();

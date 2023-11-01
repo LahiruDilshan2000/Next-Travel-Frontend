@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="assets/styles/FinancialStyles.css">
     <link rel="stylesheet" href="assets/styles/PackageStyles.css">
     <link rel="stylesheet" href="assets/styles/RecentBooking.css">
+    <link rel="stylesheet" href="assets/styles/FooterStyles.css">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -59,7 +60,10 @@
                     <input type="text" class="form-control" id="profileUsername" placeholder="New user name">
                 </div>
                 <div class="form-group col-md-12">
-                    <input type="password" class="form-control" placeholder="New password">
+                    <input type="password" class="form-control" id="aldPasswordTxt" placeholder="Existing password">
+                </div>
+                <div class="form-group col-md-12">
+                    <input type="password" class="form-control" id="newPasswordTxt" placeholder="New password">
                 </div>
                 <button type="button" id="updateProfileBtn">Update</button>
                 <p>Come back later .<span id="signOutBtn">Sign out .</span></p>
@@ -125,15 +129,8 @@
 
     <!---------------------------------------------------------------------------------->
     <section class="intro">
-        <img src="assets/images/login.jpg" class="mainImage">
-        <div class="dark-filter"></div>
-        <div class="intro-div1">
-            <h1 class="h1-01">01</h1>
-            <div class="mainText">
-                <p class="p1">Welcome,</p>
-                <p>Next Travel Online
-                <p>Booking System</p>
-            </div>
+        <div class="intro-container">
+
         </div>
     </section>
     <!---------------------------------------------------------------------------------->
@@ -152,31 +149,7 @@
             <h2>User Recent Booking</h2>
             <p>You can update your package within 48 hours after booking</p>
             <ul id="bookingList">
-                <li>
-                    <i class="fa-solid fa-dollar-sign"></i>
-                    <p>0</p>
-                    <h3>MD-0000012</h3>
-                    <h3>Luxury</h3>
-                    <h3>45000</h3>
-                    <h3>0</h3>
-                    <i class="fa-solid fa-pen"></i>
-                </li>
-                <li>
-                    <i class="fa-solid fa-dollar-sign"></i>
-                    <h3>MD-0000012</h3>
-                    <h3>Luxury</h3>
-                    <h3>45000</h3>
-                    <h3>0</h3>
-                    <i class="fa-solid fa-pen"></i>
-                </li>
-                <li>
-                    <i class="fa-solid fa-dollar-sign"></i>
-                    <h3>MD-0000012</h3>
-                    <h3>Luxury</h3>
-                    <h3>45000</h3>
-                    <h3>0</h3>
-                    <i class="fa-solid fa-pen"></i>
-                </li>
+
             </ul>
             <div class="next-hotel-div">
                 <i class="fa-solid fa-chevron-left" id="previousOrderBtn"></i>
@@ -204,7 +177,47 @@
     </section>
     <!---------------------------------------------------------------------------------->
     <section class="travelArea" id="travelAreaContainer">
-
+        <div class="travel-container">
+            <div class="slider">
+                <div class="item" style="background-image: url('./assets/images/intro/pexels-elvi-madushanka-12496768.jpg')">
+                    <div class="content">
+                        <div class="name">Mathale</div>
+                        <div class="des">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, maiores.</div>
+                    </div>
+                </div>
+                <div class="item" style="background-image: url('./assets/images/intro/pexels-elvi-madushanka-12496768.jpg')">
+                    <div class="content">
+                        <div class="name">Mathale</div>
+                        <div class="des">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, maiores.</div>
+                    </div>
+                </div>
+                <div class="item" style="background-image: url('./assets/images/intro/pexels-elvi-madushanka-12496768.jpg')">
+                    <div class="content">
+                        <div class="name">Mathale</div>
+                        <div class="des">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, maiores.</div>
+                    </div>
+                </div>
+                <div class="item" style="background-image: url('./assets/images/intro/pexels-elvi-madushanka-12496768.jpg')">
+                    <div class="content">
+                        <div class="name">Mathale</div>
+                        <div class="des">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, maiores.</div>
+                    </div>
+                </div>
+                <div class="item" style="background-image: url('./assets/images/intro/pexels-elvi-madushanka-12496768.jpg')">
+                    <div class="content">
+                        <div class="name">Mathale</div>
+                        <div class="des">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, maiores.</div>
+                    </div>
+                </div>
+                <div class="item" style="background-image: url('./assets/images/intro/pexels-elvi-madushanka-12496768.jpg')">
+                    <div class="content">
+                        <div class="name">Mathale</div>
+                        <div class="des">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, maiores.</div>
+                    </div>
+                </div>
+            </div>
+            <i class="fa-solid fa-arrow-right" id="btn-Next"></i>
+        </div>
     </section>
     <!---------------------------------------------------------------------------------->
     <section class="addSlip" id="addSlip">
@@ -1367,6 +1380,40 @@
         </div>
     </section>
     <!---------------------------------------------------------------------------------->
+    <footer class="footer">
+        <div class="f-div">
+            <div>
+                <h2>Next travel pvt ltd.</h2>
+                <p>Lorem ipsum dolor sit amet,
+                    consectetur adipisicing elit.
+                    Amet dolor eaque fugiat mollitia ne
+                    consectetur adipisicing elit
+                    consectetur adipisicing elitAmet dolor eaque fugiat.</p>
+            </div>
+            <div>
+                <h2>Discover</h2>
+                <p>Booking</p>
+                <p>Travel area</p>
+                <p>Vehicles</p>
+                <p>Hotels</p>
+            </div>
+            <div>
+                <h2>Contact</h2>
+                <p>077 410 8899</p>
+                <p>077 510 8899</p>
+                <p>NextTravel@gmail.com</p>
+            </div>
+            <div>
+                <h2>Follow us</h2>
+                <section>
+                    <i class="fa-brands fa-instagram"></i>
+                    <i class="fa-brands fa-facebook"></i>
+                    <i class="fa-brands fa-twitter"></i>
+                    <i class="fa-brands fa-linkedin"></i>
+                </section>
+            </div>
+        </div>
+    </footer>
 </main>
 <script src="assets/lib/jquery-3.6.4.min.js"></script>
 <script src="controller/MainNavController.js" type="module"></script>
@@ -1380,6 +1427,7 @@
 <script src="controller/UpdatePackageController.js" type="module"></script>
 <script src="controller/PackageViewController.js" type="module"></script>
 <script src="controller/FinancialController.js" type="module"></script>
+<script src="controller/TravelAreaController.js" type="module"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </body>

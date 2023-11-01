@@ -281,6 +281,8 @@ export class UpdatePackageController{
             const cmbVal = $('#CategoryCmb').val();
 
             if (x && cmbVal !== 'default') {
+                $('#roomQtyTxt').val('')
+                swal("Room added successful !", "Click the ok !", "success");
                 for (let i = 0; i < roomArray.length; i++) {
                     if (roomArray[i].roomType === cmbVal) {
                         roomArray[i].qty += parseInt(x);
@@ -325,7 +327,7 @@ export class UpdatePackageController{
 
     handleNextHotelList() {
 
-        if ($('#nextUserUpdatePkgBtn').is(':visible') || $('#backPkgBtn').is(':visible')) {
+        if ($('#nextUserUpdatePkgBtn').is(':visible')) {
             if (hNextPage !== 0) {
                 console.log(hotelCategory)
                 this.handleGetHotelList(hNextPage, vCount, hotelCategory);
@@ -340,7 +342,7 @@ export class UpdatePackageController{
 
     handlePreviousHotelList() {
 
-        if ($('#nextUserUpdatePkgBtn').is(':visible') || $('#backPkgBtn').is(':visible')) {
+        if ($('#nextUserUpdatePkgBtn').is(':visible')) {
             if (hCurrentPage !== 0) {
                 hCurrentPage--;
                 hNextPage--;
@@ -352,7 +354,8 @@ export class UpdatePackageController{
 
     handleNextVehicleList() {
 
-        if ($('#nextUserUpdatePkgBtn').is(':visible') || $('#backPkgBtn').is(':visible')) {
+        if ($('#nextUserUpdatePkgBtn').is(':visible')) {
+
             if (vNextPage !== 0) {
                 this.handleGetVehicleList(vNextPage, vCount, vehicleCategory);
                 this.handleSetOldVehicle();
@@ -425,17 +428,17 @@ export class UpdatePackageController{
     handleValidationOfUpdate() {
 
         roomArray.length === 0 ?
-            alert('Please add the rooms for package !') :
+            swal('Please add the rooms for package !') :
             !/^[0-9]+$/.test($('#noOfAdultsTxt').val()) ?
-                alert("Adult count invalid or empty !") :
+                swal("Adult count invalid or empty !") :
                 !/^[0-9]+$/.test($('#noOfChildrenTxt').val()) ?
-                    alert("Children count invalid or empty !") :
+                    swal("Children count invalid or empty !") :
                     $('#pkgCustomerCmb').val() === 'default' ?
-                        alert("Please select the customer !") :
+                        swal("Please select the customer !") :
                         !/^(075|077|071|074|078|076|070|072)([0-9]{7})$/.test($('#pkgContactTxt').val()) ?
-                            alert("Invalid contact !") :
+                            swal("Invalid contact !") :
                             !/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/.test($('#pkgEmailTxt').val()) ?
-                                alert("Invalid email !") :
+                                swal("Invalid email !") :
                                 this.handleUpdatePackage();
 
     }
@@ -459,7 +462,7 @@ export class UpdatePackageController{
                 $('#pkgContactTxt').val(),
                 $('#pkgEmailTxt').val(),
                 parseInt($('#totalLbl').text()),
-                0,
+                "Not payed",
                 $('#startDateTxt').val(),
                 $('#endDateTxt').val(),
                 new Date(updatePackage.bookedDate).toISOString(),
@@ -483,11 +486,10 @@ export class UpdatePackageController{
                 success: (resp) => {
                     if (resp.code === 200) {
                         console.log(resp.message);
-                        alert(resp.message);
+                        swal("Update successful !", "Click the ok !", "success");
                         $('#addPackage-container').click();
                         this.handleReset();
                         this.handleShowCart();
-                        //this.handleLoadAll(0, count);
                     }
                 },
                 error: (ob) => {
@@ -520,7 +522,7 @@ export class UpdatePackageController{
 
         console.log(travelArea)
         if (travelArea.length === 0) {
-            alert('Please select your travel area !');
+            swal('Please select your travel area !');
             return false;
         }
         if (travelArea.length !== 0 && array[nextPage] === '#vehicle-container') {
@@ -530,7 +532,7 @@ export class UpdatePackageController{
             return true;
         }
         if (vehicleId === null && array[nextPage] === '#hotel-container') {
-            alert('Please select your vehicle !');
+            swal('Please select your vehicle !');
             return false;
         }
         if (vehicleId !== null && array[nextPage] === '#hotel-container') {
@@ -540,7 +542,7 @@ export class UpdatePackageController{
             return true;
         }
         if (hotelId === null && array[nextPage] === '#other-details-container') {
-            alert('Please select your hotel !')
+            swal('Please select your hotel !')
             return false;
         }
         if (hotelId !== null && array[nextPage] === '#other-details-container') {

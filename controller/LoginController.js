@@ -34,7 +34,33 @@ export class LoginController {
         $('#signOutBtn').on('click', () => {
             this.handleSignOut();
         });
+        $('#updateProfileBtn').on('click', () => {
+            this.handleUpdateUser();
+        });
+        this.handleLoginExpiration();
         this.handleRemoveLog();
+    }
+
+    handleLoginExpiration(){
+
+        const user = JSON.parse(localStorage.getItem("USER"));
+        if (user !== null){
+            $.ajax({
+                url: defaultGateway + "/validate",
+                method: "GET",
+                async: true,
+                success: (resp) => {
+                    console.log(resp)
+                    if (resp.code === 200) {
+                        console.log(resp.message);
+                    }
+                },
+                error: (ob) => {
+                    //localStorage.removeItem("USER");
+                    //swal("Oops...", "Something went wrong!", ob.responseJSON);
+                },
+            });
+        }
     }
 
     handleRemoveLog() {
@@ -145,18 +171,18 @@ export class LoginController {
 
     handleCreatAccount() {
 
-        /*!/^[A-Za-z ]+/.test($('#userName').val()) ? alert("User name invalid or empty !") :
-            !/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/.test($('#createEmail').val()) ? alert("Invalid email !") :
-                !/^[a-zA-Z0-9@]{3,}$/.test($('#creatPassword').val()) ? alert("Invalid password !") :
-                    !/^[0-9]{10}$/.test($('#nic').val()) ? alert("Invalid Nic !") :
-                        !$("#imageFile")[0].files[0] ? alert("Please select the image !") :*/ this.handleSaveUser();
+        !/^[A-Za-z ]+/.test($('#userName').val()) ? swal("User name invalid or empty !") :
+            !/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/.test($('#createEmail').val()) ? swal("Invalid email !") :
+                !/^[a-zA-Z0-9@]{3,}$/.test($('#creatPassword').val()) ? swal("Invalid password !") :
+                    !/^[0-9]{10}$/.test($('#nic').val()) ? swal("Invalid Nic !") :
+                        !$("#imageFile")[0].files[0] ? swal("Please select the image !") : this.handleSaveUser();
     }
 
     handleSaveUser() {
 
         const user = JSON.stringify(new User(
             null,
-            /*$('#userName').val()*/null,
+            $('#userName').val(),
             $('#nic').val(),
             $('#address').val(),
             $('#createEmail').val(),
@@ -165,7 +191,6 @@ export class LoginController {
             null
         ));
 
-        console.log(user)
 
         const formData = new FormData();
         const fileInput = $('#imageFile')[0].files[0];
@@ -183,18 +208,15 @@ export class LoginController {
             success: (resp) => {
                 console.log(resp)
                 if (resp.code == 200) {
-                    alert(resp.message);
-                    /*this.handleReset();
+                    swal("Register successful !", "Click the ok !", "success");
+                    this.handleReset();
                     this.handleDefaultLoad();
-                    this.handleLoadFrom('.signUp');*/
+                    this.handleLoadFrom('.signUp');
                 }
             },
             error: (ob) => {
                 console.log(ob)
-                ob.responseJSON.forEach( (value, key) => {
-
-                });
-                alert(ob.responseJSON);
+                swal("Oops...", "Something went wrong!", ob.responseJSON.message);
             },
         });
     }
@@ -239,7 +261,7 @@ export class LoginController {
             success: (resp) => {
                 console.log(resp)
                 if (resp.code == 200) {
-                    alert(resp.message);
+                    console.log(resp.message);
                     localStorage.setItem("USER", JSON.stringify(resp.data));
                     this.handleSetProfile();
                     /*this.handleReset();
@@ -289,6 +311,62 @@ export class LoginController {
         this.handleHideCart();
     }
 
+    handleUpdateUser() {
+
+        if (!/^[A-Za-z ]+/.test($('#profileUsername').val())){
+            swal("User name invalid or empty !");
+            return;
+        }
+         if (!/^[a-zA-Z0-9@]{3,}$/.test($('#aldPasswordTxt').val())){
+             swal("Old password invalid oe empty !");
+             return;
+         }
+        if (!/^[a-zA-Z0-9@]{3,}$/.test($('#newPasswordTxt').val())){
+            swal("New password invalid oe empty !");
+            return;
+        }
+
+        const updateObj = JSON.stringify({
+            email:$('#emailLbl').text(),
+            userName:$('#profileUsername').val(),
+            oldPassword:$('#aldPasswordTxt').val(),
+            newPassword:$('#newPasswordTxt').val()
+        });
+
+        const user = JSON.parse(localStorage.getItem("USER"));
+
+        console.log(updateObj)
+        if (user) {
+
+            const token = user.token;
+
+            $.ajax({
+                url: defaultGateway + "/user/update",
+                method: "PUT",
+                contentType: "application/json",
+                async: true,
+                data:updateObj,
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                },
+                success: (resp) => {
+                    if (resp.code === 200) {
+                        console.log(resp.message);
+                        swal("Update successful !", "Click the ok !", "success");
+                        user.username = resp.data.userName;
+                        localStorage.setItem("USER", JSON.stringify(user));
+                        $('#aldPasswordTxt').val('');
+                        $('#newPasswordTxt').val('');
+                        this.handleShowLog();
+                    }
+                },
+                error: (ob) => {
+                    console.log(ob)
+                    alert(ob.responseJSON.message);
+                },
+            });
+        }
+    }
 }
 export function reLogin(){
     loginController.handleRemoveLog();

@@ -107,7 +107,7 @@ export class PackageController {
         });
         $('#showR').on('click', 'i', (event) => {
             this.handleRemoveRoom(event);
-            this.handleTotalFree();
+            this.handleSetLastPrice();
         });
         $('#btnPlace').on('click', () => {
             this.handleSavePackage();
@@ -135,23 +135,23 @@ export class PackageController {
     handleAnotherValidation() {
 
         if (roomArray.length === 0) {
-            alert('Please add the rooms for package !');
+            swal('Please add the rooms for package !');
             return false;
         }
         if (!/^[0-9]+$/.test($('#noOfAdultsTxt').val())) {
-            alert("Adult count invalid or empty !");
+            swal("Adult count invalid or empty !");
             return false;
         }
         if (!/^[0-9]+$/.test($('#noOfChildrenTxt').val())) {
-            alert("Children count invalid or empty !");
+            swal("Children count invalid or empty !");
             return false;
         }
         if (!/^(075|077|071|074|078|076|070|072)([0-9]{7})$/.test($('#pkgContactTxt').val())) {
-            alert("Invalid contact !");
+            swal("Invalid contact !");
             return false;
         }
         if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/.test($('#pkgEmailTxt').val())) {
-            alert("Invalid email !");
+            swal("Invalid email !");
             return false;
         }
         this.handleSetLastPrice();
@@ -297,7 +297,7 @@ export class PackageController {
                     success: (resp) => {
                         if (resp.code === 200) {
                             console.log(resp.message);
-                            alert(resp.message);
+                            swal("Your package booked successful !", "Click the ok !", "success");
                             this.handleReset();
                         }
                     },
@@ -434,6 +434,8 @@ export class PackageController {
             const cmbVal = $('#CategoryCmb').val();
 
             if (x && cmbVal !== 'default') {
+                $('#roomQtyTxt').val('')
+                swal("Room added successful !", "Click the ok !", "success");
                 for (let i = 0; i < roomArray.length; i++) {
                     if (roomArray[i].roomType === cmbVal) {
                         roomArray[i].qty += parseInt(x);
@@ -477,7 +479,7 @@ export class PackageController {
     handleValidation() {
 
         if (travelArea.length === 0) {
-            alert('Please select your travel area !');
+            swal('Please select your travel area !');
             return false;
         }
         if (travelArea.length !== 0 && array[nextPage] === '#vehicle-container') {
@@ -486,7 +488,7 @@ export class PackageController {
             return true;
         }
         if (vehicleId === null && array[nextPage] === '#hotel-container') {
-            alert('Please select your vehicle !');
+            swal('Please select your vehicle !');
             return false;
         }
         if (vehicleId !== null && array[nextPage] === '#hotel-container') {
@@ -495,7 +497,7 @@ export class PackageController {
             return true;
         }
         if (hotelId === null && array[nextPage] === '#other-details-container') {
-            alert('Please select your hotel !')
+            swal('Please select your hotel !')
             return false;
         }
         if (hotelId !== null && array[nextPage] === '#other-details-container') {
@@ -544,7 +546,7 @@ export class PackageController {
         $('#pkgContactTxt').val('');
         $('#pkgEmailTxt').val('');
         $('#headCountLbl').text('0');
-        $('#guideCmb').val('');
+        $('#guideCmb').val('No Guide');
         $('#roomQtyTxt').val('');
         $('#priceLbl').text('0');
         this.handleDefaultData();
@@ -599,7 +601,7 @@ export class PackageController {
             this.handleHideAllContainer();
             this.handleShowContainer(array[0]);
         }else {
-            alert("Please login first user account");
+            swal("Please login first user account");
         }
     }
 

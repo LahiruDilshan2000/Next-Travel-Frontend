@@ -78,11 +78,11 @@ export class VehicleController {
         this.handleVehicleViewEvent();
     }
 
-    handleRestSearch(){
+    handleRestSearch() {
 
         const seat = $('#searchVehicleSeatTxt');
         const fuel = $('#searchVehicleFuelAndTransmissionCmb');
-        if (seat.val() || fuel.val() !== 'default'){
+        if (seat.val() || fuel.val() !== 'default') {
             this.handleLoadAllData(0, 8);
             seat.val("");
             fuel.val('default');
@@ -101,7 +101,7 @@ export class VehicleController {
                     vNextPage++;
                 }
             }
-        }else {
+        } else {
             this.handleSearchVehicle(vNextPage, count);
             if (vehicleHasPage) {
                 vCurrentPage++;
@@ -118,7 +118,7 @@ export class VehicleController {
                 vNextPage--;
                 this.handleLoadAllData(vCurrentPage, count);
             }
-        }else {
+        } else {
             if (vCurrentPage !== 0) {
                 vCurrentPage--;
                 vNextPage--;
@@ -160,20 +160,21 @@ export class VehicleController {
         $('#vehicleAddImgFile').click();
     }
 
-    handleSearchVehicle(page, count){
+    handleSearchVehicle(page, count) {
 
-        const  seat = $('#searchVehicleSeatTxt').val();
-        const  fuelAndTrans = $('#searchVehicleFuelAndTransmissionCmb').val();
+        const seat = $('#searchVehicleSeatTxt').val();
+        const fuelAndTrans = $('#searchVehicleFuelAndTransmissionCmb').val();
 
-        if(seat && fuelAndTrans !== 'default'){
+        if (seat && fuelAndTrans !== 'default') {
             this.handleSearchVehicleBySeatCapacityAndFelAndTransmission(page, count, parseInt(seat), fuelAndTrans);
-        }else if(seat){
+        } else if (seat) {
             this.handleSearchVehicleBySeatCapacity(page, count, parseInt(seat));
-        }else if (fuelAndTrans !== 'default'){
+        } else if (fuelAndTrans !== 'default') {
             this.handleSearchVehicleByFelAndTransmission(page, count, fuelAndTrans);
         }
     }
-    handleSearchVehicleBySeatCapacityAndFelAndTransmission(page, count, seatCapacity, fuelAndTrans){
+
+    handleSearchVehicleBySeatCapacityAndFelAndTransmission(page, count, seatCapacity, fuelAndTrans) {
 
         $.ajax({
             url: defaultGateway + "/getAllWithSeatAndFulWithTrans?page=" +
@@ -196,7 +197,7 @@ export class VehicleController {
         });
     }
 
-    handleSearchVehicleBySeatCapacity(page, count, seatCapacity){
+    handleSearchVehicleBySeatCapacity(page, count, seatCapacity) {
 
         $.ajax({
             url: defaultGateway + "/getAllWithSeatCapacity?page=" +
@@ -219,7 +220,7 @@ export class VehicleController {
         });
     }
 
-    handleSearchVehicleByFelAndTransmission(page, count, fuelAndTrans){
+    handleSearchVehicleByFelAndTransmission(page, count, fuelAndTrans) {
 
         $.ajax({
             url: defaultGateway + "/getAllWithFuelAndTransmission?page=" +
@@ -262,30 +263,30 @@ export class VehicleController {
 
 
     handleValidation(fun) {
-        !/^[A-Za-z0-9 ]+$/.test($('#vehicleAddBrandTxt').val()) ? alert("Vehicle brand invalid or empty !") :
-            $('#vehicleCategoryCmb').val() === 'default' ? alert("Vehicle category is empty !") :
-                $('#fuelAndTransmissionTypeCmb').val() === 'default' ? alert("Vehicle fuel and transmission is empty !") :
-                    $('#vehicleTypeCmb').val() === 'default' ? alert("Vehicle type is empty !") :
-                        $('#versionCmb').val() === 'default' ? alert("Vehicle version type is empty !") :
-                            !/^[0-9]+$/.test($('#freeForDayTxt').val()) ? alert("Free for day invalid or empty !") :
-                                !/^[0-9]+$/.test($('#freeFor1KmTxt').val()) ? alert("Free for 1 km invalid or empty !") :
-                                    !/^[0-9]+$/.test($('#fuelUsageTxt').val()) ? alert("Fuel usage invalid or empty !") :
-                                        !/^[0-9]+$/.test($('#seatCapacityTxt').val()) ? alert("Seat capacity invalid or empty !") :
-                                            !/^[0-9]+$/.test($('#vehicleQtyTxt').val()) ? alert("Qty invalid or empty !") :
-                                                !/^[A-Za-z ]+$/.test($('#driverNameTxt').val()) ? alert("Driver name invalid or empty !") :
-                                                    !/^(075|077|071|074|078|076|070|072)([0-9]{7})$/.test($('#driverContactTxt').val()) ? alert("Driver contact invalid or empty !") :
+        !/^[A-Za-z0-9 ]+$/.test($('#vehicleAddBrandTxt').val()) ? swal("Vehicle brand invalid or empty !") :
+            $('#vehicleCategoryCmb').val() === 'default' ? swal("Vehicle category is empty !") :
+                $('#fuelAndTransmissionTypeCmb').val() === 'default' ? swal("Vehicle fuel and transmission is empty !") :
+                    $('#vehicleTypeCmb').val() === 'default' ? swal("Vehicle type is empty !") :
+                        $('#versionCmb').val() === 'default' ? swal("Vehicle version type is empty !") :
+                            !/^[0-9]+$/.test($('#freeForDayTxt').val()) ? swal("Free for day invalid or empty !") :
+                                !/^[0-9]+$/.test($('#freeFor1KmTxt').val()) ? swal("Free for 1 km invalid or empty !") :
+                                    !/^[0-9]+$/.test($('#fuelUsageTxt').val()) ? swal("Fuel usage invalid or empty !") :
+                                        !/^[0-9]+$/.test($('#seatCapacityTxt').val()) ? swal("Seat capacity invalid or empty !") :
+                                            !/^[0-9]+$/.test($('#vehicleQtyTxt').val()) ? swal("Qty invalid or empty !") :
+                                                !/^[A-Za-z ]+$/.test($('#driverNameTxt').val()) ? swal("Driver name invalid or empty !") :
+                                                    !/^(075|077|071|074|078|076|070|072)([0-9]{7})$/.test($('#driverContactTxt').val()) ? swal("Driver contact invalid or empty !") :
                                                         fun === "update" ? this.handleUpdateVehicle() :
-                                                            !imageFileList[0] ? alert("Please select vehicle image !") :
-                                                                !imageFileList[1] ? alert("Please select vehicle image !") :
-                                                                    !imageFileList[2] ? alert("Please select vehicle image !") :
-                                                                        !imageFileList[3] ? alert("Please select vehicle image !") :
-                                                                            !imageFileList[4] ? alert("Please select vehicle image !") :
-                                                                                !imageFileList[5] ? alert("Please select driver license image !") :
-                                                                                    !imageFileList[6] ? alert("Please select driver license image !") :
+                                                            !imageFileList[0] ? swal("Please select vehicle image !") :
+                                                                !imageFileList[1] ? swal("Please select vehicle image !") :
+                                                                    !imageFileList[2] ? swal("Please select vehicle image !") :
+                                                                        !imageFileList[3] ? swal("Please select vehicle image !") :
+                                                                            !imageFileList[4] ? swal("Please select vehicle image !") :
+                                                                                !imageFileList[5] ? swal("Please select driver license image !") :
+                                                                                    !imageFileList[6] ? swal("Please select driver license image !") :
                                                                                         this.handleSaveVehicle();
     }
 
-    handleGetObject(){
+    handleGetObject() {
 
         return JSON.stringify(new Vehicle(
             vehicleId,
@@ -319,7 +320,7 @@ export class VehicleController {
                 formVehicleData.append('imageList', value);
             });
 
-            formVehicleData.append('vehicle', new Blob([vehicle], { type: "application/json" }));
+            formVehicleData.append('vehicle', new Blob([vehicle], {type: "application/json"}));
 
             $.ajax({
                 url: defaultGateway,
@@ -334,6 +335,7 @@ export class VehicleController {
                 success: (resp) => {
                     if (resp.code === 200) {
                         console.log(resp.message);
+                        swal("Save vehicle details successful !", "Click the ok !", "success");
                         this.handleLoadAllData(0, count);
                         this.handleReset();
                     }
@@ -390,7 +392,7 @@ export class VehicleController {
                 $('#vehicleUl li:last-child h3:nth-child(4)').text(value.versionType);
             });
             vehicleHasPage = true;
-        }else {
+        } else {
             vehicleHasPage = false;
         }
     }
@@ -519,7 +521,7 @@ export class VehicleController {
                 formVehicleData.append('imageList', value);
             });
 
-            formVehicleData.append('vehicle', new Blob([vehicle], { type: "application/json" }));
+            formVehicleData.append('vehicle', new Blob([vehicle], {type: "application/json"}));
 
             $.ajax({
                 url: defaultGateway,
@@ -534,6 +536,7 @@ export class VehicleController {
                 success: (resp) => {
                     if (resp.code === 200) {
                         console.log(resp.message);
+                        swal("Update successful !", "Click the ok !", "success");
                         this.handleLoadAllData(0, count);
                         this.handleReset();
                     }
@@ -551,32 +554,49 @@ export class VehicleController {
         const user = JSON.parse(localStorage.getItem("USER"));
 
         if (user) {
+            swal({
+                title: "Are you sure?",
+                text: "Do you want to delete this vehicle details !",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
 
-            const token = user.token;
+                        const token = user.token;
 
-            if (vehicleId) {
-                $.ajax({
-                    url: defaultGateway + "?vehicleId=" + vehicleId,
-                    method: "DELETE",
-                    dataType: "json",
-                    async: true,
-                    headers: {
-                        'Authorization': 'Bearer ' + token,
-                    },
-                    success: (resp) => {
-                        console.log(resp)
-                        if (resp.code === 200) {
-                            console.log(resp.message);
-                            this.handleLoadAllData(0, count);
-                            this.handleReset();
+                        if (vehicleId) {
+                            $.ajax({
+                                url: defaultGateway + "?vehicleId=" + vehicleId,
+                                method: "DELETE",
+                                dataType: "json",
+                                async: true,
+                                headers: {
+                                    'Authorization': 'Bearer ' + token,
+                                },
+                                success: (resp) => {
+                                    console.log(resp)
+                                    if (resp.code === 200) {
+                                        console.log(resp.message);
+                                        swal("Vehicle details has been deleted!", {
+                                            icon: "success",
+                                        });
+                                        this.handleLoadAllData(0, count);
+                                        this.handleReset();
+                                    }
+                                },
+                                error: (ob) => {
+                                    console.log(ob)
+                                    alert(ob.responseJSON.message);
+                                },
+                            });
                         }
-                    },
-                    error: (ob) => {
-                        console.log(ob)
-                        alert(ob.responseJSON.message);
-                    },
+                    } else {
+                        $("#vehicleView").click();
+                        swal("Your vehicle details is safe!");
+                    }
                 });
-            }
         }
     }
 
@@ -604,7 +624,7 @@ export class VehicleController {
 
         this.handleRemoveStyles();
 
-        for (let i = 0; i < imageFileList.length; i++){
+        for (let i = 0; i < imageFileList.length; i++) {
             imageFileList[i] = undefined;
         }
         vehicleId = null;
@@ -667,18 +687,21 @@ export class VehicleController {
         $("#vehicleView div.form-group.col-md-2 > i").removeClass('remove');
     }
 
-    handleHideEditButton(){
-        $('#vehicleView div.form-group.col-md-2 > i').css({'display' : 'none'});
-        $('#vehicleAddBtn').css({'display' : 'none'});
+    handleHideEditButton() {
+        $('#vehicleView div.form-group.col-md-2 > i').css({'display': 'none'});
+        $('#vehicleAddBtn').css({'display': 'none'});
     }
-    handleShowEditButton(){
-        $('#vehicleView div.form-group.col-md-2 > i').css({'display' : 'block'});
-        $('#vehicleAddBtn').css({'display' : 'flex'});
+
+    handleShowEditButton() {
+        $('#vehicleView div.form-group.col-md-2 > i').css({'display': 'block'});
+        $('#vehicleAddBtn').css({'display': 'flex'});
     }
 }
+
 export function handleHideVehicleEdit() {
     vehicleController.handleHideEditButton();
 }
+
 export function handleShowVehicleEdit() {
     vehicleController.handleShowEditButton();
 }

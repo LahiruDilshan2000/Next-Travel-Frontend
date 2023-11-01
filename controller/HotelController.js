@@ -61,10 +61,10 @@ export class HotelController {
         this.handleHotelContainerClickEvent();
     }
 
-    handleRestSearch(){
+    handleRestSearch() {
 
         const text = $('#searchHotelTxt');
-        if (text.val()){
+        if (text.val()) {
             this.handleLoadAllData(0, 6);
             hNextPage = 1;
             hCurrentPage = 0;
@@ -82,7 +82,7 @@ export class HotelController {
                     hNextPage++;
                 }
             }
-        }else {
+        } else {
             this.handleSearchHotel(hNextPage, count);
             if (hotelHasPage) {
                 hCurrentPage++;
@@ -99,7 +99,7 @@ export class HotelController {
                 hNextPage--;
                 this.handleLoadAllData(hCurrentPage, count);
             }
-        }else {
+        } else {
             if (hCurrentPage !== 0) {
                 hCurrentPage--;
                 hNextPage--;
@@ -184,31 +184,31 @@ export class HotelController {
         });
     }
 
-    handleSearchHotel(page, count){
+    handleSearchHotel(page, count) {
 
-       const category = $('#searchHotelTxt').val();
-       if(category) {
+        const category = $('#searchHotelTxt').val();
+        if (category) {
 
-           $.ajax({
-               url: defaultGateway + "/getAllWithCategory?page=" +
-                   page + "&count=" + count + "&category=" + category,
-               method: "GET",
-               processData: false,
-               contentType: false,
-               async: false,
-               success: (resp) => {
-                   if (resp.code === 200) {
-                       this.handleLoadItem(resp.data);
-                       console.log(resp.message);
+            $.ajax({
+                url: defaultGateway + "/getAllWithCategory?page=" +
+                    page + "&count=" + count + "&category=" + category,
+                method: "GET",
+                processData: false,
+                contentType: false,
+                async: false,
+                success: (resp) => {
+                    if (resp.code === 200) {
+                        this.handleLoadItem(resp.data);
+                        console.log(resp.message);
 
-                   }
-               },
-               error: (ob) => {
-                   console.log(ob)
-                   alert(ob.responseJSON.message);
-               },
-           });
-       }
+                    }
+                },
+                error: (ob) => {
+                    console.log(ob)
+                    alert(ob.responseJSON.message);
+                },
+            });
+        }
     }
 
     handleImageLoadEvent() {
@@ -225,34 +225,33 @@ export class HotelController {
             console.log("awad")
         }
     }
-
     handleValidation(fun) {
 
-        !/^[A-Za-z ]+$/.test($('#hotelNameTxt').val()) ? alert("Hotel name invalid or empty !") :
-            !hotelCategory ? alert("Hotel category or empty !") :
-                !/^[A-Za-z ]+$/.test($('#hotelLocationTxt').val()) ? alert("Hotel location invalid or empty !") :
-                    !/^\bhttps?:\/\/\S+\b/.test($('#hotelUrlTxt').val()) ? alert("Hotel location url empty !") :
-                        !/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/.test($('#hotelEmailTxt').val()) ? alert("Invalid email !") :
-                            !/^(075|077|071|074|078|076|070|072)([0-9]{7})$/.test($('#hotelContactTxt1').val()) ? alert("Invalid contact 1 !") :
-                                !/^(075|077|071|074|078|076|070|072)([0-9]{7})$/.test($('#hotelContactTxt2').val()) ? alert("Invalid contact 2") :
-                                    $('#hotelIsPetAllowCmb').val() === 'default' ? alert("Please select the pet allow section !") :
-                                        !/^[0-9]+$/.test($('#fullDFreeTxt').val()) ? alert("Full Luxury-D free invalid or empty !") :
-                                            !/^[0-9]+$/.test($('#halfDFreeTxt').val()) ? alert("Half Luxury-D free invalid or empty !") :
-                                                !/^[0-9]+$/.test($('#fullTFreeTxt').val()) ? alert("Full Luxury-T free invalid or empty !") :
-                                                    !/^[0-9]+$/.test($('#halfTFreeTxt').val()) ? alert("Half Luxury-T free invalid or empty !") :
-                                                        $('#hotelCriteriaCmb').val() === 'default' ? alert("Please select Cancellation criteria section !") :
+        !/^[A-Za-z ]+$/.test($('#hotelNameTxt').val()) ? swal("Hotel name invalid or empty !") :
+            !hotelCategory ? swal("Hotel category or empty !") :
+                !/^[A-Za-z ]+$/.test($('#hotelLocationTxt').val()) ? swal("Hotel location invalid or empty !") :
+                    !/^\bhttps?:\/\/\S+\b/.test($('#hotelUrlTxt').val()) ? swal("Hotel location url empty !") :
+                        !/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/.test($('#hotelEmailTxt').val()) ? swal("Invalid email !") :
+                            !/^(075|077|071|074|078|076|070|072)([0-9]{7})$/.test($('#hotelContactTxt1').val()) ? swal("Invalid contact 1 !") :
+                                !/^(075|077|071|074|078|076|070|072)([0-9]{7})$/.test($('#hotelContactTxt2').val()) ? swal("Invalid contact 2") :
+                                    $('#hotelIsPetAllowCmb').val() === 'default' ? swal("Please select the pet allow section !") :
+                                        !/^[0-9]+$/.test($('#fullDFreeTxt').val()) ? swal("Full Luxury-D free invalid or empty !") :
+                                            !/^[0-9]+$/.test($('#halfDFreeTxt').val()) ? swal("Half Luxury-D free invalid or empty !") :
+                                                !/^[0-9]+$/.test($('#fullTFreeTxt').val()) ? swal("Full Luxury-T free invalid or empty !") :
+                                                    !/^[0-9]+$/.test($('#halfTFreeTxt').val()) ? swal("Half Luxury-T free invalid or empty !") :
+                                                        $('#hotelCriteriaCmb').val() === 'default' ? swal("Please select Cancellation criteria section !") :
                                                             fun === 'update' ? this.handleUpdateHotel() :
-                                                                !$('#hotelAddImgFile')[0].files[0] ? alert("Please select the image !") :
+                                                                !$('#hotelAddImgFile')[0].files[0] ? swal("Please select the image !") :
                                                                     this.handleSaveHotel();
     }
 
     handleGetHotelObject() {
 
         const contact1 = {
-            contact: $('#hotelContactTxt1').val()+""
+            contact: $('#hotelContactTxt1').val() + ""
         }
         const contact2 = {
-            contact: $('#hotelContactTxt2').val()+""
+            contact: $('#hotelContactTxt2').val() + ""
         }
 
         const contactList = [contact1, contact2];
@@ -288,7 +287,7 @@ export class HotelController {
             const formHotelData = new FormData();
 
             formHotelData.append('file', hotelImageFile);
-            formHotelData.append('hotel', new Blob([hotel], { type: "application/json" }));
+            formHotelData.append('hotel', new Blob([hotel], {type: "application/json"}));
 
             $.ajax({
                 url: defaultGateway,
@@ -303,6 +302,7 @@ export class HotelController {
                 success: (resp) => {
                     if (resp.code === 200) {
                         console.log(resp.message);
+                        swal("Save hotel details successful !", "Click the ok !", "success");
                         this.handleLoadAllData(0, count);
                         this.handleReset();
                     }
@@ -334,7 +334,7 @@ export class HotelController {
     handleLoadAllData(page, count) {
 
         $.ajax({
-            url: defaultGateway + "/getAll?page="+ page + "&count="+ count,
+            url: defaultGateway + "/getAll?page=" + page + "&count=" + count,
             method: "GET",
             processData: false,
             contentType: false,
@@ -389,7 +389,7 @@ export class HotelController {
                 }
             });
             hotelHasPage = true;
-        }else {
+        } else {
             hotelHasPage = false;
         }
     }
@@ -429,8 +429,8 @@ export class HotelController {
             "display": "none"
         });
 
-        $('#updateHotelBtn').css({'display' : 'none'});
-        $('#saveHotelBtn').css({'display' : 'block'});
+        $('#updateHotelBtn').css({'display': 'none'});
+        $('#saveHotelBtn').css({'display': 'block'});
 
         hNextPage = 1;
         hCurrentPage = 0;
@@ -503,29 +503,47 @@ export class HotelController {
 
         if (user) {
 
-            const token = user.token;
+            swal({
+                title: "Are you sure?",
+                text: "Do you want to delete this hotel details !",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        const token = user.token;
 
-            $.ajax({
-                url: defaultGateway + "?hotelId=" + hotelId,
-                method: "DELETE",
-                processData: false,
-                contentType: false,
-                async: true,
-                headers: {
-                    'Authorization': 'Bearer ' + token,
-                },
-                success: (resp) => {
-                    if (resp.code === 200) {
-                        console.log(resp.message);
-                        this.handleLoadAllData(0, count);
-                        this.handleReset();
+                        $.ajax({
+                            url: defaultGateway + "?hotelId=" + hotelId,
+                            method: "DELETE",
+                            processData: false,
+                            contentType: false,
+                            async: true,
+                            headers: {
+                                'Authorization': 'Bearer ' + token,
+                            },
+                            success: (resp) => {
+                                if (resp.code === 200) {
+                                    console.log(resp.message);
+                                    swal("Hotel details has been deleted!", {
+                                        icon: "success",
+                                    });
+                                    this.handleLoadAllData(0, count);
+                                    this.handleReset();
+                                }
+                            },
+                            error: (ob) => {
+                                console.log(ob)
+                                alert(ob.responseJSON.message);
+                            },
+                        });
+
+                    } else {
+                        $("#hotelView").click();
+                        swal("Your hotel details is safe!");
                     }
-                },
-                error: (ob) => {
-                    console.log(ob)
-                    alert(ob.responseJSON.message);
-                },
-            });
+                });
         }
     }
 
@@ -554,8 +572,8 @@ export class HotelController {
         hotelId = data.hotelId;
         hotelImageFile = this.handleGetNewImgFile(data.hotelImageLocation, 'hotelImage');
 
-        $('#updateHotelBtn').css({'display' : 'block'});
-        $('#saveHotelBtn').css({'display' : 'none'});
+        $('#updateHotelBtn').css({'display': 'block'});
+        $('#saveHotelBtn').css({'display': 'none'});
 
         this.handleAddHotelContainer();
     }
@@ -583,7 +601,7 @@ export class HotelController {
             const formHotelData = new FormData();
 
             formHotelData.append('file', hotelImageFile);
-            formHotelData.append('hotel', new Blob([hotel], { type: "application/json" }));
+            formHotelData.append('hotel', new Blob([hotel], {type: "application/json"}));
 
             $.ajax({
                 url: defaultGateway,
@@ -597,6 +615,7 @@ export class HotelController {
                 },
                 success: (resp) => {
                     if (resp.code === 200) {
+                        swal("Update successful !", "Click the ok !", "success");
                         console.log(resp.message);
                         this.handleLoadAllData(0, count);
                         this.handleReset();
@@ -610,19 +629,21 @@ export class HotelController {
         }
     }
 
-    handleHideEditButton(){
-        $('#hotelView div.form-group.col-md-2 i').css({'display' : 'none'});
-        $('#addHotelBtn').css({'display' : 'none'});
+    handleHideEditButton() {
+        $('#hotelView div.form-group.col-md-2 i').css({'display': 'none'});
+        $('#addHotelBtn').css({'display': 'none'});
     }
-    handleShowEditButton(){
-        $('#hotelView div.form-group.col-md-2 i').css({'display' : 'block'});
-        $('#addHotelBtn').css({'display' : 'flex'});
+
+    handleShowEditButton() {
+        $('#hotelView div.form-group.col-md-2 i').css({'display': 'block'});
+        $('#addHotelBtn').css({'display': 'flex'});
     }
 }
 
 export function handleHideHotelEdit() {
     hotelController.handleHideEditButton();
 }
+
 export function handleShowHotelEdit() {
     hotelController.handleShowEditButton();
 }

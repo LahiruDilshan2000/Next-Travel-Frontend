@@ -90,7 +90,7 @@ export class EditPackageController {
         });
         $('#showR').on('click', 'i', (event) => {
             this.handleRemoveRoom(event);
-            this.handleTotalFree();
+            this.handleSetLastPrice();
         });
         $('#startDateTxt').on('change', () => {
             this.handleSetEndMinDate();
@@ -121,7 +121,7 @@ export class EditPackageController {
 
     handleSetEndMinDate() {
 
-        if ($('#nextPkgBtn').is(':visible')) {
+        if ($('#nextUpdatePkgBtn').is(':visible')) {
             let endValue = new Date($('#startDateTxt').val());
             const end = $('#endDateTxt');
             endValue.setDate(endValue.getDate() + 1);
@@ -134,12 +134,14 @@ export class EditPackageController {
 
     handleAddRoom() {
 
-        if ($('#nextPkgBtn').is(':visible')) {
+        if ($('#nextUpdatePkgBtn').is(':visible') || $('#nextPkgBtn').is(':visible')) {
 
             const x = $('#roomQtyTxt').val();
             const cmbVal = $('#CategoryCmb').val();
 
             if (x && cmbVal !== 'default') {
+                $('#roomQtyTxt').val('')
+                swal("Room added successful !", "Click the ok !", "success");
                 for (let i = 0; i < roomArray.length; i++) {
                     if (roomArray[i].roomType === cmbVal) {
                         roomArray[i].qty += parseInt(x);
@@ -158,7 +160,7 @@ export class EditPackageController {
 
     handleTotalFree() {
 
-        if ($('#nextPkgBtn').is(':visible') || $('#backPkgBtn').is(':visible')) {
+        if ($('#nextUpdatePkgBtn').is(':visible')) {
             if (roomArray.length !== 0) {
 
                 let tot = 0;
@@ -179,7 +181,7 @@ export class EditPackageController {
 
     handleSetRoomPrice(hotel) {
 
-        if ($('#nextPkgBtn').is(':visible')) {
+        if ($('#nextUpdatePkgBtn').is(':visible') || $('#nextPkgBtn').is(':visible')) {
 
             const x = $('#CategoryCmb').val();
             const y = $('#priceLbl');
@@ -194,7 +196,7 @@ export class EditPackageController {
 
     handleRemoveRoom(event) {
 
-        if ($('#nextPkgBtn').is(':visible') || $('#backPkgBtn').is(':visible')) {
+        if ($('#nextUpdatePkgBtn').is(':visible') || $('#nextPkgBtn').is(':visible')) {
             const index = parseInt($(event.target).closest('li').find('h2').text());
             roomArray.splice(index, 1);
             this.handleViewCart();
@@ -211,9 +213,9 @@ export class EditPackageController {
 
     handleNextHotelList() {
 
-        if ($('#nextPkgBtn').is(':visible')) {
+        if ($('#nextPkgBtn').is(':visible') || $('#nextUpdatePkgBtn').is(':visible')) {
             if (hNextPage !== 0) {
-                this.handleGetHotelList(hNextPage, vCount, hotelCategory);
+                this.handleGetHotelList(hNextPage, vCount, parseInt(hotelCategory));
                 this.handleSetOldHotel();
                 if (hotelHasPage) {
                     hCurrentPage++;
@@ -225,7 +227,7 @@ export class EditPackageController {
 
     handlePreviousHotelList() {
 
-        if ($('#nextPkgBtn').is(':visible')) {
+        if ($('#nextPkgBtn').is(':visible') || $('#nextUpdatePkgBtn').is(':visible')) {
             if (hCurrentPage !== 0) {
                 hCurrentPage--;
                 hNextPage--;
@@ -237,7 +239,7 @@ export class EditPackageController {
 
     handleNextVehicleList() {
 
-        if ($('#nextPkgBtn').is(':visible')) {
+        if ($('#nextPkgBtn').is(':visible') || $('#nextUpdatePkgBtn').is(':visible')) {
             if (vNextPage !== 0) {
                 this.handleGetVehicleList(vNextPage, vCount, vehicleCategory);
                 this.handleSetOldVehicle();
@@ -251,7 +253,7 @@ export class EditPackageController {
 
     handlePreviousVehicleList() {
 
-        if ($('#nextPkgBtn').is(':visible')) {
+        if ($('#nextPkgBtn').is(':visible') || $('#nextUpdatePkgBtn').is(':visible')) {
             if (vCurrentPage !== 0) {
                 vCurrentPage--;
                 vNextPage--;
@@ -263,7 +265,7 @@ export class EditPackageController {
 
     handleAddSelectHotel(event) {
 
-        if ($('#nextPkgBtn').is(':visible')) {
+        if ($('#nextPkgBtn').is(':visible') || $('#nextUpdatePkgBtn').is(':visible')) {
 
             const newId = $(event.target).closest('li').find('h2').text();
 
@@ -278,7 +280,7 @@ export class EditPackageController {
 
     handleAddSelectVehicleStyle(event) {
 
-        if ($('#nextPkgBtn').is(':visible')) {
+        if ($('#nextPkgBtn').is(':visible') || $('#nextUpdatePkgBtn').is(':visible')) {
 
             const newId = $(event.target).closest('li').find('h2').text();
 
@@ -292,7 +294,7 @@ export class EditPackageController {
 
     handleSavePackage() {
 
-        if ($('#nextPkgBtn').is(':visible') || $('#backPkgBtn').is(':visible')) {
+        if ($('#backPkgBtn').is(':visible')) {
 
             const user = JSON.parse(localStorage.getItem("USER"));
 
@@ -336,7 +338,7 @@ export class EditPackageController {
                     success: (resp) => {
                         if (resp.code === 200) {
                             console.log(resp.message);
-                            alert(resp.message);
+                            swal("Package save successful !", "Click the ok !", "success");
                             this.handleReset();
                             this.handleLoadAll(0, count);
                         }
@@ -431,7 +433,7 @@ export class EditPackageController {
 
     handleSetFreeGuide() {
 
-        if ($('#nextPkgBtn').is(':visible')) {
+        if ($('#nextUpdatePkgBtn').is(':visible') || $('#nextPkgBtn').is(':visible')) {
 
             const user = JSON.parse(localStorage.getItem("USER"));
 
@@ -450,6 +452,7 @@ export class EditPackageController {
                     },
                     success: (resp) => {
                         if (resp.code === 200) {
+
                             this.handleAddGuide(resp.data);
                             console.log(resp.message);
                         }
@@ -581,27 +584,27 @@ export class EditPackageController {
     handleAnotherValidation() {
 
         if (roomArray.length === 0) {
-            alert('Please add the rooms for package !');
+            swal('Please add the rooms for package !');
             return false;
         }
         if (!/^[0-9]+$/.test($('#noOfAdultsTxt').val())) {
-            alert("Adult count invalid or empty !");
+            swal("Adult count invalid or empty !");
             return false;
         }
         if (!/^[0-9]+$/.test($('#noOfChildrenTxt').val())) {
-            alert("Children count invalid or empty !");
+            swal("Children count invalid or empty !");
             return false;
         }
         if ($('#pkgCustomerCmb').val() === 'default') {
-            alert("Please select the customer !");
+            swal("Please select the customer !");
             return false;
         }
         if (!/^(075|077|071|074|078|076|070|072)([0-9]{7})$/.test($('#pkgContactTxt').val())) {
-            alert("Invalid contact !");
+            swal("Invalid contact !");
             return false;
         }
         if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/.test($('#pkgEmailTxt').val())) {
-            alert("Invalid email !");
+            swal("Invalid email !");
             return false;
         }
         $('#orderIdLbl').text(this.handleGetOrderId());
@@ -643,7 +646,7 @@ export class EditPackageController {
 
         console.log(travelArea)
         if (pkgCategory === null) {
-            alert('Please select the package category !');
+            swal('Please select the package category !');
             return false;
         }
         if (array[nextPage] === '#travel-area') {
@@ -651,7 +654,7 @@ export class EditPackageController {
             return true;
         }
         if (travelArea.length === 0) {
-            alert('Please select our travel area !');
+            swal('Please select our travel area !');
             return false;
         }
         if (travelArea.length !== 0 && array[nextPage] === '#vehicle-container') {
@@ -660,7 +663,7 @@ export class EditPackageController {
             return true;
         }
         if (vehicleId === null && array[nextPage] === '#hotel-container') {
-            alert('Please select your vehicle !');
+            swal('Please select your vehicle !');
             return false;
         }
         if (vehicleId !== null && array[nextPage] === '#hotel-container') {
@@ -669,7 +672,7 @@ export class EditPackageController {
             return true;
         }
         if (hotelId === null && array[nextPage] === '#other-details-container') {
-            alert('Please select your hotel !')
+            swal('Please select your hotel !')
             return false;
         }
         if (hotelId !== null && array[nextPage] === '#other-details-container') {
@@ -683,14 +686,18 @@ export class EditPackageController {
 
     handleSetLastPrice() {
 
-        if ($('#nextPkgBtn').is(':visible')) {
-            console.log("wadawaaaaaaaaaaaaaa")
+        if ($('#nextPkgBtn').is(':visible') || $('#nextUpdatePkgBtn').is(':visible')) {
+
             let tot = 0;
             let days = this.handleGetDateCount();
 
+            console.log(days)
+            console.log(roomArray)
             roomArray.map(value => {
                 tot += ((value.price * days) * value.qty);
             });
+
+            console.log(tot + '  vehicle');
 
             const vehicle = this.HandleGetVehicle(vehicleId);
 
@@ -699,12 +706,13 @@ export class EditPackageController {
             let guide = "NoGuide";
 
             if ($('#guideCmb').val() !== 'No guide') {
-                console.log("wdad")
+
                 guide = this.handleGetGuide($('#guideCmb').val());
             }
             if (guide !== "NoGuide") {
                 tot += (guide.manDayValue * days);
             }
+            console.log(tot)
             $('#totLbl').text(tot);
             $('#totalLbl').text(tot);
         }
@@ -734,7 +742,7 @@ export class EditPackageController {
                 },
                 error: (ob) => {
                     console.log(ob)
-                    alert(ob.responseJSON.message);
+                    console.log(ob.responseJSON.message);
                 },
             });
             return guide;
@@ -1030,8 +1038,8 @@ export class EditPackageController {
             packageId = $(event.target).closest('li').find('h3:nth-child(1)').text();
 
             const x = document.getElementById('showPayment');
-            if (x.offsetHeight === 300){
-                $('#showPayment').css({'height':'0', 'width':'0', 'padding':'0'});
+            if (x.offsetHeight === 300) {
+                $('#showPayment').css({'height': '0', 'width': '0', 'padding': '0'});
                 return;
             }
 
@@ -1069,8 +1077,8 @@ export class EditPackageController {
             packageId = $(event.target).closest('li').find('h3:nth-child(1)').text();
 
             const x = document.getElementById('showPayment');
-            if (x.offsetHeight === 300){
-                $('#showPayment').css({'height':'0', 'width':'0', 'padding':'0'});
+            if (x.offsetHeight === 300) {
+                $('#showPayment').css({'height': '0', 'width': '0', 'padding': '0'});
                 return;
             }
 
@@ -1078,28 +1086,44 @@ export class EditPackageController {
 
             if (user) {
 
-                const token = user.token;
-                $.ajax({
-                    url: defaultGateway + "?packageId=" + packageId,
-                    method: "DELETE",
-                    processData: false,
-                    contentType: false,
-                    async: true,
-                    headers: {
-                        'Authorization': 'Bearer ' + token,
-                    },
-                    success: (resp) => {
-                        if (resp.code === 200) {
-                            alert(resp.message);
-                            this.handleLoadAll(0, count);
-                            console.log(resp.message);
+                swal({
+                    title: "Are you sure?",
+                    text: "Do you want to delete this package details !",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                    .then((willDelete) => {
+                        if (willDelete) {
+
+                            const token = user.token;
+                            $.ajax({
+                                url: defaultGateway + "?packageId=" + packageId,
+                                method: "DELETE",
+                                processData: false,
+                                contentType: false,
+                                async: true,
+                                headers: {
+                                    'Authorization': 'Bearer ' + token,
+                                },
+                                success: (resp) => {
+                                    if (resp.code === 200) {
+                                        swal("Package details has been deleted!", {
+                                            icon: "success",
+                                        });
+                                        this.handleLoadAll(0, count);
+                                        console.log(resp.message);
+                                    }
+                                },
+                                error: (ob) => {
+                                    console.log(ob)
+                                    alert(ob.responseJSON.message);
+                                },
+                            });
+                        } else {
+                            swal("Your package details is safe!");
                         }
-                    },
-                    error: (ob) => {
-                        console.log(ob)
-                        alert(ob.responseJSON.message);
-                    },
-                });
+                    });
             }
         });
     }
@@ -1306,17 +1330,17 @@ export class EditPackageController {
     handleValidationOfUpdate() {
 
         roomArray.length === 0 ?
-            alert('Please add the rooms for package !') :
+            swal('Please add the rooms for package !') :
             !/^[0-9]+$/.test($('#noOfAdultsTxt').val()) ?
-                alert("Adult count invalid or empty !") :
+                swal("Adult count invalid or empty !") :
                 !/^[0-9]+$/.test($('#noOfChildrenTxt').val()) ?
-                    alert("Children count invalid or empty !") :
+                    swal("Children count invalid or empty !") :
                     $('#pkgCustomerCmb').val() === 'default' ?
-                        alert("Please select the customer !") :
+                        swal("Please select the customer !") :
                         !/^(075|077|071|074|078|076|070|072)([0-9]{7})$/.test($('#pkgContactTxt').val()) ?
-                            alert("Invalid contact !") :
+                            swal("Invalid contact !") :
                             !/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/.test($('#pkgEmailTxt').val()) ?
-                                alert("Invalid email !") :
+                                swal("Invalid email !") :
                                 this.handleUpdatePackage();
 
     }
@@ -1340,7 +1364,7 @@ export class EditPackageController {
                 $('#pkgContactTxt').val(),
                 $('#pkgEmailTxt').val(),
                 parseInt($('#totalLbl').text()),
-                "Not payed",
+                updatePackage.paidValue,
                 $('#startDateTxt').val(),
                 $('#endDateTxt').val(),
                 new Date(updatePackage.bookedDate).toISOString(),
@@ -1364,7 +1388,7 @@ export class EditPackageController {
                 success: (resp) => {
                     if (resp.code === 200) {
                         console.log(resp.message);
-                        alert(resp.message);
+                        swal("Update successful !", "Click the ok !", "success");
                         this.handleReset();
                         this.handleLoadAll(0, count);
                     }
@@ -1380,7 +1404,7 @@ export class EditPackageController {
     handleUpdatedValidation() {
 
         if (pkgCategory === null) {
-            alert('Please select the package category !');
+            swal('Please select the package category !');
             return false;
         }
         if (array[nextPage] === '#travel-area') {
@@ -1389,7 +1413,7 @@ export class EditPackageController {
             return true;
         }
         if (travelArea.length === 0) {
-            alert('Please select your travel area !');
+            swal('Please select your travel area !');
             return false;
         }
         if (travelArea.length !== 0 && array[nextPage] === '#vehicle-container') {
@@ -1399,7 +1423,7 @@ export class EditPackageController {
             return true;
         }
         if (vehicleId === null && array[nextPage] === '#hotel-container') {
-            alert('Please select your vehicle !');
+            swal('Please select your vehicle !');
             return false;
         }
         if (vehicleId !== null && array[nextPage] === '#hotel-container') {
@@ -1409,7 +1433,7 @@ export class EditPackageController {
             return true;
         }
         if (hotelId === null && array[nextPage] === '#other-details-container') {
-            alert('Please select your hotel !')
+            swal('Please select your hotel !')
             return false;
         }
         if (hotelId !== null && array[nextPage] === '#other-details-container') {
@@ -1422,10 +1446,10 @@ export class EditPackageController {
                 $("#withPetCmb").val(updatePackage.withPetOrNo);
                 roomArray = updatePackage.roomDetailList;
                 $("#totalLbl").text(updatePackage.packageValue);
-            }
-            else {
+            } else {
                 roomArray = [];
             }
+            console.log(updatePackage.userNic)
             $("#pkgCustomerCmb").val(updatePackage.userNic);
             $("#pkgEmailTxt").val(updatePackage.email);
             $("#startDateTxt").val(new Date(updatePackage.startDate).toISOString().split('T')[0]);
@@ -1435,6 +1459,7 @@ export class EditPackageController {
             $("#headCountLbl").text(updatePackage.headCount);
             $("#pkgContactTxt").val(updatePackage.contact);
             this.handleSetFreeGuide();
+            console.log(updatePackage.guideId)
             $("#guideCmb").val(updatePackage.guideId);
             return true;
         }
@@ -1526,26 +1551,26 @@ export class EditPackageController {
         }
     }
 
-    handleShowAddButton(){
+    handleShowAddButton() {
 
-        $('#nextPkgBtn').css({'display':'block'});
-        $('#backPkgBtn').css({'display':'block'});
+        $('#nextPkgBtn').css({'display': 'block'});
+        $('#backPkgBtn').css({'display': 'block'});
     }
 
-    handleShowUpdateButton(){
+    handleShowUpdateButton() {
 
-        $('#nextUpdatePkgBtn').css({'display':'block'}).text('Next');
-        $('#backPkgBtn').css({'display':'block'});
+        $('#nextUpdatePkgBtn').css({'display': 'block'}).text('Next');
+        $('#backPkgBtn').css({'display': 'block'});
     }
 
-    handleHideAllButtons(){
+    handleHideAllButtons() {
 
-        $('#backBtn').css({'display':'none'});
-        $('#nextBtn').css({'display':'none'});
-        $('#backPkgBtn').css({'display':'none'});
-        $('#nextPkgBtn').css({'display':'none'});
-        $('#nextUpdatePkgBtn').css({'display':'none'});
-        $('#nextUserUpdatePkgBtn').css({'display':'none'});
+        $('#backBtn').css({'display': 'none'});
+        $('#nextBtn').css({'display': 'none'});
+        $('#backPkgBtn').css({'display': 'none'});
+        $('#nextPkgBtn').css({'display': 'none'});
+        $('#nextUpdatePkgBtn').css({'display': 'none'});
+        $('#nextUserUpdatePkgBtn').css({'display': 'none'});
     }
 
     handleSearch() {
@@ -1579,7 +1604,7 @@ export class EditPackageController {
                         alert(ob.responseJSON.message);
                     },
                 });
-            }else {
+            } else {
                 this.handleLoadAll(0, count)
             }
         }

@@ -136,12 +136,12 @@ export class GuideController {
                             console.log(resp.message);
                         }
                     },
-                    error: (ob,x, y) => {
+                    error: (ob, x, y) => {
                         console.log(x.responseJSON.message)
                         console.log(y.responseJSON.message)
-                        if (ob === null || ob === undefined){
+                        if (ob === null || ob === undefined) {
                             alert("session expire");
-                        }else {
+                        } else {
                             console.log(ob)
                             console.log("aaaaaa")
                             alert(ob.responseJSON.message);
@@ -161,18 +161,18 @@ export class GuideController {
 
     handleValidation(fun) {
 
-        !/^[A-Za-z ]+$/.test($('#guideNameTxt').val()) ? alert("Guide name or empty !") :
-            !/^[A-Za-z ]+$/.test($('#guideAddressTxt').val()) ? alert("Guide address or empty !") :
-                !/^[0-9]+$/.test($('#guideAgeTxt').val()) ? alert("Guide age invalid or empty !") :
-                    $('#guideGenderCmb').val() === 'default' ? alert("Guide gender invalid or empty !") :
-                        !/^(075|077|071|074|078|076|070|072)([0-9]{7})$/.test($('#guideContactTxt').val()) ? alert("Invalid contact !") :
-                            !/^[0-9]+$/.test($('#guideManDayValueTxt').val()) ? alert("Man day value invalid or empty !") :
+        !/^[A-Za-z ]+$/.test($('#guideNameTxt').val()) ? swal("Guide name or empty !") :
+            !/^[A-Za-z ]+$/.test($('#guideAddressTxt').val()) ? swal("Guide address or empty !") :
+                !/^[0-9]+$/.test($('#guideAgeTxt').val()) ? swal("Guide age invalid or empty !") :
+                    $('#guideGenderCmb').val() === 'default' ? swal("Guide gender invalid or empty !") :
+                        !/^(075|077|071|074|078|076|070|072)([0-9]{7})$/.test($('#guideContactTxt').val()) ? swal("Invalid contact !") :
+                            !/^[0-9]+$/.test($('#guideManDayValueTxt').val()) ? swal("Man day value invalid or empty !") :
                                 fun === 'update' ? this.handleUpdateGuide(guideId) :
-                                    !imageFileList[0] ? alert("Please select the guide image !") :
-                                        !imageFileList[1] ? alert("Please select the Nic image !") :
-                                            !imageFileList[2] ? alert("Please select the Nic image !") :
-                                                !imageFileList[3] ? alert("Please select guide ID image !") :
-                                                    !imageFileList[4] ? alert("Please select guide ID image !") :
+                                    !imageFileList[0] ? swal("Please select the guide image !") :
+                                        !imageFileList[1] ? swal("Please select the Nic image !") :
+                                            !imageFileList[2] ? swal("Please select the Nic image !") :
+                                                !imageFileList[3] ? swal("Please select guide ID image !") :
+                                                    !imageFileList[4] ? swal("Please select guide ID image !") :
                                                         this.handleSaveGuide();
     }
 
@@ -206,7 +206,7 @@ export class GuideController {
                 formGuideData.append('imageList', value);
             });
 
-            formGuideData.append('guide', new Blob([guide], { type: "application/json" }));
+            formGuideData.append('guide', new Blob([guide], {type: "application/json"}));
 
             $.ajax({
                 url: defaultGateway,
@@ -221,6 +221,7 @@ export class GuideController {
                 success: (resp) => {
                     if (resp.code === 200) {
                         console.log(resp.message);
+                        swal("Save guide details successful !", "Click the ok !", "success");
                         this.handleLoadAllData(0, count);
                         this.handleReset();
                     }
@@ -257,16 +258,16 @@ export class GuideController {
                         console.log(resp.message);
                     }
                 },
-                error: (ob,x, y) => {
+                error: (ob, x, y) => {
                     console.log(ob)
                     console.log(x)
                     console.log(y)
-                    if (ob.responseJSON.message === undefined){
+                    if (ob.responseJSON.message === undefined) {
 
                         alert("session expire");
                         localStorage.removeItem("USER");
-                       // reLogin();
-                    }else {
+                        // reLogin();
+                    } else {
                         alert(ob.responseJSON.message);
                     }
                 },
@@ -278,30 +279,30 @@ export class GuideController {
 
         if (data.length !== 0) {
 
-        $('#guideUl li').remove();
+            $('#guideUl li').remove();
 
-        data.map(value => {
+            data.map(value => {
 
-            let li = "<li>\n" +
-                "                    <img src=\"assets/images/google.png\">\n" +
-                "                    <h3>null</h3>\n" +
-                "                    <h3>null</h3>\n" +
-                "                    <h3>null</h3>\n" +
-                "                    <h3>null</h3>\n" +
-                "                    <h3>null</h3>\n" +
-                "                    <h3>null</h3>\n" +
-                "                    <button type=\"button\">Edit</button>\n" +
-                "                </li>";
+                let li = "<li>\n" +
+                    "                    <img src=\"assets/images/google.png\">\n" +
+                    "                    <h3>null</h3>\n" +
+                    "                    <h3>null</h3>\n" +
+                    "                    <h3>null</h3>\n" +
+                    "                    <h3>null</h3>\n" +
+                    "                    <h3>null</h3>\n" +
+                    "                    <h3>null</h3>\n" +
+                    "                    <button type=\"button\">Edit</button>\n" +
+                    "                </li>";
 
-            $('#guideUl').append(li);
-            $('#guideUl li:last-child img').attr('src', `data:image/png;base64,${value.imageList[0]}`);
-            $('#guideUl li:last-child h3:nth-child(2)').text(value.guideId);
-            $('#guideUl li:last-child h3:nth-child(3)').text(value.name);
-            $('#guideUl li:last-child h3:nth-child(4)').text(value.address);
-            $('#guideUl li:last-child h3:nth-child(5)').text(value.age);
-            $('#guideUl li:last-child h3:nth-child(6)').text(value.gender);
-            $('#guideUl li:last-child h3:nth-child(7)').text(value.contact);
-        });
+                $('#guideUl').append(li);
+                $('#guideUl li:last-child img').attr('src', `data:image/png;base64,${value.imageList[0]}`);
+                $('#guideUl li:last-child h3:nth-child(2)').text(value.guideId);
+                $('#guideUl li:last-child h3:nth-child(3)').text(value.name);
+                $('#guideUl li:last-child h3:nth-child(4)').text(value.address);
+                $('#guideUl li:last-child h3:nth-child(5)').text(value.age);
+                $('#guideUl li:last-child h3:nth-child(6)').text(value.gender);
+                $('#guideUl li:last-child h3:nth-child(7)').text(value.contact);
+            });
             guideHasPage = true;
         } else {
             guideHasPage = false;
@@ -369,7 +370,7 @@ export class GuideController {
                 formGuideData.append('imageList', value);
             });
 
-            formGuideData.append('guide', new Blob([guide], { type: "application/json" }));
+            formGuideData.append('guide', new Blob([guide], {type: "application/json"}));
 
             $.ajax({
                 url: defaultGateway,
@@ -384,6 +385,7 @@ export class GuideController {
                 success: (resp) => {
                     if (resp.code === 200) {
                         console.log(resp.message);
+                        swal("Update successful !", "Click the ok !", "success");
                         this.handleLoadAllData(0, count);
                         this.handleReset();
                     }
@@ -401,30 +403,47 @@ export class GuideController {
         const user = JSON.parse(localStorage.getItem("USER"));
 
         if (user) {
+            swal({
+                title: "Are you sure?",
+                text: "Do you want to delete this guide details !",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
 
-            const token = user.token;
+                        const token = user.token;
 
-            $.ajax({
-                url: defaultGateway + "?guideId=" + guideId,
-                method: "DELETE",
-                processData: false,
-                contentType: false,
-                async: true,
-                headers: {
-                    'Authorization': 'Bearer ' + token,
-                },
-                success: (resp) => {
-                    if (resp.code === 200) {
-                        console.log(resp.message);
-                        this.handleLoadAllData(0, count);
-                        this.handleReset();
+                        $.ajax({
+                            url: defaultGateway + "?guideId=" + guideId,
+                            method: "DELETE",
+                            processData: false,
+                            contentType: false,
+                            async: true,
+                            headers: {
+                                'Authorization': 'Bearer ' + token,
+                            },
+                            success: (resp) => {
+                                if (resp.code === 200) {
+                                    console.log(resp.message);
+                                    swal("Guide details has been deleted!", {
+                                        icon: "success",
+                                    });
+                                    this.handleLoadAllData(0, count);
+                                    this.handleReset();
+                                }
+                            },
+                            error: (ob) => {
+                                console.log(ob)
+                                alert(ob.responseJSON.message);
+                            },
+                        });
+                    } else {
+                        $('#guideAddFilter').click();
+                        swal("Your guide details is safe!");
                     }
-                },
-                error: (ob) => {
-                    console.log(ob)
-                    alert(ob.responseJSON.message);
-                },
-            });
+                });
         }
     }
 
@@ -447,7 +466,7 @@ export class GuideController {
 
         guideId = null;
 
-        for (let i = 0; i < imageFileList.length; i++){
+        for (let i = 0; i < imageFileList.length; i++) {
             imageFileList[0] = undefined;
         }
         document.body.style.overflow = 'auto';
@@ -499,12 +518,13 @@ export class GuideController {
                         alert(ob.responseJSON.message);
                     },
                 });
-            }else {
+            } else {
                 this.handleLoadAllData(0, count)
             }
         }
     }
 }
+
 export function loadGuide() {
     console.log("------------")
     guideController.handleLoadAllData(0, count);

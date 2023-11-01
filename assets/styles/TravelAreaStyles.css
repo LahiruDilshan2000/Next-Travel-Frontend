@@ -1,4 +1,110 @@
-.travelArea {
+#travelAreaContainer {
+    width: 100%;
     height: 100vh;
-    padding: 0 150px;
+    position: relative;
+}
+.travel-container{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 80%;
+    background: #f5f5f5;
+    box-shadow: 0 30px 50px #505050;
+}
+.travel-container .slider .item{
+    width: 200px;
+    height: 300px;
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    border-radius: 20px;
+    box-shadow: 0 30px 50px #505050;
+    background-position: 50% 50%;
+    background-size: cover;
+    display: inline-block;
+    transition: 0.8s;
+}
+.slider .item:nth-child(1),.slider .item:nth-child(2){
+    top: 0;
+    left: 0;
+    transform: translate(0, 0);
+    border-radius: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: none;
+}
+.slider .item:nth-child(3){
+    left: 50%;
+}
+.slider .item:nth-child(4){
+    left: calc(50% + 220px);
+}
+.slider .item:nth-child(5){
+    left: calc(50% + 440px);
+}
+.slider .item:nth-child(n + 6){
+    left: calc(50% + 660px);
+    opacity: 0;
+}
+.item .content{
+    position: absolute;
+    top: 50%;
+    left: 100px;
+    width: 300px;
+    text-align: left;
+    color: #eee;
+    transform: translate(0, -50%);
+    font-family: system-ui;
+    display: none;
+}
+.slider .item:nth-child(2) .content{
+    display: block;
+}
+
+.content .name{
+    font-size: 30px;
+    font-weight: bold;
+    opacity: 0;
+    animation: animate 1s ease-in-out 1 forwards;
+}
+.content .des{
+    margin-top: 20px;
+    opacity: 0;
+    animation: animate 1s ease-in-out 0.3s 1 forwards;
+}
+
+@keyframes animate {
+    from{
+        opacity: 0;
+        transform: translate(0, 100px);
+        filter: blur(33px);
+    }
+    to{
+        opacity: 1;
+        transform: translate(0);
+        filter: blur(0);
+    }
+
+}
+#btn-Next{
+    position: absolute;
+    width: 40px;
+    aspect-ratio: 1/1;
+    border-radius: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    bottom: 30px;
+    left: 50%;
+    font-size: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.58);
+    background: rgba(255, 255, 255, 0.29);
+    cursor: pointer;
+    transition: ease-in-out 0.5s;
+}
+#btn-Next:active{
+    color: #6a1a21;
 }

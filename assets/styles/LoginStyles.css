@@ -9,7 +9,7 @@ main{
 .log{
     width: 100%;
     height: 100vh;
-    background: url("../images/login.jpg");
+    background: url("../images/pexels-vincent-rivaud-2147486.jpg");
     background-size: cover;
     position: fixed;
     top: 0;
@@ -207,7 +207,13 @@ input[type=text]:hover, input[type=password]:hover, input[type=email]:hover {
 #profile p{
     font-size: 15px;
     color: rgba(0, 0, 0, 0.5);
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+}
+#profile .form-group.col-md-12{
+    margin-bottom: 13px;
+}
+#profile input[type='password'], #profile input[type='text']{
+    border-radius: 5px!important;
 }
 #profile > div > div:nth-child(1){
     text-align: center;

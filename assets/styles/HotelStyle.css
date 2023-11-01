@@ -1,5 +1,5 @@
 .hotel{
-    height: 100vh;
+    min-height: 100vh;
     padding: 20px 70px;
 }
 .hotel .hotel-list{
@@ -322,4 +322,7 @@ input[type='tel']:hover{
 #hotelContainer > div.hotelSearch > div{
     margin: 0;
     padding-left: 60px;
+}
+.swal-text{
+    color: rgba(255, 0, 0, 0.72);
 }

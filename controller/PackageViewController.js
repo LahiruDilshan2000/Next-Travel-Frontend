@@ -1,14 +1,14 @@
-
 let packageOb = null;
 let hotelOb = null;
 let vehicleOb = null;
 let packageId = null;
 let file = null;
 const defaultGateway = "http://localhost:8080/nexttravel/api/v1/package";
-export class PackageViewController{
+
+export class PackageViewController {
     constructor() {
         $('#view-package').on('click', (event) => {
-           this.handleRemoveViewEvent(event);
+            this.handleRemoveViewEvent(event);
         });
         $('#packageUl').on('click', 'li', (event) => {
             this.handleShowPackageDetails(event);
@@ -16,13 +16,13 @@ export class PackageViewController{
         $('#bookingList').on('click', 'li i:first-child', (event) => {
             this.handleAddSlipEvent(event);
         });
-        $('#bellIcon').on('click',  () => {
+        $('#bellIcon').on('click', () => {
             this.handleShowNotification();
         });
-        $('#addSlip').on('click',  (event) => {
+        $('#addSlip').on('click', (event) => {
             this.handleHideSlipContainer(event);
         });
-        $('#editPackageContainer').on('click',  (event) => {
+        $('#editPackageContainer').on('click', (event) => {
             this.handleHideNotification(event);
         });
         $("#slipFile").on('change', () => {
@@ -37,13 +37,13 @@ export class PackageViewController{
         $('#paymentUl').on('click', 'li i', (event) => {
             this.handleViewSlip(event);
         });
-        $('#confirm-Slip').on('click',  (event) => {
+        $('#confirm-Slip').on('click', (event) => {
             this.handleHideSlip(event);
         });
-        $('#confirmBtn').on('click',  () => {
+        $('#confirmBtn').on('click', () => {
             this.handlePaymentConfirm(packageId);
         });
-        $('#rejectBtn').on('click',  () => {
+        $('#rejectBtn').on('click', () => {
             this.handlePaymentReject(packageId);
         });
         this.handleGetNotification();
@@ -51,8 +51,8 @@ export class PackageViewController{
 
     handleRemoveViewEvent(event) {
 
-        if (event.target.className === 'view-package'){
-            $('#view-package').css({'right':'-1600px'});
+        if (event.target.className === 'view-package') {
+            $('#view-package').css({'right': '-1600px'});
             document.body.style.overflow = 'auto';
         }
     }
@@ -60,8 +60,8 @@ export class PackageViewController{
     handleShowPackageDetails(event) {
 
         const x = document.getElementById('showPayment');
-        if (x.offsetHeight === 300){
-            $('#showPayment').css({'height':'0', 'width':'0', 'padding':'0'});
+        if (x.offsetHeight === 300) {
+            $('#showPayment').css({'height': '0', 'width': '0', 'padding': '0'});
             return;
         }
         if (event.target.className !== 'button') {
@@ -79,9 +79,9 @@ export class PackageViewController{
             let travelArea = "";
             packageOb.travelArea.map((value, index) => {
                 console.log(value)
-                if (packageOb.travelArea.length-1 !== index){
+                if (packageOb.travelArea.length - 1 !== index) {
                     travelArea += value + ", ";
-                }else {
+                } else {
                     travelArea += value
                 }
             });
@@ -98,7 +98,7 @@ export class PackageViewController{
             $("#viewPackageValueLbl").text(packageOb.packageValue);
             $("#viewPaidValueLbl").text(packageOb.paidValue);
 
-            $('#view-package').css({'right':'0'});
+            $('#view-package').css({'right': '0'});
             document.body.style.overflow = 'hidden';
         }
     }
@@ -224,17 +224,18 @@ export class PackageViewController{
                 },
             });
 
-            $('#showPayment').css({'height':'300px', 'width':'300px', 'padding':'10px'});
+            $('#showPayment').css({'height': '300px', 'width': '300px', 'padding': '10px'});
         }
 
     }
-    handleSetPaymentDetails(data){
+
+    handleSetPaymentDetails(data) {
 
         $('#paymentUl li').remove();
 
         data.map(value => {
             let li = "<li>\n" +
-                "                    <p>"+value.packageId+"</p>\n" +
+                "                    <p>" + value.packageId + "</p>\n" +
                 "                    <p>Pending</p>\n" +
                 "                    <i class=\"fa-solid fa-ellipsis-vertical\"></i>\n" +
                 "                </li>";
@@ -245,8 +246,8 @@ export class PackageViewController{
     handleHideNotification(event) {
 
         const x = document.getElementById('showPayment');
-        if (x.offsetHeight === 300 && event.target.className === "editPackage"){
-            $('#showPayment').css({'height':'0', 'width':'0', 'padding':'0'});
+        if (x.offsetHeight === 300 && event.target.className === "editPackage") {
+            $('#showPayment').css({'height': '0', 'width': '0', 'padding': '0'});
         }
     }
 
@@ -254,13 +255,13 @@ export class PackageViewController{
 
         packageId = $(event.target).closest('li').find('h3:nth-child(3)').text();
 
-        $("#addSlip").css({'top':'0'});
+        $("#addSlip").css({'top': '0'});
     }
 
     handleHideSlipContainer(event) {
 
-        if (event.target.className === "addSlip"){
-            $("#addSlip").css({'top':'-100vh'});
+        if (event.target.className === "addSlip") {
+            $("#addSlip").css({'top': '-100vh'});
 
             $("#slipFile").val("");
             $('#slipImg').attr('src', `assets/images/defaultimage.jpg`);
@@ -282,8 +283,8 @@ export class PackageViewController{
 
     handleUploadSlip() {
 
-        if (!file){
-            alert("Please upload the payment slip !");
+        if (!file) {
+            swal("Please upload the payment slip !");
             return;
         }
         const user = JSON.parse(localStorage.getItem("USER"));
@@ -303,13 +304,13 @@ export class PackageViewController{
                 processData: false,
                 contentType: false,
                 async: true,
-                data:formData,
+                data: formData,
                 headers: {
                     'Authorization': 'Bearer ' + token,
                 },
                 success: (resp) => {
                     if (resp.code === 200) {
-                        alert(resp.message);
+                        swal("Payment slip upload successful !", "Click the ok !", "success");
                         $('#viewCart').click();
                         console.log(resp.message);
                     }
@@ -356,13 +357,13 @@ export class PackageViewController{
     handleShowSlip(data) {
 
         $('#slipConfirmImg').attr('src', `data:image/png;base64,${data.paymentSlip}`);
-        $('#confirm-Slip').css({'display':'flex'});
+        $('#confirm-Slip').css({'display': 'flex'});
     }
 
     handleHideSlip(event) {
 
-        if (event.target.className === 'confirm-Slip'){
-            $('#confirm-Slip').css({'display':'none'});
+        if (event.target.className === 'confirm-Slip') {
+            $('#confirm-Slip').css({'display': 'none'});
         }
     }
 
@@ -384,9 +385,9 @@ export class PackageViewController{
                 },
                 success: (resp) => {
                     if (resp.code === 200) {
+                        swal("Payment confirm successful !", "Click the ok !", "success");
                         $('#bellIcon').click();
                         console.log(resp.message);
-                        alert(resp.message);
                     }
                 },
                 error: (ob) => {
@@ -404,41 +405,58 @@ export class PackageViewController{
         $('#confirm-Slip').click();
         if (user) {
 
-            const token = user.token;
+            swal({
+                title: "Are you sure?",
+                text: "Do you want to reject this payment details !",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
 
-            $.ajax({
-                url: defaultGateway + "/reject?packageId=" + packageId,
-                method: "PUT",
-                async: true,
-                headers: {
-                    'Authorization': 'Bearer ' + token,
-                },
-                success: (resp) => {
-                    if (resp.code === 200) {
-                        $('#bellIcon').click();
-                        console.log(resp.message);
-                        alert(resp.message);
+                        const token = user.token;
+
+                        $.ajax({
+                            url: defaultGateway + "/reject?packageId=" + packageId,
+                            method: "PUT",
+                            async: true,
+                            headers: {
+                                'Authorization': 'Bearer ' + token,
+                            },
+                            success: (resp) => {
+                                if (resp.code === 200) {
+                                    swal("Payment details has been rejected!", {
+                                        icon: "success",
+                                    });
+                                    $('#bellIcon').click();
+                                    console.log(resp.message);
+                                }
+                            },
+                            error: (ob) => {
+                                console.log(ob)
+                                alert(ob.responseJSON.message);
+                            },
+                        });
+                    } else {
+                        $("#hotelView").click();
+                        swal("Payment details is safe!");
                     }
-                },
-                error: (ob) => {
-                    console.log(ob)
-                    alert(ob.responseJSON.message);
-                },
-            });
+                });
         }
     }
 
     handleGetNotification() {
 
-        setInterval(( () => {
+        setInterval((() => {
             this.handleGetUpdate();
-        }),3000);
+        }), 3000);
     }
 
-    handleGetUpdate(){
+    handleGetUpdate() {
 
         if ($('#editPackageContainer').is(':visible')) {
-            console.log("awd")
+
             const user = JSON.parse(localStorage.getItem("USER"));
 
             if (user) {
@@ -471,4 +489,5 @@ export class PackageViewController{
         }
     }
 }
+
 new PackageViewController();

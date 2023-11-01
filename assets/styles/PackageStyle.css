@@ -118,7 +118,7 @@
     background: white;
 }
 .div-1{
-    height: 80px;
+    height: 70px;
     display: flex;
     align-items: center;
     padding: 0 50px;
@@ -146,7 +146,7 @@
     color: white;
 }
 #travel-area{
-    height: 528px;
+    height: 540px;
     display: none;
     align-items: center;
     justify-content: center;
