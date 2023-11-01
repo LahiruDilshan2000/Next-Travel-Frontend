@@ -1,6 +1,7 @@
 .package{
     height: 100vh;
     padding: 10px 80px;
+    background-size: cover;
     background: linear-gradient(white 60%, #232D3F 60%);
 }
 .pkg-container{

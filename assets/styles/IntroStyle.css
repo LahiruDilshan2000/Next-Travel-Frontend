@@ -1,0 +1,42 @@
+.intro{
+    width: 100%;
+    height: 100vh;
+    background-image: url("../images/pexels-nikolaeva-nastia-13163961.jpg");
+    background-size: cover;
+}
+.intro > div{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    background: rgba(0, 0, 0, 0.15);
+}
+
+.intro h1{
+    color: white;
+    font-size: 150px;
+    font-weight: lighter;
+    letter-spacing: 150px;
+    padding-left: 50px;
+}
+.intro h2{
+    color: white;
+}
+.des1{
+    position: absolute;
+    top: 80px;
+    font-family: system-ui;
+    font-weight: lighter;
+    font-size: 20px;
+    letter-spacing: 2px;
+}
+.des2{
+    position: absolute;
+    bottom: 50px;
+    letter-spacing: 10px;
+    font-family: system-ui;
+    font-weight: lighter;
+}
