@@ -17,8 +17,9 @@
     justify-content: space-between;
     border-bottom: #3dd5f3  solid 2px;
     border-left: #3dd5f3 solid 8px;
-    background: rgba(13, 202, 240, 0.09);
+    background: rgba(24, 27, 38, 0.7);
     text-transform: uppercase;
+    color: white;
 }
 .user-list-header h3{
     cursor: default;

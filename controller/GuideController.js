@@ -200,6 +200,7 @@ export class GuideController {
 
             const guide = this.handleGetGuideObject();
 
+            console.log(guide)
             const formGuideData = new FormData();
 
             imageFileList.map(value => {
@@ -236,7 +237,6 @@ export class GuideController {
 
     handleLoadAllData(page, count) {
 
-        console.log("wadawd")
         const user = JSON.parse(localStorage.getItem("USER"));
 
         if (user) {

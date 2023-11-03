@@ -283,10 +283,9 @@ export class PackageController {
                     $('#guideCmb').val(),
                 ));
 
-                console.log(pkg)
 
                 $.ajax({
-                    url: defaultGateway,
+                    url: defaultGateway + "/post",
                     method: "POST",
                     async: true,
                     contentType: "application/json",
@@ -546,7 +545,7 @@ export class PackageController {
         $('#pkgContactTxt').val('');
         $('#pkgEmailTxt').val('');
         $('#headCountLbl').text('0');
-        $('#guideCmb').val('No Guide');
+        $('#guideCmb').val('No guide');
         $('#roomQtyTxt').val('');
         $('#priceLbl').text('0');
         this.handleDefaultData();

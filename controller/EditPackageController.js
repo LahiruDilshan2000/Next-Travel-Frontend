@@ -304,7 +304,7 @@ export class EditPackageController {
                 let pkg = JSON.stringify(new Package(
                     $('#orderIdLbl').text(),
                     pkgCategory,
-                    user.nic,
+                    $('#pkgCustomerCmb').val(),
                     vehicleId,
                     hotelId,
                     hotel.hotelName,
@@ -327,7 +327,7 @@ export class EditPackageController {
                 console.log(pkg)
 
                 $.ajax({
-                    url: defaultGateway,
+                    url: defaultGateway + "/post",
                     method: "POST",
                     async: true,
                     contentType: "application/json",
@@ -405,7 +405,7 @@ export class EditPackageController {
         $('#pkgContactTxt').val('');
         $('#pkgEmailTxt').val('');
         $('#headCountLbl').text('0');
-        $('#pkgCustomerCmb').val('');
+        $('#pkgCustomerCmb').val('default');
         $('#guideCmb').val('No guide');
         $('#roomQtyTxt').val('');
         $('#priceLbl').text('0');
@@ -1130,11 +1130,11 @@ export class EditPackageController {
 
     handleEditDetails(data) {
 
-
         updatePackage = data;
         pkgCategory = updatePackage.packageCategory;
         vehicleId = updatePackage.vehicleId;
         hotelId = updatePackage.hotelId;
+        console.log(updatePackage)
         this.handleAddItemEvent();
         this.handleHideAllButtons();
         this.handleShowUpdateButton();
@@ -1449,7 +1449,6 @@ export class EditPackageController {
             } else {
                 roomArray = [];
             }
-            console.log(updatePackage.userNic)
             $("#pkgCustomerCmb").val(updatePackage.userNic);
             $("#pkgEmailTxt").val(updatePackage.email);
             $("#startDateTxt").val(new Date(updatePackage.startDate).toISOString().split('T')[0]);

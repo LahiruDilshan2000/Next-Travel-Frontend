@@ -21,7 +21,7 @@
     height: 320px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     margin: 20px;
-    border-radius: 10px;
+    border-radius: 5px;
     cursor: pointer;
     transition: all 0.5s;
     background: white;

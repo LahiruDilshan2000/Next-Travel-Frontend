@@ -2,6 +2,7 @@
     width: 100%;
     height: 100vh;
     position: relative;
+    overflow: hidden;
 }
 .travel-container{
     position: absolute;
